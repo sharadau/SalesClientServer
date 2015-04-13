@@ -1,0 +1,35 @@
+<div class="header">
+  <div class="navbar navbar-default" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <span class="navbar-brand subheader" style="color: #000066"><b>Pipeline</b></span>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <form>
+     <!-- <div ng-if="prospects.length > 5">-->
+      <div class="input-group input-group-lg">
+        <input type="text" class="form-control" data-ng-model="searchText.name"/>
+        <div class="input-group-btn">
+          <button class="btn btn-default">
+            <span class="glyphicon glyphicon-filter"></span> Filter
+          </button>
+        </div>
+      </div>
+    </form><br>
+  </div>
+  <table class="table table-hover table-responsive"><th>Prospect</th><th>State</th></table>
+  <table class="table table-hover table-responsive table-condensed tab-content" data-ng-repeat="prospect in prospects | filter:searchText">
+    <td width="50%">
+        <a ui-sref="prospect.view({prospectId: prospect._id})">{{prospect.name}}</a>
+     </td>
+    <td>
+      {{prospect.state}}
+    </td>
+    </table>
+
+
+

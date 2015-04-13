@@ -1,0 +1,193 @@
+<div class="container">
+
+</div>
+<div class="header">
+  <div class="navbar navbar-default" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+
+       <!-- <span class="navbar-brand subheader" style="color: #000066"><b>{{prospect.name}}</b> &nbsp;&nbsp;</span>
+        <div class="col-xs-offset-8 col-xs-2" > <a class="pull-right" ui-sref="participant.list({prospectId: prospect._id})">Participants</a></div>
+        <div class="col-xs-2"><a ui-sref="bucket.list"><span class="glyphicon glyphicon-inbox"></span> Uncategorized </a></div>
+        <div class="col-xs-offset-8 col-xs-2" ><a ui-sref="prospect.edit({prospectId: prospect._id})"><i class="glyphicon glyphicon-edit"></i> Edit</a></div>
+        <div class="col-xs-2"><a data-ng-click="deleteProspect(prospect._id)"  ui-sref="projects.list"><i class="glyphicon glyphicon-remove"></i> Delete</a></div>
+-->
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#/"><b>{{prospect.name}}</b></a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="js-navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="active"><a ui-sref="participant.list({prospectId: prospect._id,prospectName:prospect.name})"> Participants</a></li>
+          <li><a ui-sref="emails.list({prospectId: prospect._id})"><span class="glyphicon glyphicon-inbox"></span> Uncategorized </a></li>
+     <!--     <li><a ui-sref="prospect.edit({prospectId: prospect_id})"><span class="glyphicon glyphicon-edit"></span> Edit </a></li>
+          <li><a ui-sref="prospect.delete({prospectId: prospect._id})"><span class="glyphicon glyphicon-remove"></span> Delete </a></li>-->
+        </ul>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--<div id="parent">
+  <div class="panel">
+    <div data-toggle="collapse" data-parent="#parent" data-target="#child">test</div>
+    <div id="child" class="collapse in">
+      This is the content
+    </div>
+  </div>
+  <div class="panel">
+    <div data-toggle="collapse" data-parent="#parent" data-target="#child2">test</div>
+    <div id="child2" class="collapse">
+      This is the content
+    </div>
+  </div>
+</div>-->
+
+<accordion close-others="oneAtATime">
+  <accordion-group is-open="status.isFirstOpen">
+    <accordion-heading>
+      <b>Prospect Information</b> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+    </accordion-heading>
+    <table>
+      <tr><td></td><td></td><td><a ui-sref="prospect.edit({prospectId:prospect._id,stage:1})"><span class="glyphicon glyphicon-edit"></span> Edit </a></b> &nbsp;&nbsp;
+      <a data-ng-click="deleteProspect(prospect._id,prospect.name)"  ui-sref="home"><span class="glyphicon glyphicon-remove"></span> Delete </a></td></tr>
+      <tr><td width="30%"><b>Name : </b></td><td width="50%"> {{prospect.name}}</td></tr>
+      <tr><td><b>Description : </b></td><td> {{prospect.description}}</td></tr>
+      <tr><td><b>Organization : </b></td><td> {{prospect.company}}</td></tr>
+      <tr><td><b>Company URL: </b></td><td> {{prospect.companyURL}}</td></tr>
+      <tr><td><b>Other Comments: </b></td><td> {{prospect.othercomments}}</td></tr>
+    </table>
+  </accordion-group>
+  <accordion-group>
+    <accordion-heading>
+      <b>Initiation</b> <i ng-if="prospect.state_id > '1'" class="glyphicon glyphicon-ok-sign" title="Completed"> </i> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+    </accordion-heading>
+    <table>
+      <tr><td width="70%"></td>
+      <td><a ng-if="prospect.state_id < '2'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Clarification',2)" title="Move in Next state"> Mark Complete </a></td>
+      <td><a ng-if="prospect.state_id < '2'" class="glyphicon glyphicon-envelope"  ui-sref="emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',stage:1})"> Email</a> </td></tr>
+      </table>
+      <table>
+      <tr><td width="50%">Prospect is initiated on {{prospect.updatedDate}}</td><td></td></tr>
+      <tr><td width="50%"><b>Initiation Email Sent on: </b></td><td>{{emailsForStage1[0].send_date}}</td></tr>
+      <tr><td width="50%"><b>Email Subject: </b></td><td>{{emailsForStage1[0].subject}}</td></tr>
+      <tr><td width="50%"><b>Contents: </b></td><td></td></tr>
+     </table>
+     <table data-ng-repeat="email1 in emailsForStage1">
+      <tr><td width="50%" colspan="2"><b>Sent from {{email1.from}} on {{email1.send_date}}:</b></td></tr>
+      <tr><td width="50%">{{email1.contents}}</td><td></td></tr>
+    </table>
+   <!-- <accordion-group heading="{{email1.subject}}" ng-repeat="email1 in emailsForStage1">
+      {{email1.contents}}
+    </accordion-group>
+    
+  <div id="parent">
+  <div class="panel">
+    <div id="parentDiv" data-toggle="collapse" data-parent="#parent" data-target="#child" ><b>test</b><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i></div>
+    <div id="child" class="collapse in">
+      This is the content
+    </div>
+  </div>
+  <div  data-ng-repeat="email1 in emailsForStage1">
+  <div class="panel">
+    <div id="parentDiv" data-toggle="collapse" data-parent="#parent" data-target="#child1" >
+    <b>Sent from {{email1.from}} on {{email1.send_date}}:</b><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i></div>
+    <div id="child" class="collapse">
+      {{email1.contents}}
+    </div>
+  </div>
+</div>
+</div>-->
+  </accordion-group>
+  <accordion-group>
+    <accordion-heading>
+      <b>Clarification</b> <i ng-if="prospect.state_id > '2'" class="glyphicon glyphicon-ok-sign" title="Completed"> </i><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+    </accordion-heading>
+    <table>
+    <tr><td width="70%"></td>
+    <td><a ng-if="prospect.state_id < '3'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Internal Preparation',3)"  title="Move in Next state"> Mark Complete </a></td>
+    <td><a ng-if="prospect.state_id < '3'" class="glyphicon glyphicon-envelope"  ui-sref="emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',stage:2})"> Email</a> </td></tr>
+    </table>
+    <table data-ng-repeat="email2 in emailsForStage2">
+      <tr><td width="50%" colspan="2"><b>Sent from {{email2.from}} on {{email2.send_date}}:</b></td></tr>
+      <tr><td width="50%">{{email2.contents}}</td><td></td></tr>
+    </table>
+  </accordion-group>
+  <accordion-group>
+    <accordion-heading>
+      <b>Internal Preparation</b> <i ng-if="prospect.state_id > '3'" class="glyphicon glyphicon-ok-sign" title="Completed"> </i> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+    </accordion-heading>
+    <table>
+    <tr><td width="50%"></td>
+        <td><a ng-if="prospect.state_id < '5'" class="glyphicon glyphicon-calendar" data-ng-click="scheduleCall(prospect._id)" title="Schedule Call"> Schedule Call </a></td>
+    <td><a ng-if="prospect.state_id < '4'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Client Call',4)" title="Move in Next state"> Mark Complete </a></td>
+    <td><a ng-if="prospect.state_id < '4'" class="glyphicon glyphicon-envelope"  ui-sref="emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',stage:3})"> Email</a> </td></tr>
+    </table>
+    <table data-ng-repeat="email3 in emailsForStage3">
+      <tr><td width="50%" colspan="2"><b>Sent from {{email3.from}} on {{email3.send_date}}:</b></td></tr>
+      <tr><td width="50%">{{email3.contents}}</td><td></td></tr>
+    </table>
+  </accordion-group>
+  <accordion-group>
+    <accordion-heading>
+     <b>Client Call</b> <i ng-if="prospect.state_id > '4'" class="glyphicon glyphicon-ok-sign" title="Completed"> </i><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+    </accordion-heading>
+    <table>
+    <tr><td width="50%"></td>
+    <td><a ng-if="prospect.state_id < '5'" class="glyphicon glyphicon-calendar" data-ng-click="scheduleCall(prospect._id)" title="Schedule Call"> Schedule Call </a></td>
+    <td><a ng-if="prospect.state_id < '5'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Engagement start',5)" title="Move in Next state"> Mark Complete </a></td>
+    <td><a ng-if="prospect.state_id < '5'" class="glyphicon glyphicon-envelope"  ui-sref="emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',stage:4})"> Email</a> </td></tr>
+    </table>
+    <table data-ng-repeat="email4 in emailsForStage4">
+      <tr><td width="50%" colspan="2"><b>Sent from {{email4.from}} on {{email4.send_date}}:</b></td></tr>
+      <tr><td width="50%">{{email4.contents}}</td><td></td></tr>
+    </table>
+     </accordion-group>
+  <accordion-group>
+    <accordion-heading>
+      <b>Engagement Start</b><i ng-if="prospect.state_id > '5'" class="glyphicon glyphicon-ok-sign" title="Completed"> </i> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+    </accordion-heading>
+   <table cellpadding="5">
+    <tr><td width="90%"></td>
+      <!--  <td><a ng-if="prospect.state_id < '6'" class="glyphicon glyphicon-thumbs-up" data-ng-click="acceptProspect(prospect._id)" title="Accept Prospect"> Accept Prospect </a></td>
+        <td><a ng-if="prospect.state_id < '6'" class="glyphicon glyphicon-thumbs-down" data-ng-click="rejectProspect(prospect._id)" title="Reject Prospect"> Reject Prospect </a></td>
+        <td><a ng-if="prospect.state_id < '6'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="closePropspect(prospect._id, 'Converted',6)" title="Accept or Reject Prospect"> Close prospect </a></td>-->
+        <td><a ng-if="prospect.state_id < '6'" class="glyphicon glyphicon-envelope"  ui-sref="emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',stage:5})"> Email</a> </td>
+    </tr>
+   </table>
+      <table data-ng-repeat="email5 in emailsForStage5">
+          <tr><td width="50%" colspan="2"><b>Sent from {{email5.from}} on {{email5.send_date}}:</b></td></tr>
+          <tr><td width="50%">{{email5.contents}}</td><td></td></tr>
+      </table>
+      <hr>
+      <table width="100%">
+          <tr><td> &nbsp; </td></tr>
+       <tr><td width ="90%">
+       <form name="newProspectForm" ng-submit="acceptProspect(newProspect,prospect._id,prospect.stage,prospect.stage_id)" >
+           <div class="panel-wrapper">
+               <label class="control-label">Notes: </label>
+               <textarea rows="5" class="form-control" data-ng-model="newProspect.notes" placeholder="Please add aceept or reject reason"></textarea>
+           </div>
+
+           <div class="panel-wrapper" >
+               <label class="control-label">Upload Engagement Letter: </label>
+               <input type="file" class="form-control" data-ng-model="newProspect.engagementLetter"/>
+           </div>
+
+           <button class="btn btn-default" type="submit" ng-disabled="form.$invalid" >
+               <span class="glyphicon glyphicon-thumbs-up"></span> Accept Prospect
+           </button>&nbsp;&nbsp;&nbsp;
+
+           <button class="btn btn-default" data-ng-click="rejectProspect()">
+               <span class="glyphicon glyphicon-thumbs-down"></span> Reject Prospect
+           </button>
+       </form>
+       </td></tr>
+    </table>
+  </accordion-group>

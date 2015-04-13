@@ -1,0 +1,31 @@
+<div class="container">
+  <form name="newEmailForm" ng-submit="sendEmail(newEmail)" >
+    <div class="panel-wrapper">
+      <label class="control-label">Subject: </label>
+      <input type="text" class="form-control" readonly data-ng-model="newEmail.subject" placeholder="{{subject}}" />	
+    </div>
+
+    <div class="panel-wrapper" >
+      <label class="control-label">From: </label>
+      <input type="text" class="form-control" data-ng-model="newEmail.from" placeholder="{{from}}" value="{{from}}"/>
+    </div>
+
+    <div class="panel-wrapper">
+      <label class="control-label">To : </label>
+      <input type="text" class="form-control" data-ng-model="newEmail.to" ng-required="true"/>
+    </div>
+
+    <div class="panel-wrapper">
+      <label class="control-label">Contents: </label>
+      <textarea rows="7" class="form-control" data-ng-model="newEmail.contents" required="true"></textarea>
+    </div>
+
+   <button class="btn btn-default" type="submit" ng-disabled="form.$invalid" >
+      <span class="glyphicon glyphicon-plus"></span> Send
+    </button>
+
+    <button class="btn btn-default" data-ng-click="cancelEmail()">
+      <span class="glyphicon glyphicon-refresh"></span> Cancel
+    </button>
+    </form>
+  </div>

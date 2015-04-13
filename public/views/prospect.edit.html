@@ -1,0 +1,41 @@
+<div class="container">
+  <form name="newProspectForm" ng-submit="updateProspect(newProspect)" >
+    <div class="panel-wrapper">
+      <label class="control-label">Name: </label>
+      <input type="text" class="form-control" data-ng-model="newProspect.name" required="true" />	
+    </div>
+
+    <div class="panel-wrapper" >
+      <label class="control-label">Organization: </label>
+      <input type="text" class="form-control" data-ng-model="newProspect.company"/>
+    </div>
+
+    <div class="panel-wrapper">
+      <label class="control-label">Company URL: </label>
+      <input type="text" class="form-control" data-ng-model="newProspect.companyURL" ng-required="true"/>
+    </div>
+
+    <div class="panel-wrapper">
+      <label class="control-label">Description: </label>
+      <textarea rows="7" class="form-control" data-ng-model="newProspect.description" placeholder="Please add Prospect description and Team Mix here" ng-required="true"></textarea>
+    </div>
+
+    <div class="panel-wrapper">
+      <label class="control-label">Other Comments: </label>
+      <textarea rows="5" class="form-control" data-ng-model="newProspect.othercomments" placeholder=""></textarea>
+    </div>
+
+    <div class="panel-wrapper">
+      <label class="control-label">Send Initiation Email: </label>
+      <input type="checkbox" class="form-control" style="width:20px" data-ng-model="newProspect.sendEmail" ngTrueValue="1" ngFalseValue="0" ng-checked="true"/>
+    </div>
+
+    <button class="btn btn-default" type="submit" ng-disabled="form.$invalid" >
+      <span class="glyphicon glyphicon-plus"></span> Save
+    </button>
+
+    <button class="btn btn-default" data-ng-click="cancelUpdate()">
+      <span class="glyphicon glyphicon-refresh"></span> Cancel
+    </button>
+    </form>
+  </div>

@@ -1,0 +1,47 @@
+<div class="header">
+  <div class="navbar navbar-default" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <span class="navbar-brand subheader" style="color: #000066"><b>CMS : Uncategorized Emails</b></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <form>
+    <!-- <div ng-if="prospects.length > 5">-->
+    <div class="input-group input-group-lg">
+      <input type="text" class="form-control" data-ng-model="searchText.subject"/>
+      <div class="input-group-btn">
+        <button class="btn btn-default">
+          <span class="glyphicon glyphicon-filter"></span> Filter
+        </button>
+      </div>
+    </div>
+  </form><br>
+</div>
+<div class="input-group" style="align-content:center;width: 50%">
+  <span class="input-group-addon">Select Stage</span>
+  <select class="form-control">
+    <option>Initiation</option>
+    <option>Internal Preparation</option>
+    <option>Clarification</option>
+    <option>Engagement Start</option>
+  </select>
+    <span class="input-group-btn">
+      <button class="btn btn-default" type="button">Move</button>
+    </span>
+</div><br>
+<table class="table table-hover table-responsive table-condensed tab-content" data-ng-repeat="email in emails | filter:searchText">
+  <td width="50%">
+    <a ui-sref="email.view({emailId: email._id})">{{email.subject}}</a>
+  </td>
+  <td>
+    {{email.date}}
+  </td>
+  <td><input type="checkbox"></td>
+</table>
+
+
+
