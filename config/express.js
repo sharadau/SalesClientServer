@@ -7,7 +7,8 @@ var express = require('express'),
   cookieParser = require('cookie-parser'),
   cors = require('cors'),
   multer  = require('multer'),
-  maillistener2  = require('mail-listener2');
+  maillistener2  = require('mail-listener2'),
+  nodemailer = require('nodemailer');
 
 
 module.exports=function(){
@@ -35,17 +36,15 @@ module.exports=function(){
         },
         onFileUploadComplete: function (file) {
             console.log(file.fieldname + ' uploaded to  ' + file.path)
-            done=true;
+                done=true;
         }
     }));
 
     /*Handling routes.*/
 
-    /*app.get('/',function(req,res){
-        res.sendfile("index.html");
-    });*/
+   //mailing module
+   /* app.post('/api/sendemail', function (req, res) {
 
-
-
+        });*/
   return app;
 }
