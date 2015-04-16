@@ -41,6 +41,8 @@ angular.module('dashboardApp')
             newEmail.stage = stage;
             newEmail.subject = subject;
             newEmail.from = from;
+            newEmail.to = newEmail.to;//"sharada.umarane@synerzip.com";
+            newEmail.message = subject + " is initialized." + " contents: "+newEmail.contents;
             newEmail.prospect_id = prospect_id;
             newEmail.send_date = new Date().toLocaleString();
 

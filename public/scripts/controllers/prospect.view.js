@@ -62,6 +62,7 @@ angular.module('dashboardApp')
     ProspectService.getProspect($stateParams.prospectId)
       .success (function (data){
       $scope.prospect = data;
+        $scope.prospect.participants = "sharada.umarane@synerzip.com";
 
     })
       .error (function (error){

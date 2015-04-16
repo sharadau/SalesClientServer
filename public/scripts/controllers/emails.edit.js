@@ -14,14 +14,15 @@ angular.module('dashboardApp')
       'AngularJS',
       'Karma'
     ];
-    console.log("$StateParams:"+$stateParams.prospectName);
+
     $scope.prospect_name = $stateParams.prospectName;
     $scope.prospect_id = $stateParams.prospectId;
     $scope.from = $stateParams.from;
+    //$scope.to = $stateParams.to;
     $scope.stage = $stateParams.stage;
-    console.log("stage in cntroler:"+$scope.stage);
     $scope.subject = "Presale Prospect: " + $scope.prospect_name;
-    
+  //  $scope.message = "Presale Prospect: " + $scope.prospect_name + " is initialized." + " contents:"+$stateParams.contents;
+
     $scope.sendEmail = function (newEmail) {
     	newEmail = newEmail || {};
 
