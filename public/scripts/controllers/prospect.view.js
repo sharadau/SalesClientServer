@@ -8,15 +8,57 @@
  * Controller of the dashboardApp
  */
 angular.module('dashboardApp')
-  .controller('ProspectViewCtrl', function ($scope, $stateParams, ProspectService, Emails) {
+  .controller('ProspectViewCtrl', function ($scope, $stateParams, $parse, $upload, ProspectService, Emails) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
       'Karma'
     ];
+        //$scope.newProspect = {};
+        $scope.fileSelection = function($files){
+            $scope.uploadFiles = $files;
+        };
+        //$scope.uploadFiles =
+        $scope.onFileSelect = function($files, newProspect) {
+            //$files: an array of files selected, each file has name, size, and type.
+            for (var i = 0; i < $files.length; i++) {
+                var file = $files[i];
+                $scope.upload = $upload.upload({
+                    url: service_base_url+'/api/fileupload', //upload.php script, node.js route, or servlet url
+                    //url: 'htt://localhost:63342/Phantom-Server/public/', //upload.php script, node.js route, or servlet url
+                    method: 'POST',
+                    //headers: {'header-key': 'header-value'},
+                    //withCredentials: true,
+                    data: {myObj: file.name},
+                    file: file // or list of files ($files) for html5 only
+                    //fileName: 'doc.jpg' or ['1.jpg', '2.jpg', ...] // to modify the name of the file(s)
+                    // customize file formData name ('Content-Desposition'), server side file variable name.
+                    //fileFormDataName: myFile, //or a list of names for multiple files (html5). Default is 'file'
+                    // customize how data is added to formData. See #40#issuecomment-28612000 for sample code
+                    //formDataAppender: function(formData, key, val){}
+                }).progress(function(evt) {
+                    console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+                }).success(function(data, status, headers, config) {
+                    // file is uploaded successfully
+                    console.log(newProspect);
+                    //$scope.newProspect.uploadStatus.value = "File uploaded successfully!!!";
+                    console.log(data);
+                }).error(function (err) {
+                    // file failed to upload
+                    console.log("upload error"+err);
+                });
+                //.error(...)
+                //.then(success, error, progress);
+                // access or attach event listeners to the underlying XMLHttpRequest.
+                //.xhr(function(xhr){xhr.upload.addEventListener(...)})
+            }
+            /* alternative way of uploading, send the file binary with the file's content-type.
+             Could be used to upload files to CouchDB, imgur, etc... html5 FileReader is needed.
+             It could also be used to monitor the progress of a normal http post/put request with large data*/
+            // $scope.upload = $upload.http({...})  see 88#issuecomment-31366487 for sample code.
+        };
 
-
-    //$stateParams.prospectId = 3;
+        //$stateParams.prospectId = 3;
     ProspectService.getProspect($stateParams.prospectId)
       .success (function (data){
       $scope.prospect = data;
@@ -48,7 +90,13 @@ angular.module('dashboardApp')
     console.log (error.msg);});
 
         $scope.acceptProspect = function(newProspect, prospectId, stage, stage_id) {
+            //console.log($scope.engagementLetter);
+            newProspect = newProspect || {};
+
+            $scope.newProspect = {};
+
             console.log(newProspect);
+            $scope.onFileSelect($scope.uploadFiles, newProspect);
             //ProspectService.ClosureDetails(prospectId, stage, stage_id, notes, engagementLetter);
             $scope.stage_id = stage_id;
 

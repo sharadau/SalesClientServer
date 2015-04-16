@@ -125,7 +125,7 @@
     </accordion-heading>
     <table>
     <tr><td width="50%"></td>
-        <td><a ng-if="prospect.state_id < '5'" class="glyphicon glyphicon-calendar" data-ng-click="scheduleCall(prospect._id)" title="Schedule Call"> Schedule Call </a></td>
+        <td><a ng-if="prospect.state_id < '4'" class="glyphicon glyphicon-calendar" data-ng-click="scheduleCall(prospect._id)" title="Schedule Call"> Schedule Call </a></td>
     <td><a ng-if="prospect.state_id < '4'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Client Call',4)" title="Move in Next state"> Mark Complete </a></td>
     <td><a ng-if="prospect.state_id < '4'" class="glyphicon glyphicon-envelope"  ui-sref="emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',stage:3})"> Email</a> </td></tr>
     </table>
@@ -169,15 +169,17 @@
       <table width="100%">
           <tr><td> &nbsp; </td></tr>
        <tr><td width ="90%">
-       <form name="newProspectForm" ng-submit="acceptProspect(newProspect,prospect._id,prospect.stage,prospect.stage_id)" >
+       <form name="newProspectForm" enctype='multipart/form-data' ng-submit="acceptProspect(newProspect,prospect._id,prospect.stage,prospect.stage_id)" >
            <div class="panel-wrapper">
                <label class="control-label">Notes: </label>
-               <textarea rows="5" class="form-control" data-ng-model="newProspect.notes" placeholder="Please add aceept or reject reason"></textarea>
+               <textarea rows="5" class="form-control" data-ng-model="newProspect.notes" placeholder="Please add accept or reject reason"></textarea>
            </div>
 
            <div class="panel-wrapper" >
                <label class="control-label">Upload Engagement Letter: </label>
-               <input type="file" class="form-control" data-ng-model="newProspect.engagementLetter"/>
+               <input type="file" ng-file-select="fileSelection($files)" class="form-control" file-model="engagementLetter"/>
+               <label class="control-label" data-ng-model="newProspect.uploadStatus"></label>
+               <!--<div class="button" ng-file-select="onFileSelect($files)" data-multiple="true"></div>-->
            </div>
 
            <button class="btn btn-default" type="submit" ng-disabled="form.$invalid" >

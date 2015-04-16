@@ -19,7 +19,8 @@ angular
     'ngTouch',
     'ui.router',
     'ui.bootstrap',
-    'chart.js'
+    'chart.js',
+        'angularFileUpload'
   ]).config(function($stateProvider, $urlRouterProvider) {
     //
     // For any unmatched url, redirect to /state1

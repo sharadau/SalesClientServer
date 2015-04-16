@@ -38,7 +38,7 @@ console.log("prospect name in participant list controller: "+$scope.prospect_nam
     ];*/
     // Any function returning a promise object can be used to load values asynchronously
     $scope.getEmployees = function(val) {
-      return $http.get('http://localhost:3000/api/employees/name/'+val, {
+      return $http.get(service_base_url+'/api/employees/name/'+val, {
       }).then(function(response){
           console.log(response.data);
         return response.data.map(function(item){
