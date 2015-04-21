@@ -30,7 +30,7 @@ angular.module('dashboardApp')
         //newEmail._id = getUniqueTime();
         Emails.sendEmail(newEmail, $scope.from, $scope.subject, $scope.prospect_id,$scope.stage);
         
-        $state.transitionTo('prospect.view', {prospectId: $scope.prospect_id});
+        $state.transitionTo('auth.prospect.view', {prospectId: $scope.prospect_id});
        // $state.transitionTo('prospect.view', {prospectId: 2});
       };
 

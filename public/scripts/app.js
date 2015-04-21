@@ -64,42 +64,42 @@ angular
         templateUrl: "views/home.html",
         controller: "HomeCtrl"
       })
-      .state("prospect", {
+      .state("auth.prospect", {
         url: "/prospect",
         templateUrl: "views/prospect.html",
         controller: "ProspectCtrl"
       })
-      .state("prospect.edit", {
+      .state("auth.prospect.edit", {
         url: "/edit/:prospectId/:stage",
         templateUrl: "views/prospect.edit.html",
         controller: "ProspectEditCtrl"
       })
-      .state("prospect.view", {
+      .state("auth.prospect.view", {
         url: "/view/:prospectId",
         templateUrl: "views/prospect.view.html",
         controller: "ProspectViewCtrl"
       })
-      .state("participant", {
+      .state("auth.participant", {
         url: "/participant/:participantId",
         templateUrl: "views/participant.html",
         controller: "ParticipantCtrl"
       })
-      .state("participant.list", {
+      .state("auth.participant.list", {
         url: "/list/:prospectId/:prospectName",
         templateUrl: "views/participant.list.html",
         controller: "ParticipantListCtrl"
       })
-      .state("emails", {
+      .state("auth.emails", {
         url: "/emails",
         templateUrl: "views/emails.html",
         controller: "EmailsCtrl"
       })
-      .state("emails.edit", {
+      .state("auth.emails.edit", {
         url: "/edit/:prospectId/:prospectName/:from/:stage",
         templateUrl: "views/emails.edit.html",
         controller: "EmailsEditCtrl"
       })
-      .state("emails.list", {
+      .state("auth.emails.list", {
         url: "/list",
         templateUrl: "views/emails.list.html",
         controller: "EmailsListCtrl"

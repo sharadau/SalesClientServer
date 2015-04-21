@@ -59,7 +59,7 @@ angular.module('dashboardApp')
       	    Emails.sendEmail(newEmail, from, subject, newProspect._id,1);
       	  }
       }
-      $state.transitionTo('prospect.view', {prospectId: newProspect._id});
+      $state.transitionTo('auth.prospect.view', {prospectId: newProspect._id});
      // $state.transitionTo('prospect.view', {prospectId: 2});
     };
 
