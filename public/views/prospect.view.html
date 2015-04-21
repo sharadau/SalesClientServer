@@ -23,8 +23,8 @@
 
       <div class="collapse navbar-collapse" id="js-navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
-          <li class="active"><a ui-sref="participant.list({prospectId: prospect._id,prospectName:prospect.name})"> Participants</a></li>
-          <li><a ui-sref="emails.list({prospectId: prospect._id})"><span class="glyphicon glyphicon-inbox"></span> Uncategorized </a></li>
+          <li class="active"><a ui-sref="auth.participant.list({prospectId: prospect._id,prospectName:prospect.name})"> Participants</a></li>
+          <li><a ui-sref="auth.emails.list({prospectId: prospect._id})"><span class="glyphicon glyphicon-inbox"></span> Uncategorized </a></li>
      <!--     <li><a ui-sref="prospect.edit({prospectId: prospect_id})"><span class="glyphicon glyphicon-edit"></span> Edit </a></li>
           <li><a ui-sref="prospect.delete({prospectId: prospect._id})"><span class="glyphicon glyphicon-remove"></span> Delete </a></li>-->
         </ul>
@@ -55,7 +55,7 @@
       <b>Prospect Information</b> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
     </accordion-heading>
     <table>
-      <tr><td></td><td></td><td><a ui-sref="prospect.edit({prospectId:prospect._id,stage:1})"><span class="glyphicon glyphicon-edit"></span> Edit </a></b> &nbsp;&nbsp;
+      <tr><td></td><td></td><td><a ui-sref="auth.prospect.edit({prospectId:prospect._id,stage:1})"><span class="glyphicon glyphicon-edit"></span> Edit </a></b> &nbsp;&nbsp;
       <a data-ng-click="deleteProspect(prospect._id,prospect.name)"  ui-sref="home"><span class="glyphicon glyphicon-remove"></span> Delete </a></td></tr>
       <tr><td width="30%"><b>Name : </b></td><td width="50%"> {{prospect.name}}</td></tr>
       <tr><td><b>Description : </b></td><td> {{prospect.description}}</td></tr>
@@ -71,7 +71,7 @@
     <table>
       <tr><td width="70%"></td>
       <td><a ng-if="prospect.state_id < '2'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Clarification',2)" title="Move in Next state"> Mark Complete </a></td>
-      <td><a ng-if="prospect.state_id < '2'" class="glyphicon glyphicon-envelope"  ui-sref="emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:1})"> Email</a> </td></tr>
+      <td><a ng-if="prospect.state_id < '2'" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:1})"> Email</a> </td></tr>
       </table>
       <table>
       <tr><td width="50%">Prospect is initiated on {{prospect.updatedDate}}</td><td></td></tr>
@@ -112,7 +112,7 @@
     <table>
     <tr><td width="70%"></td>
     <td><a ng-if="prospect.state_id < '3'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Internal Preparation',3)"  title="Move in Next state"> Mark Complete </a></td>
-    <td><a ng-if="prospect.state_id < '3'" class="glyphicon glyphicon-envelope"  ui-sref="emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:2})"> Email</a> </td></tr>
+    <td><a ng-if="prospect.state_id < '3'" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:2})"> Email</a> </td></tr>
     </table>
     <table data-ng-repeat="email2 in emailsForStage2">
       <tr><td width="50%" colspan="2"><b>Sent from {{email2.from}} on {{email2.send_date}}:</b></td></tr>
@@ -127,7 +127,7 @@
     <tr><td width="50%"></td>
         <td><a ng-if="prospect.state_id < '4'" class="glyphicon glyphicon-calendar" data-ng-click="scheduleCall(prospect._id)" title="Schedule Call"> Schedule Call </a></td>
     <td><a ng-if="prospect.state_id < '4'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Client Call',4)" title="Move in Next state"> Mark Complete </a></td>
-    <td><a ng-if="prospect.state_id < '4'" class="glyphicon glyphicon-envelope"  ui-sref="emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:3})"> Email</a> </td></tr>
+    <td><a ng-if="prospect.state_id < '4'" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:3})"> Email</a> </td></tr>
     </table>
     <table data-ng-repeat="email3 in emailsForStage3">
       <tr><td width="50%" colspan="2"><b>Sent from {{email3.from}} on {{email3.send_date}}:</b></td></tr>
@@ -142,7 +142,7 @@
     <tr><td width="50%"></td>
     <td><a ng-if="prospect.state_id < '5'" class="glyphicon glyphicon-calendar" data-ng-click="scheduleCall(prospect._id)" title="Schedule Call"> Schedule Call </a></td>
     <td><a ng-if="prospect.state_id < '5'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Engagement start',5)" title="Move in Next state"> Mark Complete </a></td>
-    <td><a ng-if="prospect.state_id < '5'" class="glyphicon glyphicon-envelope"  ui-sref="emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:4})"> Email</a> </td></tr>
+    <td><a ng-if="prospect.state_id < '5'" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:4})"> Email</a> </td></tr>
     </table>
     <table data-ng-repeat="email4 in emailsForStage4">
       <tr><td width="50%" colspan="2"><b>Sent from {{email4.from}} on {{email4.send_date}}:</b></td></tr>
@@ -158,7 +158,7 @@
       <!--  <td><a ng-if="prospect.state_id < '6'" class="glyphicon glyphicon-thumbs-up" data-ng-click="acceptProspect(prospect._id)" title="Accept Prospect"> Accept Prospect </a></td>
         <td><a ng-if="prospect.state_id < '6'" class="glyphicon glyphicon-thumbs-down" data-ng-click="rejectProspect(prospect._id)" title="Reject Prospect"> Reject Prospect </a></td>
         <td><a ng-if="prospect.state_id < '6'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="closePropspect(prospect._id, 'Converted',6)" title="Accept or Reject Prospect"> Close prospect </a></td>-->
-        <td><a ng-if="prospect.state_id < '6'" class="glyphicon glyphicon-envelope"  ui-sref="emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,to:prospect.participants,stage:5})"> Email</a> </td>
+        <td><a ng-if="prospect.state_id < '6'" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,to:prospect.participants,stage:5})"> Email</a> </td>
     </tr>
    </table>
       <table data-ng-repeat="email5 in emailsForStage5">
