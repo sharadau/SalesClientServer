@@ -30,8 +30,8 @@ angular
     //$urlRouterProvider.otherwise("/home");
     //
         authProvider.init({
-            domain: 'salesdashboard-auth0-com.eu.auth0.com',
-            clientID: 'Kx8VE59Tz6rFa8go8pNAXf4oboVpEqZ9',
+            domain: 'salesdashboard.eu.auth0.com',
+            clientID: '4giAC9q7kSxqgPbuh0cnv7p7cgtf310i',
             callbackUrl: location.href,
             loginState: 'login'
         })
