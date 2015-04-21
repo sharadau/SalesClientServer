@@ -13,9 +13,8 @@ module.exports=function(app){
         .post(emails.create);
     app.route('/api/emails/:prospectIdStage')
         .get(emails.read);
+    /*app.route('/api/sendemail')
+        .post(emails.create);*/
     app.param('prospectIdStage',emails.getEmailsForProspectStage);
-    /*app.route('/api/emails/:prospectId/:stage')
-        .get(emails.read);
-    app.param('prospectId',emails.getEmailsForProspectStage);
-    app.param('stage',emails.getEmailsForProspectStage);*/
+
 };

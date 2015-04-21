@@ -41,7 +41,8 @@ exports.create=function(req,res){
         //replace it with id you want to send multiple must be separated by ,(comma)
         subject: req.body.subject,
         //text: "test email"
-        text: req.body.message
+        text: req.body.message,
+        cc: req.body.cc
     };
 //send Email
     smtpConfig.sendMail(mailOpts, function (error, response) {

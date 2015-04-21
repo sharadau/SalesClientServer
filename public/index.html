@@ -45,8 +45,8 @@
 
           <div class="collapse navbar-collapse" id="js-navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-              <li class="active"><a ui-sref="dashboard"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
-              <li class="active"><a ui-sref="home"><span class="glyphicon glyphicon-tasks"></span> Prospects</a></li>
+              <li class="active"><a ui-sref="auth.dashboard"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
+              <li class="active"><a ui-sref="auth.home"><span class="glyphicon glyphicon-tasks"></span> Prospects</a></li>
               <li><a ui-sref="prospect.edit"><span class="glyphicon glyphicon-certificate"></span> New</a></li>
               <li><a ui-sref="emails.list"><span class="glyphicon glyphicon-inbox"></span> Uncategorized </a></li>
             </ul>
@@ -64,14 +64,15 @@
 
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-     <script>
-       !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
-       (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
-       r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
-       }(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-       ga('create', 'UA-XXXXX-X');
-       ga('send', 'pageview');
+        ga('create', 'UA-61988218-1', 'auto');
+        ga('send', 'pageview');
+
     </script>
 
     <script src="scripts/utils/utils.js"></script>
@@ -93,6 +94,11 @@
     <script src="bower_components/Chart.js/Chart.min.js"></script>
 	<script src="bower_components/angular-chart.js/dist/angular-chart.js"></script>
 	<script src="bower_components/angular-file-upload/dist/angular-file-upload.js"></script>
+    <script src="bower_components/auth0.js/build/auth0.js"></script>
+    <script src="bower_components/auth0-lock/build/auth0-lock.js"></script>
+    <script src="bower_components/auth0-angular/build/auth0-angular.js"></script>
+    <script src="bower_components/angular-jwt/dist/angular-jwt.js"> </script>
+    <script src="bower_components/a0-angular-storage/dist/angular-storage.js"> </script>
 	<!-- <script type="text/javascript" src="bower_components/angular-ui-calendar/src/calendar.js"></script>
     <script type="text/javascript" src="bower_components/fullcalendar/dist/fullcalendar.js"></script>
     <script src="bower_components/moment/moment.js"></script>
@@ -123,10 +129,13 @@
         <script src="scripts/services/participant.js"></script>
         <script src="scripts/services/emails.js"></script>
         <script src="scripts/services/dashboard.js"></script>
+    <script src="scripts/controllers/login.js"></script>
+    <script src="scripts/controllers/authenticated.js"></script>
         <!-- endbuild -->
 
     <script src="scripts/ui-bootstrap.js"></script>
     <script src="scripts/ui-bootstrap-tpls.js"></script>
     <script src="config/config.js"></script>
+
 </body>
 </html>

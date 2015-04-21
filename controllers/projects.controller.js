@@ -35,7 +35,7 @@ exports.create=function(req,res){
 
                 employee.save(function(err){
                     if(err){
-                        console.log(err);
+                        console.log("emp save error:"+err);
                         //res.status(400).send(err.err);
                     }
                     else{

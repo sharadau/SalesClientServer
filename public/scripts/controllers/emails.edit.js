@@ -21,7 +21,6 @@ angular.module('dashboardApp')
     //$scope.to = $stateParams.to;
     $scope.stage = $stateParams.stage;
     $scope.subject = "Presale Prospect: " + $scope.prospect_name;
-  //  $scope.message = "Presale Prospect: " + $scope.prospect_name + " is initialized." + " contents:"+$stateParams.contents;
 
     $scope.sendEmail = function (newEmail) {
     	newEmail = newEmail || {};

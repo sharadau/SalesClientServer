@@ -42,13 +42,15 @@ angular.module('dashboardApp')
             newEmail.subject = subject;
             newEmail.from = from;
             newEmail.to = newEmail.to;//"sharada.umarane@synerzip.com";
-            newEmail.message = subject + " is initialized." + " contents: "+newEmail.contents;
+            newEmail.message = newEmail.contents;
             newEmail.prospect_id = prospect_id;
+            newEmail.cc = presale_email_cc_id;
             newEmail.send_date = new Date().toLocaleString();
 
             $http.post(service_base_url+'/api/emails', newEmail)
                 .success(function (item) {
                     emails.push(item);
+                    console.log("Email sent successfully!!!");
                 })
                 .error(function (error) {
                     if (error) {

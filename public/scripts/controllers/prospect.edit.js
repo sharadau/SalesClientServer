@@ -39,19 +39,24 @@ angular.module('dashboardApp')
     	  
         newProspect._id = getUniqueTime();
         ProspectService.addProspect(newProspect);
-        
+
+          console.log("email sts:"+newProspect.sendEmail);
+          //console.log("email sts:"+newProspect.sendEmail.value);
       //send email
         if(newProspect.sendEmail)
       	  {
       	  	console.log("Send email on");
       	    var newEmail = {};
-      	    newEmail.send_date = new Date().toDateString();
-      	   // newEmail.from = "Mahesh";
-      	    //newEmail.subject = "Mahesh";
-      	    newEmail.contents = "Mahesh";
-      	    newEmail.to = "Mahesh";
-      	    
-      	    Emails.sendEmail(newEmail, "Mahesh", "Presale Prospect "+newProspect.name, newProspect._id,1);
+              var subject = "Presale Prospect "+newProspect.name;
+              var from = email_from;
+      	      newEmail.send_date = new Date().toDateString();
+      	      //newEmail.contents = "Prospect Description: " + newProspect.description;
+      	     // newEmail.othercomments = newProspect.othercomments;
+      	      newEmail.to = presale_email_id;
+              newEmail.contents = subject + " is initialized." + " \r\nProspect Description: "+newProspect.description + " \r\nComments: "+ newProspect.othercomments;
+
+              //newEmail, from, subject, prospect_id, stage
+      	    Emails.sendEmail(newEmail, from, subject, newProspect._id,1);
       	  }
       }
       $state.transitionTo('prospect.view', {prospectId: newProspect._id});
