@@ -63,6 +63,6 @@ angular.module('dashboardApp')
     $scope.data1 = [58, 48 ];
     $scope.onClick = function (points, evt) {
       console.log(points, evt);
-      $state.transitionTo('home');
+      $state.transitionTo('auth.home');
     };
   });
