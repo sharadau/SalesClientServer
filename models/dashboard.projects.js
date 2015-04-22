@@ -87,6 +87,10 @@ var ProjectsSchema = new Schema({
     updatedBy:{
         type:Number,
         required:false
+    },
+    area:{
+        type:String,
+        required:false
     }
 });
 mongoose.model('Projects',ProjectsSchema);

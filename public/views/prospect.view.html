@@ -154,10 +154,11 @@
       <b>Engagement Start</b><i ng-if="prospect.state_id > '5'" class="glyphicon glyphicon-ok-sign" title="Completed"> </i> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
     </accordion-heading>
    <table cellpadding="5">
-    <tr><td width="90%"></td>
+    <tr><td width="70%"></td>
       <!--  <td><a ng-if="prospect.state_id < '6'" class="glyphicon glyphicon-thumbs-up" data-ng-click="acceptProspect(prospect._id)" title="Accept Prospect"> Accept Prospect </a></td>
         <td><a ng-if="prospect.state_id < '6'" class="glyphicon glyphicon-thumbs-down" data-ng-click="rejectProspect(prospect._id)" title="Reject Prospect"> Reject Prospect </a></td>
         <td><a ng-if="prospect.state_id < '6'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="closePropspect(prospect._id, 'Converted',6)" title="Accept or Reject Prospect"> Close prospect </a></td>-->
+        <td><a ng-if="prospect.state_id < '6'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Converted',6)" title="Move in Next state"> Mark Complete </a></td>
         <td><a ng-if="prospect.state_id < '6'" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,to:prospect.participants,stage:5})"> Email</a> </td>
     </tr>
    </table>

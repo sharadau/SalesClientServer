@@ -8,7 +8,7 @@
  * Controller of the dashboardApp
  */
 angular.module('dashboardApp')
-  .controller('DashboardCtrl', function ($scope, $state) {
+  .controller('DashboardCtrl', function ($scope, $state, ProspectService) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -32,13 +32,72 @@ angular.module('dashboardApp')
         eventResize: $scope.alertOnResize
       }
     };*/
-    
-    $scope.labels = ["Jan", "Feb", "Mar", "Apr", "May", "June","Jul","Aug","Sep","Oct","Nov","Dec"];
-    $scope.series = ['Active', 'Converted'];
-    $scope.data = [
+
+        $scope.months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+        $scope.chartData = {
+            "labels": $scope.months,
+            "series": ['Active', 'Converted'],
+            "data":[]
+        }
+
+        var prospectList = ProspectService.getAllProspects()
+            .success (function (data){
+            $scope.projects = data;
+            $scope.totalActiveProjects =  $scope.projects.length;
+            $scope.data = [];
+           // $scope.active = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            $scope.converted = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            $scope.active = [$scope.projects.length,
+                $scope.projects.length,
+                $scope.projects.length,
+                $scope.projects.length,
+                $scope.projects.length,
+                $scope.projects.length,
+                $scope.projects.length,
+                $scope.projects.length,
+                $scope.projects.length,
+                $scope.projects.length,
+                $scope.projects.length,
+                $scope.projects.length];
+            $scope.projects.forEach(function(project){
+                console.log("project::"+project.name);
+
+                $scope.chartData.data = [];
+
+                $scope.months.forEach(function (i, m) {
+
+                    if((typeof project.end_date) == "string") {
+                        var date1 = new Date(project.end_date);
+
+                        if (date1.getMonth() == m) {
+                            $scope.converted[m] = $scope.converted[m] + 1;
+
+                        }
+
+                    }
+                });
+
+            });
+            $scope.months.forEach(function (i, m) {
+              $scope.active[m] = $scope.totalActiveProjects - $scope.converted[m];
+                $scope.totalActiveProjects = $scope.totalActiveProjects - $scope.converted[m];
+            });
+
+            $scope.chartData.data.push([$scope.active,$scope.converted]);
+
+        })
+            .error (function (error){
+            console.log (error);}
+        );
+
+        //$scope.labels = ["Jan", "Feb", "Mar", "Apr", "May", "June","Jul","Aug","Sep","Oct","Nov","Dec"];
+    //$scope.series = ['Active', 'Converted'];
+    //$scope.data = dashboardService.getYearlyStats();
+
+    /*$scope.data = [
       [65, 59, 84, 81, 56, 55, 90,23,45,45,77,66],
       [28, 48, 40, 19, 35, 27,78,44,34,56,65,44]
-    ];
+    ];*/
 
     $scope.colours =[
       { // yellow
