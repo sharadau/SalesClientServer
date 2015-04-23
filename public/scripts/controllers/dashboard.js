@@ -37,17 +37,23 @@ angular.module('dashboardApp')
         $scope.chartData = {
             "labels": $scope.months,
             "series": ['Active', 'Converted'],
-            "data":[]
+            "series1": ['Bay Area', 'East Coast'],
+            "data":[],
+            "data1":[]
         }
 
         var prospectList = ProspectService.getAllProspects()
             .success (function (data){
             $scope.projects = data;
             $scope.totalActiveProjects =  $scope.projects.length;
+            $scope.totalEastCoastProjects =  $scope.projects.length;
             $scope.data = [];
-           // $scope.active = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            $scope.data1 = [];
+            $scope.bayarea = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            $scope.eastcoast = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            $scope.active = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             $scope.converted = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-            $scope.active = [$scope.projects.length,
+           /* $scope.active = [$scope.projects.length,
                 $scope.projects.length,
                 $scope.projects.length,
                 $scope.projects.length,
@@ -58,7 +64,7 @@ angular.module('dashboardApp')
                 $scope.projects.length,
                 $scope.projects.length,
                 $scope.projects.length,
-                $scope.projects.length];
+                $scope.projects.length];*/
             $scope.projects.forEach(function(project){
                 console.log("project::"+project.name);
 
@@ -66,24 +72,35 @@ angular.module('dashboardApp')
 
                 $scope.months.forEach(function (i, m) {
 
+                    //for active vs converted
                     if((typeof project.end_date) == "string") {
                         var date1 = new Date(project.end_date);
 
                         if (date1.getMonth() == m) {
                             $scope.converted[m] = $scope.converted[m] + 1;
+                            if(project.area == "Bay Area")
+                            {
+                                $scope.bayarea[m] = $scope.bayarea[m] + 1;
+                            }else if(project.area == "East Coast")
+                            {
+                                $scope.eastcoast[m] = $scope.eastcoast[m] + 1;
+                            }
 
                         }
 
                     }
+
                 });
 
             });
             $scope.months.forEach(function (i, m) {
-              $scope.active[m] = $scope.totalActiveProjects - $scope.converted[m];
+                $scope.active[m] = $scope.totalActiveProjects - $scope.converted[m];
                 $scope.totalActiveProjects = $scope.totalActiveProjects - $scope.converted[m];
             });
 
             $scope.chartData.data.push([$scope.active,$scope.converted]);
+            $scope.chartData.data1.push([$scope.bayarea,$scope.eastcoast]);
+            console.log("data1" + $scope.chartData.data1[0]);
 
         })
             .error (function (error){
