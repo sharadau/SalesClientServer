@@ -104,6 +104,11 @@ angular
         templateUrl: "views/emails.list.html",
         controller: "EmailsListCtrl"
       })
+        .state("auth.emails.view", {
+            url: "/view/:pId",
+            templateUrl: "views/emails.view.html",
+            controller: "EmailsViewCtrl"
+        })
         // Add a simple interceptor that will fetch all requests and add the jwt token to its authorization header.
         // NOTE: in case you are calling APIs which expect a token signed with a different secret, you might
         // want to check the delegation-token example

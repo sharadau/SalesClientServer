@@ -85,7 +85,7 @@ angular.module('dashboardApp')
     Emails.getEmailsForProspectStage($stateParams.prospectId, "1")
     .success (function (data){
     $scope.emailsForStage1 = data;
-    
+
   })
     .error (function (error){
     console.log (error.msg);});
@@ -142,6 +142,15 @@ angular.module('dashboardApp')
 })
   .error (function (error){
   console.log (error.msg);});
+
+        //uncategorized emails
+        Emails.getUncategorizedEmailsForProspect($stateParams.prospectId)
+            .success (function (data){
+            $scope.uncategorizedEmails = data;
+
+        })
+            .error (function (error){
+            console.log (error.msg);});
 
     $scope.oneAtATime = true;
 

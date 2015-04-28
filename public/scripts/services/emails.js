@@ -34,6 +34,29 @@ angular.module('dashboardApp')
 
             return response;
         };
+        this.getUncategorizedEmailsForProspect = function (prospect_id) {
+
+            //prospect_id = 1;
+            var successCallback, errorCallback;
+            var response = {
+                success: function (callback) {successCallback = callback; return response;},
+                error: function (callback) {errorCallback = callback; return response;}
+            };
+
+            $http.get(service_base_url+'/api/emails/view/'+prospect_id)
+                .success(function(item){
+                    successCallback(item);
+
+                })
+                .error(function(error){
+                    if (error) {
+                        console.log(error);
+                        errorCallback({msg: 'No uncategorized emails with prospect id ' + prospect_id });
+                    }
+                });
+
+            return response;
+        };
 
         this.sendEmail = function(newEmail, from, subject, prospect_id, stage) {
 
