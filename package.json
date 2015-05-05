@@ -1,11 +1,13 @@
 {
   "name": "Restful",
   "version": "1.0.0",
-  "node": "1.0.0",
   "description": "Resful API using Node",
   "main": "dashboard.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": "0.10.x"
   },
   "keywords": [
     "Node",
