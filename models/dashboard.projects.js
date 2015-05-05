@@ -91,6 +91,14 @@ var ProjectsSchema = new Schema({
     area:{
         type:String,
         required:false
+    },
+    skills:{
+        type:[String],
+        required:false
+    },
+    clientContacts:{
+        type:[String],
+        required:false
     }
 });
 mongoose.model('Projects',ProjectsSchema);

@@ -19,6 +19,7 @@ exports.list=function(req,res,next){
 };
 
 exports.create=function(req,res){
+    console.log("create participant");
     var participant = new Participants (req.body);
     // TODO: Add to project
     /*var newProjects = req.body.projects || [];
@@ -53,10 +54,12 @@ exports.create=function(req,res){
 */
     participant.save(function(err){
         if(err){
-            res.status(400).send(err.err);
+            //res.status(400).send(err.err);
+            console.log("error:"+err);
         }
         else{
-            res.send(participant);
+            //res.send(participant);
+            console.log("Added participant");
         }
     })
 };

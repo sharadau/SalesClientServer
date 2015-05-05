@@ -37,7 +37,7 @@ angular.module('dashboardApp')
         $scope.chartData = {
             "labels": $scope.months,
             "series": ['Active', 'Converted'],
-            "series1": ['Bay Area', 'East Coast'],
+            "series1": ['Bay Area', 'Texas'],
             "data":[],
             "data1":[]
         }
@@ -81,7 +81,7 @@ angular.module('dashboardApp')
                             if(project.area == "Bay Area")
                             {
                                 $scope.bayarea[m] = $scope.bayarea[m] + 1;
-                            }else if(project.area == "East Coast")
+                            }else if(project.area == "Texas")
                             {
                                 $scope.eastcoast[m] = $scope.eastcoast[m] + 1;
                             }

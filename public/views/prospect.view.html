@@ -62,6 +62,10 @@
       <tr><td><b>Organization : </b></td><td> {{prospect.company}}</td></tr>
       <tr><td><b>Company URL: </b></td><td> {{prospect.companyURL}}</td></tr>
       <tr><td><b>Other Comments: </b></td><td> {{prospect.othercomments}}</td></tr>
+      <tr><td><b>Start Date: </b></td><td> {{prospect.start_date}}</td></tr>
+      <tr><td><b>End Date: </b></td><td> {{prospect.end_date}}</td></tr>
+      <tr><td><b>Area: </b></td><td> {{prospect.area}}</td></tr>
+      <tr><td><b>State: </b></td><td> {{prospect.state}}</td></tr>
     </table>
   </accordion-group>
   <accordion-group>
@@ -77,7 +81,7 @@
       <tr><td width="50%">Prospect is initiated on {{prospect.updatedDate}}</td><td></td></tr>
       <tr ><td width="50%"><b>Initiation Email Sent on: </b></td><td ng-if="prospect._id == emailsForStage1[0].prospect_id && email1.stage == 1">{{emailsForStage1[0].send_date}}</td></tr>
       <tr><td width="50%"><b>Email Subject: </b></td><td ng-if="prospect._id == emailsForStage1[0].prospect_id && email1.stage == 1">{{emailsForStage1[0].subject}}</td></tr>
-      <tr><td width="50%"><b>Contents: </b></td><td></td></tr>
+      <tr><td width="50%"><b>Message: </b></td><td></td></tr>
      </table>
      <table data-ng-repeat="email1 in emailsForStage1">
       <tr ng-if="prospect._id == email1.prospect_id && email1.stage == 1"><td width="50%" colspan="2"><b>Sent from {{email1.from}} on {{email1.send_date}}:</b></td></tr>

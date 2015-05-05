@@ -34,6 +34,18 @@ var EmployeesSchema = new Schema({
     prospect_id:{
         type:Number,
         required:false
+    },
+    emailId:{
+        type:String,
+        required:false
+    },
+    type:{
+        type:Number, //1-Sales, 2-engineering, 3-CEO, 4-CTO
+        required:false
+    },
+    area:{
+        type:String,
+        required:false
     }
 });
 mongoose.model('Employees',EmployeesSchema);

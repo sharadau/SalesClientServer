@@ -19,7 +19,7 @@ var ParticipantsSchema = new Schema({
     },
     _id:{
         type:Number,
-        required:true
+        required:false
     },
     prospect_id:{
         type:Number,

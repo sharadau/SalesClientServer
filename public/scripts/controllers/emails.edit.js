@@ -18,6 +18,7 @@ angular.module('dashboardApp')
     $scope.prospect_name = $stateParams.prospectName;
     $scope.prospect_id = $stateParams.prospectId;
     $scope.from = $stateParams.from;
+    $scope.from_name = $stateParams.from;
     //$scope.to = $stateParams.to;
     $scope.stage = $stateParams.stage;
     $scope.subject = "Presale Prospect: " + $scope.prospect_name;
@@ -28,7 +29,7 @@ angular.module('dashboardApp')
         $scope.newEmail = {};
        
         //newEmail._id = getUniqueTime();
-        Emails.sendEmail(newEmail, $scope.from, $scope.subject, $scope.prospect_id,$scope.stage);
+        Emails.sendEmail(newEmail, $scope.from, $scope.from_name, $scope.subject, $scope.prospect_id,$scope.stage);
         
         $state.transitionTo('auth.prospect.view', {prospectId: $scope.prospect_id});
        // $state.transitionTo('prospect.view', {prospectId: 2});

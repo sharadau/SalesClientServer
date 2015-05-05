@@ -103,10 +103,10 @@ angular.module('dashboardApp')
       newProspect1.sendEmail = newProspect1.sendEmail;
       newProspect1.updatedDate = new Date().toDateString();
       newProspect1.updatedBy = 1;  
-      newProspect1.area = "Bay Area";
+      newProspect1.area = "";
       newProspect1.start_date = new Date().toDateString();
      // newProspect1._id = newProspect1.id;
-      //console.log(newProspect1);
+      console.log(newProspect1);
       $http.post(service_base_url+'/api/projects', newProspect1)
      
     	 //add prospect to java server

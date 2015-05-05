@@ -25,17 +25,25 @@ var EmailsSchema = new Schema({
         type:String,
         required:true
     },
+    from_name:{
+        type:String,
+        required:false
+    },
     to:{
         type:String,
         required:true
     },
     prospect_id:{
         type:Number,
-        required:true
+        required:false
     },
     stage:{
         type:String,
-        required:true
+        required:false
+    },
+    cc:{
+        type:String,
+        required:false
     }
 });
 mongoose.model('Emails',EmailsSchema);

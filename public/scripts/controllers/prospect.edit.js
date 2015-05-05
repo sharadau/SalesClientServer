@@ -36,7 +36,7 @@ angular.module('dashboardApp')
         ProspectService.updateProspect(newProspect);
       }else
       {
-    	  
+
         newProspect._id = getUniqueTime();
         ProspectService.addProspect(newProspect);
 
@@ -49,14 +49,13 @@ angular.module('dashboardApp')
       	    var newEmail = {};
               var subject = "Presale Prospect "+newProspect.name;
               var from = email_from;
+              var from_name = email_from;
       	      newEmail.send_date = new Date().toDateString();
       	      //newEmail.contents = "Prospect Description: " + newProspect.description;
       	     // newEmail.othercomments = newProspect.othercomments;
       	      newEmail.to = presale_email_id;
               newEmail.contents = subject + " is initialized." + " \r\nProspect Description: "+newProspect.description + " \r\nComments: "+ newProspect.othercomments;
-
-              //newEmail, from, subject, prospect_id, stage
-      	    Emails.sendEmail(newEmail, from, subject, newProspect._id,1);
+      	    Emails.sendEmail(newEmail, from, from_name, subject, newProspect._id,1);
       	  }
       }
       $state.transitionTo('auth.prospect.view', {prospectId: newProspect._id});

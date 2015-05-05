@@ -61,9 +61,7 @@ exports.create=function(req,res){
     });*/
 
 
-console.log("before save");
     projects.save(function(err){
-        console.log("in save error");
         console.log(err);
         if(err){
             res.status(400).send(err.err);
@@ -75,7 +73,6 @@ console.log("before save");
 };
 
 exports.projectById=function(req,res,next,id){
-    console.log("projectById");
     Projects.findOne({_id:id},function(err,project){
         if(err){
             next(err);
@@ -239,6 +236,7 @@ exports.update=function(req,res){
         }
         else{
             res.send(project);
+            console.log("project updated:"+project);
         }
     })
 
@@ -248,10 +246,16 @@ exports.update=function(req,res){
 exports.updateStage=function(req,res){
     var project = req.project;
     var newProject = req.body;
-    project.state = newProject.stage;
-    project.state_id = newProject.stage_id;
-    console.log("project:" +project);
-    console.log("newPro:"+newProject.stage);
+    var end_date = '';
+    if((typeof newProject.end_date) == "date") {
+        end_date = newProject.end_date;
+    }else
+    {
+        end_date = new Date();
+    }
+    project.state = newProject.state;
+    project.state_id = newProject.state_id;
+    project.end_date = end_date;
     /*project.update({_id:project._id }, {state: newProject.stage}, function(err) {
         if(err){
             console.log(err);

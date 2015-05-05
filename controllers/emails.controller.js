@@ -17,13 +17,14 @@ exports.list=function(req,res,next){
     })
 };
 exports.read=function(req,res){
+    console.log("in read");
     res.send(req.emails);
 };
 exports.create=function(req,res){
     var emails = new Emails (req.body);
 
     // TODO: Add to project
-
+if(res.flag != "1") {
     var mailOpts, smtpConfig;
     var nodemailer = require('nodemailer');
     smtpConfig = nodemailer.createTransport('SMTP', {
@@ -53,25 +54,70 @@ exports.create=function(req,res){
         }
 //email sent successfully
         else {
-            res.end("Email sent successfully");
+           // res.end("Email sent successfully");
+            console.log("Email sent successfully");
         }
     });
+}
     emails.save(function(err){
         if(err){
-            res.status(400).send(err.err);
+          //  res.status(400).send(err.err);
             console.log(err);
         }
         else{
-            res.send(emails);
+           // res.send(emails);
+            console.log("Email saved");
         }
     })
 };
 
 exports.getEmailsForProspectStage=function(req,res,next,prospect_id){
-
     var params = prospect_id.split("_");
-    console.log("reg parm:"+params);
-    Emails.find({prospect_id:params[0],stage:params[1]},function(err,emails){
+   /* if(params[1] == 0)
+    {
+        console.log("getEmailsForProspect uncategorized " + prospect_id);
+        Emails.find({prospect_id: params[0]}, function (err, emails) {
+
+            if (err) {
+                next(err);
+            }
+            if (emails) {
+                req.emails = emails;
+                next();
+            }
+            else {
+                var error = {
+                    error: "emails not found for prospect " + prospect_id
+                };
+                console.log(error);
+                res.status(404).send(error);
+            }
+        });
+    }else {*/
+        console.log("getEmailsForProspectStage " + prospect_id);
+        Emails.find({prospect_id: params[0], stage: params[1]}, function (err, emails) {
+
+            if (err) {
+                next(err);
+            }
+            if (emails) {
+                req.emails = emails;
+                next();
+            }
+            else {
+                var error = {
+                    error: "emails not found for prospect stage " + prospect_id
+                };
+                console.log(error);
+                res.status(404).send(error);
+            }
+        });
+    //}
+};
+exports.getEmailsForProspect=function(req,res,next,prospect_id){
+console.log("getEmailsForProspect "+prospect_id);
+
+    Emails.find({prospect_id:prospect_id},function(err,emails){
 
         if(err){
             next(err);
@@ -82,8 +128,9 @@ exports.getEmailsForProspectStage=function(req,res,next,prospect_id){
         }
         else{
             var error={
-                error:"emails not found for prospect stage "+prospect_id
+                error:"emails not found for prospect "+prospect_id
             };
+            console.log(error);
             res.status(404).send(error);
         }
     });

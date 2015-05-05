@@ -9,12 +9,14 @@ var emails = require('../controllers/emails.controller');
 module.exports=function(app){
 
     app.route('/api/emails')
-        .get(emails.list)
         .post(emails.create);
+    app.route('/api/emails/view/:pId')
+        .get(emails.list);
     app.route('/api/emails/:prospectIdStage')
+        .get(emails.list)
         .get(emails.read);
-    /*app.route('/api/sendemail')
-        .post(emails.create);*/
+
     app.param('prospectIdStage',emails.getEmailsForProspectStage);
+    app.param('pId',emails.getEmailsForProspect);
 
 };

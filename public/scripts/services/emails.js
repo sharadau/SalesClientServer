@@ -58,12 +58,13 @@ angular.module('dashboardApp')
             return response;
         };
 
-        this.sendEmail = function(newEmail, from, subject, prospect_id, stage) {
+        this.sendEmail = function(newEmail, from, from_name, subject, prospect_id, stage) {
 
             //add prospect to nodejs server
             newEmail.stage = stage;
             newEmail.subject = subject;
             newEmail.from = from;
+            newEmail.from_name = from_name;
             newEmail.to = newEmail.to;//"sharada.umarane@synerzip.com";
             newEmail.message = newEmail.contents;
             newEmail.prospect_id = prospect_id;
