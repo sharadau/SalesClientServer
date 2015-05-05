@@ -11,11 +11,11 @@ var ProjectsSchema = new Schema({
         required:true
     },
     start_date:{
-        type:Date,
+        type:String,
         required:false
     },
     end_date:{
-        type:Date,
+        type:String,
         required:false
     },
     _id:{
