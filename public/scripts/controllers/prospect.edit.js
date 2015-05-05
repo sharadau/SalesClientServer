@@ -41,7 +41,6 @@ angular.module('dashboardApp')
         ProspectService.addProspect(newProspect);
 
           console.log("email sts:"+newProspect.sendEmail);
-          //console.log("email sts:"+newProspect.sendEmail.value);
       //send email
         if(newProspect.sendEmail)
       	  {
@@ -51,15 +50,12 @@ angular.module('dashboardApp')
               var from = email_from;
               var from_name = email_from;
       	      newEmail.send_date = new Date().toDateString();
-      	      //newEmail.contents = "Prospect Description: " + newProspect.description;
-      	     // newEmail.othercomments = newProspect.othercomments;
       	      newEmail.to = presale_email_id;
               newEmail.contents = subject + " is initialized." + " \r\nProspect Description: "+newProspect.description + " \r\nComments: "+ newProspect.othercomments;
       	    Emails.sendEmail(newEmail, from, from_name, subject, newProspect._id,1);
       	  }
       }
       $state.transitionTo('auth.prospect.view', {prospectId: newProspect._id});
-     // $state.transitionTo('prospect.view', {prospectId: 2});
     };
 
     $scope.cancelUpdate = function() {
