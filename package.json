@@ -32,7 +32,7 @@
     "serve-favicon": "^2.2.0",
     "https": "^1.0.0",
     "request": "^2.55.0",
-    "responce": "^0.14.0",
+    "response": "^0.14.0",
     "querystring": "^0.2.0"
   },
   "devDependencies": {
