@@ -85,7 +85,8 @@ module.exports=function(){
 
         var subject = mail.subject;
         var from = mail.from;
-        var date = mail.date.getDate()+"-"+mail.date.getMonth()+"-"+mail.date.getFullYear()+" "+mail.date.getHours()+":"+mail.date.getMinutes()+":"+mail.date.getSeconds();
+       // var date = mail.date.getDate()+"-"+mail.date.getMonth()+"-"+mail.date.getFullYear()+" "+mail.date.getHours()+":"+mail.date.getMinutes()+":"+mail.date.getSeconds();
+        var date = mail.date.toDateString();
         var to = mail.to;
         var message = mail.text;
         var cc = '';
@@ -93,7 +94,7 @@ module.exports=function(){
         {
             cc = mail.cc;
         }
-        console.log("GOT MAIL on: " +mail.date.getDate()+"-"+mail.date.getMonth()+"-"+mail.date.getFullYear()+" "+mail.date.getHours()+":"+mail.date.getMinutes()+":"+mail.date.getSeconds());
+        console.log("GOT MAIL on: " +mail.date.toDateString());
 
         //put all emails in db
         var emails = require('../controllers/emails.controller');
@@ -128,14 +129,14 @@ module.exports=function(){
                    console.log("Found prospect in subject with id:" + prospects[i]._id+" name:"+prospects[i].name);
                     req.body.prospect_id = prospects[i]._id;
                    prospectFlag = 1;
-                   break;
+                   //break;
                }else if(typeof message == "string") {
 
                    if (message.toLowerCase().search(prospects[i].name.toLowerCase()) != -1) {
                        console.log("Found prospect in message with id:" + prospects[i]._id + " name:" + prospects[i].name);
                        req.body.prospect_id = prospects[i]._id;
                        prospectFlag = 1;
-                       break;
+                       //break;
                    }
                }
             }
@@ -143,10 +144,13 @@ module.exports=function(){
                 if (typeof mail.attachments == "object") {
                     //update prospect stage and end date
                     updateProspectStage(prospects[i], prospects[i]._id, date, "Converted", "6");
+                    prospects[i].end_date = mail.date.toDateString();
+                    updateProspectEndDate(prospects[i], prospects[i]._id);
                 }
                 //add the start_date
                 if (typeof prospects[i].start_date != 'date') {
-                    prospects[i].start_date = mail.date;
+                    console.log("set start date:"+mail.date.toDateString());
+                    prospects[i].start_date = mail.date.toDateString();
                     //update prospect for start date
                     updateProspectStartDate(prospects[i], prospects[i]._id);
                 }
@@ -281,8 +285,7 @@ module.exports=function(){
             form:
                 {
                         state: 'Converted',
-                        state_id: '6',
-                        end_date: end_date
+                        state_id: '6'
                 }
         }, function (error, response, body) {
             if(response.statusCode == 201){
@@ -299,7 +302,6 @@ module.exports=function(){
     };
     function updateProspectStartDate(project, prospect_id)
     {
-        console.log("updateProspectStartDate:"+prospect_id);
 console.log("set start date:"+project.start_date);
 
         var projects = require('../controllers/projects.controller');
@@ -315,6 +317,33 @@ console.log("set start date:"+project.start_date);
         }, function (error, response, body) {
             if(response.statusCode == 201){
                 console.log("prospect start date updated");
+                //  console.log('document saved as: http://mikeal.iriscouch.com/testjs/'+ rand);
+            } else {
+                console.log('error: '+ response.statusCode + " "+error);
+                console.log(body);
+            }
+        })
+        //  console.log("asdsd"+typeof  JSON.parse(project));
+        //projects.updateStage(req, res);
+
+    };
+    function updateProspectEndDate(project, prospect_id)
+    {
+        console.log("set end date:"+project.start_date);
+
+        var projects = require('../controllers/projects.controller');
+
+        request({
+            method: 'PUT',
+            uri: 'http://localhost:3000/api/projects/' + prospect_id,
+            //uri: 'http://desolate-crag-3719.herokuapp.com/api/projects/' + prospect_id,
+            form:
+            {
+                end_date: project.end_date
+            }
+        }, function (error, response, body) {
+            if(response.statusCode == 201){
+                console.log("prospect end date updated");
                 //  console.log('document saved as: http://mikeal.iriscouch.com/testjs/'+ rand);
             } else {
                 console.log('error: '+ response.statusCode + " "+error);

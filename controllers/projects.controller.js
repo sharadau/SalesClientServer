@@ -246,16 +246,9 @@ exports.update=function(req,res){
 exports.updateStage=function(req,res){
     var project = req.project;
     var newProject = req.body;
-    var end_date = '';
-    if((typeof newProject.end_date) == "date") {
-        end_date = newProject.end_date;
-    }else
-    {
-        end_date = new Date();
-    }
+
     project.state = newProject.state;
     project.state_id = newProject.state_id;
-    project.end_date = end_date;
     /*project.update({_id:project._id }, {state: newProject.stage}, function(err) {
         if(err){
             console.log(err);

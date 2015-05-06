@@ -204,6 +204,7 @@
         </accordion-heading>
         <table data-ng-repeat="uemail in uncategorizedEmails">
             <tr ng-if="prospect._id == uemail.prospect_id"><td width="50%" colspan="2"><b>Sent from {{uemail.from}} on {{uemail.send_date}}:</b></td></tr>
-            <tr ng-if="prospect._id == uemail.prospect_id"><td width="50%">{{uemail.contents}}</td><td></td></tr>
+           <!-- <tr ng-if="prospect._id == uemail.prospect_id"><td width="50%"><p ng-bind-html="renderHtml(uemail.contents)"></p></td><td></td></tr>-->
+            <tr ng-if="prospect._id == uemail.prospect_id"><td width="50%"><textarea rows="8" cols="93" readonly="readonly">{{uemail.contents}}</textarea></td><td></td></tr>
         </table>
     </accordion-group>

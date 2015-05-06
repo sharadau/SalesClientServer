@@ -8,7 +8,7 @@
  * Controller of the dashboardApp
  */
 angular.module('dashboardApp')
-  .controller('ProspectViewCtrl', function ($scope, $stateParams, $parse, $upload, ProspectService, Emails) {
+  .controller('ProspectViewCtrl', function ($scope, $stateParams, $parse, $upload,$sce, ProspectService, Emails) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -151,6 +151,15 @@ angular.module('dashboardApp')
         })
             .error (function (error){
             console.log (error.msg);});
+
+        $scope.renderHtml = function(html_code)
+        {
+            console.log("html:"+html_code);
+            var changed_html = html_code.replace("\\n\\r","jjjjjjjjjjjjjjj");
+            console.log("replaced html:"+changed_html);
+            //return $sce.trustAsHtml(html_code);
+            return (changed_html);
+        };
 
     $scope.oneAtATime = true;
 
