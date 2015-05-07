@@ -18,6 +18,6 @@ angular.module('dashboardApp')
             auth.signout();
             store.remove('profile');
             store.remove('token');
-            $state.go('login');
+            $state.go('auth.dashboard');
         }
     });

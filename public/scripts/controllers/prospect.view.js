@@ -144,9 +144,14 @@ angular.module('dashboardApp')
   console.log (error.msg);});
 
         //uncategorized emails
-        Emails.getUncategorizedEmailsForProspect($stateParams.prospectId)
+        //Emails.getUncategorizedEmailsForProspect($stateParams.prospectId)
+        Emails.getEmailsForProspectStage($stateParams.prospectId,"0")
             .success (function (data){
             $scope.uncategorizedEmails = data;
+            /*console.log("uncategorized emails:"+$scope.uncategorizedEmails);
+            $scope.uncategorizedEmails.forEach(function (eml) {
+                console.log("subject:"+eml.subject);
+            });*/
 
         })
             .error (function (error){

@@ -34,6 +34,27 @@ angular.module('dashboardApp')
 
             return response;
         };
+        this.getUncategorizedEmails = function (prospect_id) {
+            var successCallback, errorCallback;
+            var response = {
+                success: function (callback) {successCallback = callback; return response;},
+                error: function (callback) {errorCallback = callback; return response;}
+            };
+
+            $http.get(service_base_url+'/api/emails/ulist/')
+                .success(function(item){
+                    successCallback(item);
+
+                })
+                .error(function(error){
+                    if (error) {
+                        console.log(error);
+                        errorCallback({msg: 'No uncategorized emails'});
+                    }
+                });
+
+            return response;
+        };
         this.getUncategorizedEmailsForProspect = function (prospect_id) {
 
             //prospect_id = 1;

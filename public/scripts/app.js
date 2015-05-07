@@ -104,6 +104,16 @@ angular
         templateUrl: "views/emails.list.html",
         controller: "EmailsListCtrl"
       })
+        .state("auth.emails.ulist", {
+            url: "/ulist",
+            templateUrl: "views/emails.list.html",
+            controller: "EmailsListCtrl"
+        })
+        .state("auth.emails.uncategorizedEmailsForProspect", {
+            url: "/uncategorizedEmailsForProspect/:prospect_id",
+            templateUrl: "views/emails.list.html",
+            controller: "EmailsListCtrl"
+        })
         .state("auth.emails.view", {
             url: "/view/:pId",
             templateUrl: "views/emails.view.html",

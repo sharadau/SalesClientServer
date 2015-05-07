@@ -107,7 +107,8 @@ module.exports=function(){
             "send_date":date,
             "cc":cc,
             "message":message,
-            "contents":message
+            "contents":message,
+            "stage":0
         };
         var req = {
             "body":body
@@ -129,14 +130,14 @@ module.exports=function(){
                    console.log("Found prospect in subject with id:" + prospects[i]._id+" name:"+prospects[i].name);
                     req.body.prospect_id = prospects[i]._id;
                    prospectFlag = 1;
-                   //break;
+                   break;
                }else if(typeof message == "string") {
 
                    if (message.toLowerCase().search(prospects[i].name.toLowerCase()) != -1) {
                        console.log("Found prospect in message with id:" + prospects[i]._id + " name:" + prospects[i].name);
                        req.body.prospect_id = prospects[i]._id;
                        prospectFlag = 1;
-                       //break;
+                       break;
                    }
                }
             }

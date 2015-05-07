@@ -2,7 +2,7 @@
   <div class="navbar navbar-default" role="navigation">
     <div class="container">
       <div class="navbar-header">
-        <span class="navbar-brand subheader" style="color: #000066"><b>CMS : Uncategorized Emails</b></span>
+        <span class="navbar-brand subheader" style="color: #000066"><b>Uncategorized Emails</b></span>
       </div>
     </div>
   </div>
@@ -33,12 +33,13 @@
       <button class="btn btn-default" type="button">Move</button>
     </span>
 </div><br>
+<table class="table table-hover table-responsive"><th>Email Subject</th><th>Date</th><th></th></table>
 <table class="table table-hover table-responsive table-condensed tab-content" data-ng-repeat="email in emails | filter:searchText">
   <td width="50%">
     <a ui-sref="email.view({emailId: email._id})">{{email.subject}}</a>
   </td>
   <td>
-    {{email.date}}
+    {{email.send_date}}
   </td>
   <td><input type="checkbox"></td>
 </table>

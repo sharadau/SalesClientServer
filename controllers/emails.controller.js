@@ -16,8 +16,29 @@ exports.list=function(req,res,next){
         res.send(emails);
     })
 };
+exports.uncategorizedList=function(req,res,next){
+    console.log("uncategorizedList ");
+    //Emails.find({stage: "0"}, function (err, emails) {
+    Emails.find({prospect_id:"",stage: "0"}, function (err, emails) {
+    //Emails.find(function(err, emails){
+        if(err){
+            next(err);
+        }
+        res.send(emails);
+    })
+};
+exports.uncategorizedListForProspect=function(req,res,next,prospect_id){
+console.log("uncategorizedListForProspect : "+prospect_id);
+    //Emails.find({stage: "0"}, function (err, emails) {
+    Emails.find({prospect_id:prospect_id,stage: "0"}, function (err, emails) {
+        //Emails.find(function(err, emails){
+        if(err){
+            next(err);
+        }
+        res.send(emails);
+    })
+};
 exports.read=function(req,res){
-    console.log("in read");
     res.send(req.emails);
 };
 exports.create=function(req,res){
@@ -94,7 +115,7 @@ exports.getEmailsForProspectStage=function(req,res,next,prospect_id){
             }
         });
     }else {*/
-        console.log("getEmailsForProspectStage " + prospect_id);
+        console.log("getEmailsForProspectStage " + params[0] + " " + params[1]);
         Emails.find({prospect_id: params[0], stage: params[1]}, function (err, emails) {
 
             if (err) {
@@ -112,12 +133,13 @@ exports.getEmailsForProspectStage=function(req,res,next,prospect_id){
                 res.status(404).send(error);
             }
         });
+
     //}
 };
 exports.getEmailsForProspect=function(req,res,next,prospect_id){
-console.log("getEmailsForProspect "+prospect_id);
+console.log("getEmailsForProspect::: "+prospect_id);
 
-    Emails.find({prospect_id:prospect_id},function(err,emails){
+    Emails.find({prospect_id: prospect_id},function(err,emails){
 
         if(err){
             next(err);

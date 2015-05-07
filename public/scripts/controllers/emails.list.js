@@ -8,15 +8,30 @@
  * Controller of the dashboardApp
  */
 angular.module('dashboardApp')
-  .controller('EmailsListCtrl', function ($scope) {
+  .controller('EmailsListCtrl', function ($scope,$stateParams, Emails) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
       'Karma'
     ];
-    $scope.emails = [
+   /* $scope.emails = [
       {subject: "Initied Yvolver",body:"New",_id:"1",date:"12/10/2014"},
       {subject: "Initied PayWize",body:"Internal Preparation",_id:"2",date:"02/10/2014"},
       {subject: " Initied CNM Connect",body:"Initiation",_id:"3",date:"12/12/2014"}
-    ];
-  });
+    ];*/
+
+
+        //uncategorized emails
+        Emails.getEmailsForProspectStage($stateParams.prospect_id, 0)
+            .success (function (data){
+            $scope.emails = data;
+            //console.log("uncategorized emails:"+$scope.emails[0].stage);
+            $scope.emails.forEach(function (eml) {
+                console.log("subject:"+eml.subject);
+            });
+        })
+            .error (function (error){
+            console.log (error.msg);}
+        );
+
+    });

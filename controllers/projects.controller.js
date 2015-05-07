@@ -7,13 +7,11 @@ var mongoose = require('mongoose'),
     Organizations = mongoose.model('Organizations');
 
 exports.list=function(req,res,next){
-    console.log("In projects list");
     Projects.find(function(err, projects){
         if(err){
             console.log("Error");
             next(err);
         }
-        console.log("Success")
          res.send(projects);
     })
 };
