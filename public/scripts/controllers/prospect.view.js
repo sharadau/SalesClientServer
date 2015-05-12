@@ -14,9 +14,13 @@ angular.module('dashboardApp')
       'AngularJS',
       'Karma'
     ];
+
         //$scope.newProspect = {};
         $scope.fileSelection = function($files){
+           // $files[0].name = $files[0].name + Date.now();
+            //console.log("file name updated:"+Date.now());
             $scope.uploadFiles = $files;
+
         };
         //$scope.uploadFiles =
         $scope.onFileSelect = function($files, newProspect) {
@@ -42,7 +46,7 @@ angular.module('dashboardApp')
                     // file is uploaded successfully
                     console.log(newProspect);
                     //$scope.newProspect.uploadStatus.value = "File uploaded successfully!!!";
-                    console.log(data);
+                    console.log("uploaded file name:"+data);
                 }).error(function (err) {
                     // file failed to upload
                     console.log("upload error"+err);
@@ -63,6 +67,7 @@ angular.module('dashboardApp')
       .success (function (data){
       $scope.prospect = data;
         $scope.prospect.participants = "sharada.umarane@synerzip.com";
+        $scope.newProspect = JSON.parse(JSON.stringify($scope.prospect));
 
     })
       .error (function (error){
@@ -91,20 +96,38 @@ angular.module('dashboardApp')
     console.log (error.msg);});
 
         $scope.acceptProspect = function(newProspect, prospectId, stage, stage_id) {
-            //console.log($scope.engagementLetter);
+            console.log("engagement letter:"+$scope.uploadFiles[0].name);
+
             newProspect = newProspect || {};
 
             $scope.newProspect = {};
-
-            console.log(newProspect);
+           // console.log("notes:"+notes);
+            //console.log("notess:"+newProspect.closureNotes);
+            //console.log(newProspect);
             $scope.onFileSelect($scope.uploadFiles, newProspect);
-            //ProspectService.ClosureDetails(prospectId, stage, stage_id, notes, engagementLetter);
-            $scope.stage_id = stage_id;
+
+           // ProspectService.updateStage(prospectId, stage, stage_id);
+            ProspectService.ClosureDetails(prospectId, stage, stage_id, "closurenotes", $scope.uploadFiles[0].name);
+            $scope.prospect.state_id = stage_id;
+            $scope.prospect.engagementLetter = $scope.uploadFiles[0].name;
+
+
+        };
+        $scope.rejectProspect = function(newProspect, prospectId, stage, stage_id) {
+
+            newProspect = newProspect || {};
+
+            $scope.newProspect = {};
+            //console.log("notess:"+newProspect.closureNotes);
+
+            ProspectService.ClosureDetails(prospectId, stage, stage_id, "closurenotes","");
+            $scope.prospect.state_id = stage_id;
 
         };
   $scope.markComplete = function(prospectId, stage, stage_id) {
+
 	    ProspectService.updateStage(prospectId, stage, stage_id);
-	    $scope.stage_id = stage_id;
+	    $scope.prospect.state_id = stage_id;
 	   
 	  };
   //stage2 email
@@ -148,10 +171,11 @@ angular.module('dashboardApp')
         Emails.getEmailsForProspectStage($stateParams.prospectId,"0")
             .success (function (data){
             $scope.uncategorizedEmails = data;
-            /*console.log("uncategorized emails:"+$scope.uncategorizedEmails);
+            console.log("uncategorized emails:"+$scope.uncategorizedEmails);
             $scope.uncategorizedEmails.forEach(function (eml) {
+                console.log("stage:"+eml.stage);
                 console.log("subject:"+eml.subject);
-            });*/
+            });
 
         })
             .error (function (error){

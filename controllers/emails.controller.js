@@ -115,7 +115,7 @@ exports.getEmailsForProspectStage=function(req,res,next,prospect_id){
             }
         });
     }else {*/
-        console.log("getEmailsForProspectStage " + params[0] + " " + params[1]);
+       // console.log("getEmailsForProspectStage " + params[0] + " " + params[1]);
         Emails.find({prospect_id: params[0], stage: params[1]}, function (err, emails) {
 
             if (err) {
@@ -137,7 +137,7 @@ exports.getEmailsForProspectStage=function(req,res,next,prospect_id){
     //}
 };
 exports.getEmailsForProspect=function(req,res,next,prospect_id){
-console.log("getEmailsForProspect::: "+prospect_id);
+//console.log("getEmailsForProspect::: "+prospect_id);
 
     Emails.find({prospect_id: prospect_id},function(err,emails){
 

@@ -27,8 +27,7 @@ angular.module('dashboardApp')
     	newEmail = newEmail || {};
 
         $scope.newEmail = {};
-       
-        //newEmail._id = getUniqueTime();
+
         Emails.sendEmail(newEmail, $scope.from, $scope.from_name, $scope.subject, $scope.prospect_id,$scope.stage);
         
         $state.transitionTo('auth.prospect.view', {prospectId: $scope.prospect_id});

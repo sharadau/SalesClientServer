@@ -145,7 +145,7 @@ exports.delete=function(req,res){
 
 exports.update=function(req,res){
     var project = req.project;
-
+console.log("update prospect");
     var newProject = req.body;
 
     // req.body is new data while employee is old data
@@ -242,11 +242,13 @@ exports.update=function(req,res){
 
 
 exports.updateStage=function(req,res){
+
     var project = req.project;
     var newProject = req.body;
 
     project.state = newProject.state;
     project.state_id = newProject.state_id;
+    console.log("updateStage:"+req.body.state_id);
     /*project.update({_id:project._id }, {state: newProject.stage}, function(err) {
         if(err){
             console.log(err);

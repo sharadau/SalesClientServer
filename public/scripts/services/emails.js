@@ -34,7 +34,7 @@ angular.module('dashboardApp')
 
             return response;
         };
-        this.getUncategorizedEmails = function (prospect_id) {
+        this.getUncategorizedEmails = function () {
             var successCallback, errorCallback;
             var response = {
                 success: function (callback) {successCallback = callback; return response;},
@@ -87,11 +87,12 @@ angular.module('dashboardApp')
             newEmail.from = from;
             newEmail.from_name = from_name;
             newEmail.to = newEmail.to;//"sharada.umarane@synerzip.com";
-            newEmail.message = newEmail.contents;
+            newEmail.message = newEmail.contents + "\r\n\r\nPlease note this email is generated using Presales Dashboard.";
             newEmail.prospect_id = prospect_id;
             newEmail.cc = presale_email_cc_id;
             newEmail.send_date = new Date().toDateString();
 
+            console.log(newEmail);
             $http.post(service_base_url+'/api/emails', newEmail)
                 .success(function (item) {
                     emails.push(item);

@@ -46,7 +46,7 @@ angular.module('dashboardApp')
       	  {
       	  	console.log("Send email on");
       	    var newEmail = {};
-              var subject = "Presale Prospect "+newProspect.name;
+              var subject = "Presale Prospect: "+newProspect.name;
               var from = email_from;
               var from_name = email_from;
       	      newEmail.send_date = new Date().toDateString();

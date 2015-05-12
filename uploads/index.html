@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        function loadXMLDoc()
+        {
+            console.log("Hello World");
+            var xmlhttp;
+            if (window.XMLHttpRequest)
+            {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp=new XMLHttpRequest();
+            }
+            else
+            {// code for IE6, IE5
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+
+            xmlhttp.onreadystatechange=function()
+            {
+                if (xmlhttp.readyState==1) {
+                    xmlhttp.setRequestHeader("Content-type","application/json");
+                }
+
+                    if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                {
+
+                    document.getElementById("abcd").innerHTML=xmlhttp.responseText;
+                }
+            }
+
+            xmlhttp.open("POST","http://localhost:8080/SalesDashBoard/rest/prospect/fetchProspects/1",true);
+            xmlhttp.send();
+        }
+    </script>
+</head>
+
+<body>
+
+<div id = "abcd" style="border: solid 1px;border-color: red;width:500px;height: 150px">
+
+</div>
+<button onclick="loadXMLDoc();">Get Data</button>
+</body>
+</html>

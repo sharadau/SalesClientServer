@@ -178,14 +178,33 @@ angular.module('dashboardApp')
           });
 
     };
-    this.updateStage = function(prospect_id, stage,stage_id) {
-      
+    this.ClosureDetails = function(prospect_id, stage, stage_id, closureNotes, engagementLetter) {
+        console.log("closureNotes:"+closureNotes);
         var newProspect = {};
         newProspect._id = prospect_id;
-        newProspect.stage = stage;
-        newProspect.stage_id = stage_id;
-        console.log(newProspect);
-        
+        newProspect.closureNotes = closureNotes;
+        newProspect.engagementLetter = engagementLetter;
+        newProspect.state = stage;
+        newProspect.state_id = stage_id;
+        newProspect.end_date = new Date().toDateString();
+
+        $http.put(service_base_url+'/api/projects/' + newProspect._id, newProspect)
+            .success(function (item) {
+                alert("Prospect closure completed");
+            })
+            .error(function (error) {
+                if (error) {
+                    console.log(error);
+                }
+            });
+    }
+    this.updateStage = function(prospect_id, stage,stage_id) {
+
+        var newProspect = {};
+        newProspect._id = prospect_id;
+        newProspect.state = stage;
+        newProspect.state_id = stage_id;
+
           $http.put(service_base_url+'/api/projects/updateStage/' + newProspect._id, newProspect)
             .success(function (item) {
             	 console.log("success");

@@ -107,7 +107,7 @@ angular
         .state("auth.emails.ulist", {
             url: "/ulist",
             templateUrl: "views/emails.list.html",
-            controller: "EmailsListCtrl"
+            controller: "EmailsUListCtrl"
         })
         .state("auth.emails.uncategorizedEmailsForProspect", {
             url: "/uncategorizedEmailsForProspect/:prospect_id",

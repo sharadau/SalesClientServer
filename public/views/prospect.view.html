@@ -85,7 +85,7 @@
      </table>
      <table data-ng-repeat="email1 in emailsForStage1">
       <tr ng-if="prospect._id == email1.prospect_id && email1.stage == 1"><td width="50%" colspan="2"><b>Sent from {{email1.from}} on {{email1.send_date}}:</b></td></tr>
-      <tr ng-if="prospect._id == email1.prospect_id && email1.stage == 1"><td width="50%">{{email1.contents}}</td><td></td></tr>
+      <tr ng-if="prospect._id == email1.prospect_id && email1.stage == 1"><td width="50%"><textarea rows="3" cols="93" readonly="readonly">{{email1.contents}}</textarea></td><td></td></tr>
     </table>
    <!-- <accordion-group heading="{{email1.subject}}" ng-repeat="email1 in emailsForStage1">
       {{email1.contents}}
@@ -119,8 +119,8 @@
     <td><a ng-if="prospect.state_id < '3'" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:2})"> Email</a> </td></tr>
     </table>
     <table data-ng-repeat="email2 in emailsForStage2">
-      <tr ng-if="prospect._id == email2.prospect_id && email1.stage == 2"><td width="50%" colspan="2"><b>Sent from {{email2.from}} on {{email2.send_date}}:</b></td></tr>
-      <tr ng-if="prospect._id == email2.prospect_id && email1.stage == 2"><td width="50%">{{email2.contents}}</td><td></td></tr>
+      <tr ng-if="prospect._id == email2.prospect_id && email2.stage == 2"><td width="50%" colspan="2"><b>Sent from {{email2.from}} on {{email2.send_date}}:</b></td></tr>
+      <tr ng-if="prospect._id == email2.prospect_id && email2.stage == 2"><td width="50%"><textarea rows="3" cols="93" readonly="readonly">{{email2.contents}}</textarea></td><td></td></tr>
     </table>
   </accordion-group>
   <accordion-group>
@@ -134,8 +134,8 @@
     <td><a ng-if="prospect.state_id < '4'" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:3})"> Email</a> </td></tr>
     </table>
     <table data-ng-repeat="email3 in emailsForStage3">
-      <tr ng-if="prospect._id == email3.prospect_id && email1.stage == 3"><td width="50%" colspan="2"><b>Sent from {{email3.from}} on {{email3.send_date}}:</b></td></tr>
-      <tr ng-if="prospect._id == email3.prospect_id && email1.stage == 3"><td width="50%">{{email3.contents}}</td><td></td></tr>
+      <tr ng-if="prospect._id == email3.prospect_id && email3.stage == 3"><td width="50%" colspan="2"><b>Sent from {{email3.from}} on {{email3.send_date}}:</b></td></tr>
+      <tr ng-if="prospect._id == email3.prospect_id && email3.stage == 3"><td width="50%"><textarea rows="3" cols="93" readonly="readonly">{{email3.contents}}</textarea></td><td></td></tr>
     </table>
   </accordion-group>
   <accordion-group>
@@ -149,8 +149,8 @@
     <td><a ng-if="prospect.state_id < '5'" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:4})"> Email</a> </td></tr>
     </table>
     <table data-ng-repeat="email4 in emailsForStage4">
-      <tr ng-if="prospect._id == email4.prospect_id && email1.stage == 4"><td width="50%" colspan="2"><b>Sent from {{email4.from}} on {{email4.send_date}}:</b></td></tr>
-      <tr ng-if="prospect._id == email4.prospect_id && email1.stage == 4"><td width="50%">{{email4.contents}}</td><td></td></tr>
+      <tr ng-if="prospect._id == email4.prospect_id && email4.stage == 4"><td width="50%" colspan="2"><b>Sent from {{email4.from}} on {{email4.send_date}}:</b></td></tr>
+      <tr ng-if="prospect._id == email4.prospect_id && email4.stage == 4"><td width="50%"><textarea rows="3" cols="93" readonly="readonly">{{email4.contents}}</textarea></td><td></td></tr>
     </table>
      </accordion-group>
   <accordion-group>
@@ -167,31 +167,34 @@
     </tr>
    </table>
       <table data-ng-repeat="email5 in emailsForStage5">
-          <tr ng-if="prospect._id == email5.prospect_id && email1.stage == 5"><td width="50%" colspan="2"><b>Sent from {{email5.from}} on {{email5.send_date}}:</b></td></tr>
-          <tr ng-if="prospect._id == email5.prospect_id && email1.stage == 5"><td width="50%">{{email5.contents}}</td><td></td></tr>
+          <tr ng-if="prospect._id == email5.prospect_id && email5.stage == 5"><td width="50%" colspan="2"><b>Sent from {{email5.from}} on {{email5.send_date}}:</b></td></tr>
+          <tr ng-if="prospect._id == email5.prospect_id && email5.stage == 5"><td width="50%"><textarea rows="3" cols="93" readonly="readonly">{{email5.contents}}</textarea></td><td></td></tr>
       </table>
       <hr>
       <table width="100%">
           <tr><td> &nbsp; </td></tr>
        <tr><td width ="90%">
-       <form name="newProspectForm" enctype='multipart/form-data' ng-submit="acceptProspect(newProspect,prospect._id,prospect.stage,prospect.stage_id)" >
+       <form name="newProspectForm" enctype='multipart/form-data' ng-submit="acceptProspect(newProspect,prospect._id,'Converted','6')" >
            <div class="panel-wrapper">
                <label class="control-label">Notes: </label>
-               <textarea rows="5" class="form-control" data-ng-model="newProspect.notes" placeholder="Please add accept or reject reason"></textarea>
+               <textarea rows="5" class="form-control" data-ng-model="newProspect.closureNotes" placeholder="Please add accept or reject reason"></textarea>
            </div>
 
-           <div class="panel-wrapper" >
+           <div class="panel-wrapper" ng-if="prospect.state_id < 6"  >
                <label class="control-label">Upload Engagement Letter: </label>
                <input type="file" ng-file-select="fileSelection($files)" class="form-control" file-model="engagementLetter"/>
                <label class="control-label" data-ng-model="newProspect.uploadStatus"></label>
                <!--<div class="button" ng-file-select="onFileSelect($files)" data-multiple="true"></div>-->
            </div>
-
-           <button class="btn btn-default" type="submit" ng-disabled="form.$invalid" >
+           <div class="panel-wrapper" ng-if="prospect.state_id > 5">
+               <label class="control-label">Engagement Letter: </label>
+               <a href='../uploads/{{prospect.engagementLetter}}' > {{prospect.engagementLetter}}</a>
+               </div>
+           <button ng-if="prospect.state_id < 6" class="btn btn-default" type="submit" ng-disabled="form.$invalid" >
                <span class="glyphicon glyphicon-thumbs-up"></span> Accept Prospect
            </button>&nbsp;&nbsp;&nbsp;
 
-           <button class="btn btn-default" data-ng-click="rejectProspect()">
+           <button ng-if="prospect.state_id < 6" class="btn btn-default" data-ng-click="rejectProspect(newProspect,prospect._id,'Rejected','7')">
                <span class="glyphicon glyphicon-thumbs-down"></span> Reject Prospect
            </button>
        </form>
@@ -203,8 +206,8 @@
             <b>Uncategorized Emails</b><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
         </accordion-heading>
         <table data-ng-repeat="uemail in uncategorizedEmails">
-            <tr ng-if="prospect._id == uemail.prospect_id"><td width="50%" colspan="2"><b>Sent from {{uemail.from}} on {{uemail.send_date}}:</b></td></tr>
+            <tr ng-if="prospect._id == uemail.prospect_id && uemail.stage == 0"><td width="50%" colspan="2"><b>Sent from {{uemail.from}} on {{uemail.send_date}}:</b></td></tr>
            <!-- <tr ng-if="prospect._id == uemail.prospect_id"><td width="50%"><p ng-bind-html="renderHtml(uemail.contents)"></p></td><td></td></tr>-->
-            <tr ng-if="prospect._id == uemail.prospect_id"><td width="50%"><textarea rows="8" cols="93" readonly="readonly">{{uemail.contents}}</textarea></td><td></td></tr>
+            <tr ng-if="prospect._id == uemail.prospect_id && uemail.stage == 0"><td width="50%"><textarea rows="8" cols="93" readonly="readonly">{{uemail.contents}}</textarea></td><td></td></tr>
         </table>
     </accordion-group>

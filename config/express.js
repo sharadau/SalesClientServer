@@ -32,7 +32,7 @@ module.exports=function(){
 
     app.use(multer({ dest: './uploads/',
         rename: function (fieldname, filename) {
-            return filename+Date.now();
+            return filename;
         },
         onFileUploadStart: function (file) {
             console.log(file.originalname + ' is starting ...')
@@ -95,73 +95,75 @@ module.exports=function(){
             cc = mail.cc;
         }
         console.log("GOT MAIL on: " +mail.date.toDateString());
+       //if email is not generated with sales dashboard
+        if(typeof mail.message != "string")
+        {
+            mail.message = '';
+        }
+        if (mail.message.toLowerCase().search("Please note this email is generated using Presales Dashboard") == -1) {
+            //put all emails in db
+            var emails = require('../controllers/emails.controller');
 
-        //put all emails in db
-        var emails = require('../controllers/emails.controller');
-
-        var body ={
-            "subject":mail.subject,
-           // "to":tos,
-            "from":from[0].address,
-            "from_name":from[0].name,
-            "send_date":date,
-            "cc":cc,
-            "message":message,
-            "contents":message,
-            "stage":0
-        };
-        var req = {
-            "body":body
-        };
+            var body = {
+                "subject": mail.subject,
+                // "to":tos,
+                "from": from[0].address,
+                "from_name": from[0].name,
+                "send_date": date,
+                "cc": cc,
+                "message": message,
+                "contents": message,
+                "stage": 0
+            };
+            var req = {
+                "body": body
+            };
 
 
-        //search for prospect
-        request('http://localhost:3000/api/projects', {}, function(err, res, body) {
-       //request('http://desolate-crag-3719.herokuapp.com/api/projects', {}, function(err, res, body) {
+            //search for prospect
+            request('http://localhost:3000/api/projects', {}, function (err, res, body) {
+                //request('http://desolate-crag-3719.herokuapp.com/api/projects', {}, function(err, res, body) {
 
-            var prospects = JSON.parse(body);
-            var prospectFlag = 0;
+                var prospects = JSON.parse(body);
+                var prospectFlag = 0;
 
                 //add prospect id
-            for(i=0;i<prospects.length;i++)
-            {
-               if( subject.toLowerCase().search(prospects[i].name.toLowerCase()) != -1)
-               {
-                   console.log("Found prospect in subject with id:" + prospects[i]._id+" name:"+prospects[i].name);
-                    req.body.prospect_id = prospects[i]._id;
-                   prospectFlag = 1;
-                   break;
-               }else if(typeof message == "string") {
+                for (i = 0; i < prospects.length; i++) {
+                    if (subject.toLowerCase().search(prospects[i].name.toLowerCase()) != -1) {
+                        console.log("Found prospect in subject with id:" + prospects[i]._id + " name:" + prospects[i].name);
+                        req.body.prospect_id = prospects[i]._id;
+                        prospectFlag = 1;
+                        break;
+                    } else if (typeof message == "string") {
 
-                   if (message.toLowerCase().search(prospects[i].name.toLowerCase()) != -1) {
-                       console.log("Found prospect in message with id:" + prospects[i]._id + " name:" + prospects[i].name);
-                       req.body.prospect_id = prospects[i]._id;
-                       prospectFlag = 1;
-                       break;
-                   }
-               }
-            }
-            if(prospectFlag == "1") {
-                if (typeof mail.attachments == "object") {
-                    //update prospect stage and end date
-                    updateProspectStage(prospects[i], prospects[i]._id, date, "Converted", "6");
-                    prospects[i].end_date = mail.date.toDateString();
-                    updateProspectEndDate(prospects[i], prospects[i]._id);
+                        if (message.toLowerCase().search(prospects[i].name.toLowerCase()) != -1) {
+                            console.log("Found prospect in message with id:" + prospects[i]._id + " name:" + prospects[i].name);
+                            req.body.prospect_id = prospects[i]._id;
+                            prospectFlag = 1;
+                            break;
+                        }
+                    }
                 }
-                //add the start_date
-                if (typeof prospects[i].start_date != 'date') {
-                    console.log("set start date:"+mail.date.toDateString());
-                    prospects[i].start_date = mail.date.toDateString();
-                    //update prospect for start date
-                    updateProspectStartDate(prospects[i], prospects[i]._id);
-                }
-                //add area depend on sales person
-                if (typeof prospects[i].area != 'string' || prospects[i].area == '') {
-                    prospects[i].area = '';
+                if (prospectFlag == "1") {
+                    if (typeof mail.attachments == "object") {
+                        //update prospect stage and end date
+                        updateProspectStage(prospects[i], prospects[i]._id, date, "Converted", "6");
+                        prospects[i].end_date = mail.date.toDateString();
+                        updateProspectEndDate(prospects[i], prospects[i]._id);
+                    }
+                    //add the start_date
+                    if (typeof prospects[i].start_date != 'date') {
+                        console.log("set start date:" + mail.date.toDateString());
+                        prospects[i].start_date = mail.date.toDateString();
+                        //update prospect for start date
+                        updateProspectStartDate(prospects[i], prospects[i]._id);
+                    }
+                    //add area depend on sales person
+                    if (typeof prospects[i].area != 'string' || prospects[i].area == '') {
+                        prospects[i].area = '';
 
-                    for(j=0;j<areaMapping.length;j++) {
-                            if (mail.from[0].address == areaMapping[j][0])
-                            {
+                        for (j = 0; j < areaMapping.length; j++) {
+                            if (mail.from[0].address == areaMapping[j][0]) {
                                 prospects[i].area = areaMapping[j][1];
                                 //update prospect for area
                                 updateProspectArea(prospects[i], prospects[i]._id);
@@ -170,93 +172,94 @@ module.exports=function(){
                         }
 
 
+                    }
+
                 }
+                var res = {
+                    "flag": "1"
+                };
 
-            }
-            var res = {
-                "flag":"1"
-            };
+                //add participants
+                var tos = '';
+                var ccs = '';
 
-            //add participants
-            var tos = '';var ccs = '';
+                //from
+                if (from[0].address != 'presalesuser@synerzip.com' && from[0].address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
+                    addParticpant(from[0].address, from[0].name, req.body.prospect_id);
+                    // emailNameArray[emailNameArray.length] = from[0].name;
+                    // emailArray[emailArray.length] = from[0].address;
 
-            //from
-            if(from[0].address != 'presalesuser@synerzip.com' && from[0].address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
-                addParticpant(from[0].address, from[0].name, req.body.prospect_id);
-               // emailNameArray[emailNameArray.length] = from[0].name;
-               // emailArray[emailArray.length] = from[0].address;
-
-            }
-            //to
-            mail.to.forEach(function (toUser) {
-                tos += toUser.address + ";";
-
-                if(toUser.address != 'presalesuser@synerzip.com' && toUser.address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
-                    console.log("add to:"+ toUser.address+" to prospect:"+req.body.prospect_id);
-                    addParticpant(toUser.address, toUser.name, req.body.prospect_id);
-                   // emailNameArray[emailNameArray.length] = toUser.name;
-                    //emailArray[emailArray.length] = toUser.address;
                 }
-            });
-            //cc
-            if(typeof mail.cc == "object") {
-                mail.cc.forEach(function (ccUser) {
-                    ccs += ccUser.address + ";";
+                //to
+                mail.to.forEach(function (toUser) {
+                    tos += toUser.address + ";";
 
-                    if (ccUser.address != 'presalesuser@synerzip.com' && ccUser.address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
-                        console.log("add cc:" + ccUser.address + " to prospect:" + req.body.prospect_id);
-                        addParticpant(ccUser.address, ccUser.name, req.body.prospect_id);
-                       // emailNameArray[emailNameArray.length] = ccUser.name;
-                        //emailArray[emailArray.length] = ccUser.address;
+                    if (toUser.address != 'presalesuser@synerzip.com' && toUser.address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
+                        console.log("add to:" + toUser.address + " to prospect:" + req.body.prospect_id);
+                        addParticpant(toUser.address, toUser.name, req.body.prospect_id);
+                        // emailNameArray[emailNameArray.length] = toUser.name;
+                        //emailArray[emailArray.length] = toUser.address;
                     }
                 });
-            }
-            /*
-            console.log("email arr:"+emailArray);
+                //cc
+                if (typeof mail.cc == "object") {
+                    mail.cc.forEach(function (ccUser) {
+                        ccs += ccUser.address + ";";
 
-            emailArray.forEach(function(item) {
-                if(uemailArray.indexOf(item) < 0) {
-                    uemailArray.push(item);
+                        if (ccUser.address != 'presalesuser@synerzip.com' && ccUser.address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
+                            console.log("add cc:" + ccUser.address + " to prospect:" + req.body.prospect_id);
+                            addParticpant(ccUser.address, ccUser.name, req.body.prospect_id);
+                            // emailNameArray[emailNameArray.length] = ccUser.name;
+                            //emailArray[emailArray.length] = ccUser.address;
+                        }
+                    });
                 }
+                /*
+                 console.log("email arr:"+emailArray);
+
+                 emailArray.forEach(function(item) {
+                 if(uemailArray.indexOf(item) < 0) {
+                 uemailArray.push(item);
+                 }
+                 });
+                 console.log("email unique arr:"+uemailArray);
+
+                 console.log("email name arr:"+emailNameArray);
+
+
+                 emailNameArray.forEach(function(item) {
+                 if(uemailNameArray.indexOf(item) < 0) {
+                 uemailNameArray.push(item);
+                 }
+                 });
+                 console.log("email unique arr:"+uemailNameArray);
+
+                 uemailArray.forEach(function(emailId,i)
+                 {
+                 console.log("call for addparticipant :"+emailId+" name:"+uemailNameArray[i]+" prospect:"+req.body.prospect_id);
+                 addParticpant(emailId,uemailNameArray[i],req.body.prospect_id);
+                 });*/
+                tos.substring(0, (tos.length - 1));
+                req.body.to = tos;
+                req.body.cc = ccs;
+
+                //console.log(req.body);
+                emails.create(req, res);
+
             });
-            console.log("email unique arr:"+uemailArray);
 
-            console.log("email name arr:"+emailNameArray);
+            //console.log("data : "+prospects);
 
+            /* performRequest('/api/projects', 'GET', function(data) {
+             console.log('data:', data);
+             // getCards();
+             });*/
+            //var projects = require('../controllers/projects.controller');
 
-            emailNameArray.forEach(function(item) {
-                if(uemailNameArray.indexOf(item) < 0) {
-                    uemailNameArray.push(item);
-                }
-            });
-            console.log("email unique arr:"+uemailNameArray);
+            //var prospectList =  projects.list(req,res,'');
+            //console.log("Project"+prospectList);
 
-            uemailArray.forEach(function(emailId,i)
-            {
-                console.log("call for addparticipant :"+emailId+" name:"+uemailNameArray[i]+" prospect:"+req.body.prospect_id);
-                addParticpant(emailId,uemailNameArray[i],req.body.prospect_id);
-            });*/
-            tos.substring(0,(tos.length-1));
-            req.body.to = tos;
-            req.body.cc = ccs;
-
-            //console.log(req.body);
-            emails.create(req,res);
-
-        });
-
-        //console.log("data : "+prospects);
-
-       /* performRequest('/api/projects', 'GET', function(data) {
-            console.log('data:', data);
-           // getCards();
-        });*/
-        //var projects = require('../controllers/projects.controller');
-
-        //var prospectList =  projects.list(req,res,'');
-        //console.log("Project"+prospectList);
-
-
+        }
     }).start();
 
     function updateProspectStage(project, prospect_id, end_date, state, state_id)
