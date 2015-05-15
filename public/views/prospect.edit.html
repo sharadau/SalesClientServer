@@ -19,11 +19,18 @@
       <label class="control-label">Description: </label>
       <textarea rows="7" class="form-control" data-ng-model="newProspect.description" placeholder="Please add Prospect description and Team Mix here"></textarea>
     </div>
-
     <div class="panel-wrapper">
       <label class="control-label">Other Comments: </label>
       <textarea rows="5" class="form-control" data-ng-model="newProspect.othercomments" placeholder=""></textarea>
     </div>
+      <div class="panel-wrapper">
+          <label class="control-label">Initiated By: </label>
+          <input type="text" class="form-control" data-ng-model="newProspect.initiatedBy" />
+      </div>
+      <div class="panel-wrapper">
+          <label class="control-label">Area: </label>
+          <input type="text" class="form-control" data-ng-model="newProspect.area" placeholder="Bay Area or Texas" />
+      </div>
 
     <div class="panel-wrapper">
       <label class="control-label">Send Initiation Email: </label>

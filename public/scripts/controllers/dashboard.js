@@ -38,8 +38,13 @@ angular.module('dashboardApp')
             "labels": $scope.months,
             "series": ['Active', 'Converted'],
             "series1": ['Bay Area', 'Texas'],
+            "series2": ['Initiated', 'Converted'],
+            "series3": ['Hemant', 'Subu', 'Ashish'],
             "data":[],
-            "data1":[]
+            "data1":[],
+            "data2":[],
+            "data3":[],
+            "data4":[]
         }
 
         var prospectList = ProspectService.getAllProspects()
@@ -49,22 +54,20 @@ angular.module('dashboardApp')
             $scope.totalEastCoastProjects =  $scope.projects.length;
             $scope.data = [];
             $scope.data1 = [];
+            $scope.data2 = [];
+            $scope.data3 = [];
+            $scope.data4 = [];
             $scope.bayarea = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            $scope.bayareaInitiated = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             $scope.eastcoast = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            $scope.eastcoastInitiated = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             $scope.active = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             $scope.converted = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-           /* $scope.active = [$scope.projects.length,
-                $scope.projects.length,
-                $scope.projects.length,
-                $scope.projects.length,
-                $scope.projects.length,
-                $scope.projects.length,
-                $scope.projects.length,
-                $scope.projects.length,
-                $scope.projects.length,
-                $scope.projects.length,
-                $scope.projects.length,
-                $scope.projects.length];*/
+            $scope.initiated = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            $scope.initiatedBy1 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            $scope.initiatedBy2 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            $scope.initiatedBy3 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
             $scope.projects.forEach(function(project){
                 console.log("project::"+project.name);
 
@@ -89,6 +92,43 @@ angular.module('dashboardApp')
                         }
 
                     }
+                    //for active vs converted
+                    if((typeof project.start_date) == "string") {
+                        var date2 = new Date(project.start_date);
+
+                        if (date2.getMonth() == m) {
+                            $scope.initiated[m] = $scope.initiated[m] + 1;
+                            if(project.area == "Bay Area")
+                            {
+                                $scope.bayareaInitiated[m] = $scope.bayareaInitiated[m] + 1;
+                            }else if(project.area == "Texas")
+                            {
+                                $scope.eastcoastInitiated[m] = $scope.eastcoastInitiated[m] + 1;
+                            }
+
+                        }
+
+                    }
+                    //for Initiated by
+                    if((typeof project.start_date) == "string") {
+                        var date3 = new Date(project.start_date);
+
+                        if (date3.getMonth() == m) {
+                            //$scope.initiatedBy[m] = $scope.initiatedBy[m] + 1;
+                            if(project.initiatedBy == 'Hemant Elhence')
+                            {
+                                $scope.initiatedBy1[m] = $scope.initiatedBy1[m] + 1;
+                            }else if(project.initiatedBy == 'Ashish Shanker')
+                            {
+                                $scope.initiatedBy2[m] = $scope.initiatedBy2[m] + 1;
+                            }else if(project.initiatedBy == 'Subu Sankara')
+                            {
+                                $scope.initiatedBy3[m] = $scope.initiatedBy3[m] + 1;
+                            }
+
+                        }
+
+                    }
 
                 });
 
@@ -100,7 +140,10 @@ angular.module('dashboardApp')
 
             $scope.chartData.data.push([$scope.active,$scope.converted]);
             $scope.chartData.data1.push([$scope.bayarea,$scope.eastcoast]);
-            console.log("data1" + $scope.chartData.data1[0]);
+            $scope.chartData.data2.push([$scope.bayareaInitiated,$scope.eastcoastInitiated]);
+            $scope.chartData.data3.push([$scope.initiated,$scope.converted]);
+            $scope.chartData.data4.push([$scope.initiatedBy1,$scope.initiatedBy2, $scope.initiatedBy3]);
+            console.log("data3" + $scope.chartData.data3[0]);
 
         })
             .error (function (error){
@@ -132,10 +175,21 @@ angular.module('dashboardApp')
         pointStrokeColor: "#fff",
         pointHighlightFill: "#fff",
         pointHighlightStroke: "rgba(151,187,205,0.8)"
-      }
+      },
+        { // green
+            fillColor: "rgba(200,120,100,0.2)",
+            strokeColor: "rgba(200,120,100,1)",
+            pointColor: "rgba(200,120,100,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(200,120,100,0.8)"
+        }
     ];
     $scope.labels1 = ["Active", "Converted"];
+    $scope.series3 = ["Initiated", "Converted"];
+    $scope.labels2 = ["Bay Area", "Texas"];
     $scope.series1 = ['Active', 'Converted'];
+    $scope.series2 = ['Bay Area', 'Texas'];
     $scope.data1 = [58, 48 ];
     $scope.onClick = function (points, evt) {
       console.log(points, evt);

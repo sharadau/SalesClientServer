@@ -99,6 +99,10 @@ var ProjectsSchema = new Schema({
     clientContacts:{
         type:[String],
         required:false
+    },
+    initiatedBy:{
+        type:String,
+        required:false
     }
 });
 mongoose.model('Projects',ProjectsSchema);

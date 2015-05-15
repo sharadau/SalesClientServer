@@ -103,7 +103,8 @@ angular.module('dashboardApp')
       newProspect1.sendEmail = newProspect1.sendEmail;
       newProspect1.updatedDate = new Date().toDateString();
       newProspect1.updatedBy = 1;  
-      newProspect1.area = "";
+      newProspect1.area = newProspect1.area;
+      newProspect1.initiatedBy = newProspect1.initiatedBy;
       newProspect1.start_date = new Date().toDateString();
      // newProspect1._id = newProspect1.id;
       console.log(newProspect1);

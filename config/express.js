@@ -76,8 +76,8 @@ module.exports=function(){
         areaMapping[1] = new Array();
         areaMapping[2] = new Array();
 
-        areaMapping[0][0] = 'Subu@synerzip.com';
-        areaMapping[1][0] = 'Hemant@synerzip.com';
+        areaMapping[0][0] = 'subu@synerzip.com';
+        areaMapping[1][0] = 'hemant@synerzip.com';
         areaMapping[2][0] = 'ashish.shanker@synerzip.com';
         areaMapping[0][1] = 'Bay Area';
         areaMapping[1][1] = 'Texas';
@@ -158,10 +158,21 @@ module.exports=function(){
                         //update prospect for start date
                         updateProspectStartDate(prospects[i], prospects[i]._id);
                     }
+                    //add the initiated by
+                    if (typeof prospects[i].initiatedBy != 'string' || prospects[i].initiatedBy == '' ) {
+                        console.log("set initiated By:" + mail.from[0].address);
+                        if(mail.from[0].address == 'subu@synerzip.com' || mail.from[0].address == 'hemant@synerzip.com' || mail.from[0].address == 'ashish.shanker@synerzip.com')
+                        {
+                            prospects[i].initiatedBy = mail.from[0].name;
+
+                            //update prospect for start date
+                            updateProspectInitiatedBy(prospects[i], prospects[i]._id);
+                        }
+                    }
                     //add area depend on sales person
                     if (typeof prospects[i].area != 'string' || prospects[i].area == '') {
                         prospects[i].area = '';
-
+                        console.log("set area");
                         for (j = 0; j < areaMapping.length; j++) {
                             if (mail.from[0].address == areaMapping[j][0]) {
                                 prospects[i].area = areaMapping[j][1];
@@ -195,7 +206,7 @@ module.exports=function(){
                     tos += toUser.address + ";";
 
                     if (toUser.address != 'presalesuser@synerzip.com' && toUser.address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
-                        console.log("add to:" + toUser.address + " to prospect:" + req.body.prospect_id);
+                        //console.log("add to:" + toUser.address + " to prospect:" + req.body.prospect_id);
                         addParticpant(toUser.address, toUser.name, req.body.prospect_id);
                         // emailNameArray[emailNameArray.length] = toUser.name;
                         //emailArray[emailArray.length] = toUser.address;
@@ -207,7 +218,7 @@ module.exports=function(){
                         ccs += ccUser.address + ";";
 
                         if (ccUser.address != 'presalesuser@synerzip.com' && ccUser.address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
-                            console.log("add cc:" + ccUser.address + " to prospect:" + req.body.prospect_id);
+                          //  console.log("add cc:" + ccUser.address + " to prospect:" + req.body.prospect_id);
                             addParticpant(ccUser.address, ccUser.name, req.body.prospect_id);
                             // emailNameArray[emailNameArray.length] = ccUser.name;
                             //emailArray[emailArray.length] = ccUser.address;
@@ -297,7 +308,7 @@ module.exports=function(){
               //  console.log('document saved as: http://mikeal.iriscouch.com/testjs/'+ rand);
             } else {
                 console.log('error: '+ response.statusCode + " "+error);
-                console.log(body);
+                //console.log(body);
             }
         })
           //  console.log("asdsd"+typeof  JSON.parse(project));
@@ -324,7 +335,7 @@ console.log("set start date:"+project.start_date);
                 //  console.log('document saved as: http://mikeal.iriscouch.com/testjs/'+ rand);
             } else {
                 console.log('error: '+ response.statusCode + " "+error);
-                console.log(body);
+               // console.log(body);
             }
         })
         //  console.log("asdsd"+typeof  JSON.parse(project));
@@ -333,7 +344,7 @@ console.log("set start date:"+project.start_date);
     };
     function updateProspectEndDate(project, prospect_id)
     {
-        console.log("set end date:"+project.start_date);
+       // console.log("set end date:"+project.start_date);
 
         var projects = require('../controllers/projects.controller');
 
@@ -351,7 +362,7 @@ console.log("set start date:"+project.start_date);
                 //  console.log('document saved as: http://mikeal.iriscouch.com/testjs/'+ rand);
             } else {
                 console.log('error: '+ response.statusCode + " "+error);
-                console.log(body);
+                //console.log(body);
             }
         })
         //  console.log("asdsd"+typeof  JSON.parse(project));
@@ -360,7 +371,7 @@ console.log("set start date:"+project.start_date);
     };
     function updateProspectArea(project, prospect_id)
     {
-
+//console.log("updateProspectArea"+project.area);
         var projects = require('../controllers/projects.controller');
         request({
             method: 'PUT',
@@ -376,11 +387,35 @@ console.log("set start date:"+project.start_date);
                 //  console.log('document saved as: http://mikeal.iriscouch.com/testjs/'+ rand);
             } else {
                 console.log('error: '+ response.statusCode + " "+error);
-                console.log(body);
+                //console.log(body);
             }
         })
         //  console.log("asdsd"+typeof  JSON.parse(project));
         //projects.updateStage(req, res);
+
+    };
+    function updateProspectInitiatedBy(project, prospect_id)
+    {
+        //console.log("update prospect:"+project);
+
+        var projects = require('../controllers/projects.controller');
+
+        request({
+            method: 'PUT',
+            uri: 'http://localhost:3000/api/projects/' + prospect_id,
+            //uri: 'http://desolate-crag-3719.herokuapp.com/api/projects/' + prospect_id,
+            form:
+            {
+                initiatedBy: project.initiatedBy
+            }
+        }, function (error, response, body) {
+            if(response.statusCode == 201){
+                console.log("prospect initated By updated");
+            } else {
+                console.log('error: '+ response.statusCode + " "+error);
+               // console.log(body);
+            }
+        })
 
     };
     function addParticpant(address, name, p_id )
@@ -390,21 +425,21 @@ console.log("set start date:"+project.start_date);
         //check if participant exists or not
         request('http://localhost:3000/api/participants/prospect/'+p_id, function(err, res, body) {
         //request('http://desolate-crag-3719.herokuapp.com/api/participants/prospect/'+p_id, function(err, res, body) {
-            console.log("particiapants:"+JSON.stringify(body)+"for project:"+p_id);
+            //console.log("particiapants:"+JSON.stringify(body)+"for project:"+p_id);
             var emails = JSON.parse(body);
             var existsFlag = 0;
 
             emails.forEach(function(participant){
-                console.log("existing email: "+participant.email + " add : " + address);
+                //console.log("existing email: "+participant.email + " add : " + address);
                 if(participant.email == address)
                 {
-                    console.log("do not add email:"+address);
+                    //console.log("do not add email:"+address);
                     existsFlag = 1;
                 }
             });
             if(existsFlag == 0)
             {
-                console.log("add email:"+address);
+                //console.log("add email:"+address);
                 if(name == ''){
                     name = address;
                 }
