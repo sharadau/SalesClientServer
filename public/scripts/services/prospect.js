@@ -84,7 +84,25 @@ angular.module('dashboardApp')
 
       return response;
     };
+        this.getProspectsInitiatedInMonth = function (month, year) {
+            var successCallback, errorCallback;
+            var response = {
+                success: function (callback) {successCallback = callback; return response;},
+                error: function (callback) {errorCallback = callback; return response;}
+            };
 
+            $http.get(service_base_url+'/api/projects/getProjectForMonth/'+month+"::"+year)
+                .success(function(item){
+                    successCallback(item);
+                })
+                .error(function(error){
+                    if (error) {
+                        errorCallback({msg: 'No prospect with: ' + prospectId + ' id'});
+                    }
+                });
+
+            return response;
+        };
     this.addProspect = function(newProspect1) {
     	
       var newProspect={};
@@ -180,7 +198,6 @@ angular.module('dashboardApp')
 
     };
     this.ClosureDetails = function(prospect_id, stage, stage_id, closureNotes, engagementLetter) {
-        console.log("closureNotes:"+closureNotes);
         var newProspect = {};
         newProspect._id = prospect_id;
         newProspect.closureNotes = closureNotes;

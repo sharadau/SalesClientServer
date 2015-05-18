@@ -59,6 +59,11 @@ angular
         templateUrl: "views/dashboard.html",
         controller: "DashboardCtrl"
       })
+        .state('auth.chart', {
+            url: "/chart",
+            templateUrl: "views/chart.html",
+            controller: "ChartCtrl"
+        })
       .state('auth.home', {
         url: "/home",
         templateUrl: "views/home.html",

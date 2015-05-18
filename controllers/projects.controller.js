@@ -7,6 +7,7 @@ var mongoose = require('mongoose'),
     Organizations = mongoose.model('Organizations');
 
 exports.list=function(req,res,next){
+    console.log("list");
     Projects.find(function(err, projects){
         if(err){
             console.log("Error");
@@ -268,4 +269,102 @@ exports.updateStage=function(req,res){
             res.send(project);
         }
     });
+};
+exports.getProjectForMonth=function(req,res,next,monyear){
+
+    console.log("getProjectForMonth");
+    console.log("month"+monyear);
+
+    monthyear = monyear.split("::");
+
+    console.log("month:"+monthyear[0]+" year:"+monthyear[1]);
+
+    var year = monthyear[1];
+
+    var monthMapping = new Array();
+
+    monthMapping[0] = new Array();
+    monthMapping[1] = new Array();
+    monthMapping[2] = new Array();
+    monthMapping[3] = new Array();
+    monthMapping[4] = new Array();
+    monthMapping[5] = new Array();
+    monthMapping[6] = new Array();
+    monthMapping[7] = new Array();
+    monthMapping[8] = new Array();
+    monthMapping[9] = new Array();
+    monthMapping[10] = new Array();
+    monthMapping[11] = new Array();
+    monthMapping[12] = new Array();
+
+    monthMapping[0][0] = 'Jan';
+    monthMapping[0][1] = year + ',1,1';
+    monthMapping[0][2] = year + ',1,31';
+    monthMapping[1][0] = 'Feb';
+    monthMapping[1][1] = year + ',2,1';
+    monthMapping[1][2] = year + ',2,28';
+    monthMapping[2][0] = 'Mar';
+    monthMapping[2][1] = year + ',3,1';
+    monthMapping[2][2] = year + ',3,31';
+    monthMapping[3][0] = 'Apr';
+    monthMapping[3][1] = year + ',4,1';
+    monthMapping[3][2] = year + ',4,30';
+    monthMapping[4][0] = 'May';
+    monthMapping[4][1] = year + ',5,1';
+    monthMapping[4][2] = year + ',5,31';
+    monthMapping[5][0] = 'Jun';
+    monthMapping[5][1] = year + ',6,1';
+    monthMapping[5][2] = year + ',6,30';
+    monthMapping[6][0] = 'Jul';
+    monthMapping[6][1] = year + ',7,1';
+    monthMapping[6][2] = year + ',7,31';
+    monthMapping[7][0] = 'Aug';
+    monthMapping[7][1] = year + ',8,1';
+    monthMapping[7][2] = year + ',8,31';
+    monthMapping[8][0] = 'Sep';
+    monthMapping[8][1] = year + ',9,1';
+    monthMapping[8][2] = year + ',9,30';
+    monthMapping[10][0] = 'Oct';
+    monthMapping[10][1] = year + ',10,1';
+    monthMapping[10][2] = year + ',10,31';
+    monthMapping[11][0] = 'Nov';
+    monthMapping[11][1] = year + ',11,1';
+    monthMapping[11][2] = year + ',11,30';
+    monthMapping[12][0] = 'Dec';
+    monthMapping[12][1] = year + ',12,1';
+    monthMapping[12][2] = year + ',12,31';
+
+    for(i=0;i<12;i++)
+    {
+        if(monthyear[0] == monthMapping[i][0])
+        {
+            start = monthMapping[i][1];
+            end = monthMapping[i][2];
+        }
+    }
+console.log("start:"+start+" end:"+end);
+    Projects.find({"start_date": {"$gte": start, "$lt": end}}, function(err, projects){
+        if(err){
+            console.log("Error:"+err);
+            next(err);
+        }
+        res.send(projects);
+    });
+
+    /*Projects.find({"start_date": {"$gte": start, "$lt": end}}, function(err, projects){
+        if(err){
+            next(err);
+        }
+        if(projects){
+            req.projects=projects;
+            next();
+        }
+        else{
+            var error={
+                error:"projects not found"
+            };
+            res.status(404).send(error);
+        }
+    });
+*/
 };

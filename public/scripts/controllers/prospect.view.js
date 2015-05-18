@@ -97,17 +97,19 @@ angular.module('dashboardApp')
 
         $scope.acceptProspect = function(newProspect, prospectId, stage, stage_id) {
             console.log("engagement letter:"+$scope.uploadFiles[0].name);
+            console.log("newprospect:"+newProspect);
+            console.log("closureNotes:"+newProspect.closureNotes);
 
-            newProspect = newProspect || {};
+           // newProspect = newProspect || {};
 
-            $scope.newProspect = {};
+           // $scope.newProspect = {};
            // console.log("notes:"+notes);
             //console.log("notess:"+newProspect.closureNotes);
             //console.log(newProspect);
             $scope.onFileSelect($scope.uploadFiles, newProspect);
 
            // ProspectService.updateStage(prospectId, stage, stage_id);
-            ProspectService.ClosureDetails(prospectId, stage, stage_id, "closurenotes", $scope.uploadFiles[0].name);
+            ProspectService.ClosureDetails(prospectId, stage, stage_id, newProspect.closureNotes, $scope.uploadFiles[0].name);
             $scope.prospect.state_id = stage_id;
             $scope.prospect.engagementLetter = $scope.uploadFiles[0].name;
 

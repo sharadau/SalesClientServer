@@ -191,8 +191,10 @@ angular.module('dashboardApp')
     $scope.series1 = ['Active', 'Converted'];
     $scope.series2 = ['Bay Area', 'Texas'];
     $scope.data1 = [58, 48 ];
-    $scope.onClick = function (points, evt) {
-      console.log(points, evt);
-      $state.transitionTo('auth.home');
+    $scope.onClick = function (points, element) {
+      console.log(JSON.stringify(points));
+        console.log("month: "+points[0].label);
+        $state.month = points[0].label;
+      $state.transitionTo('auth.chart');
     };
   });

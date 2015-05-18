@@ -17,7 +17,11 @@ module.exports=function(app){
     app.route('/api/projects/updateStage/:prjId')
         .get(projects.read)
         .put(projects.updateStage);
+    app.route('/api/projects/getProjectForMonth/:month')
+        .get(projects.list)
+        .get(projects.getProjectForMonth);
 
     app.param('prjId',projects.projectById);
+    app.param('month',projects.getProjectForMonth);
 
 };
