@@ -16,6 +16,22 @@ exports.list=function(req,res,next){
         res.send(emails);
     })
 };
+exports.emailById=function(req,res,next,id){
+    Emails.findOne({_id:id},function(err,emails){
+        if(err){
+            next(err);
+        }
+        if(emails){
+            req.emails=emails;
+            next();
+            ///res.send(organization);
+        }
+        else{
+            var error= { error:"email not found"};
+            res.status(404).send(error);
+        }
+    });
+};
 exports.uncategorizedList=function(req,res,next){
     console.log("uncategorizedList ");
     //Emails.find({stage: "0"}, function (err, emails) {
@@ -156,6 +172,42 @@ exports.getEmailsForProspect=function(req,res,next,prospect_id){
             res.status(404).send(error);
         }
     });
+};
+
+exports.delete=function(req,res){
+    var emails = req.emails;
+        emails.remove(function(err){
+        if(err){
+            console.log(err);
+            res.status(400).send(err.err);
+        }
+        else{
+            res.send(emails);
+        }
+    })
+};
+
+exports.update=function(req,res){
+    console.log("update email"+JSON.stringify(req.emails));
+    console.log("update body"+JSON.stringify(req.body));
+    //console.log("update email"+JSON.stringify(req));
+    var emails = req.emails;
+    var newEmail = req.body;
+
+    for (var i in req.body) {
+        emails[i] = JSON.parse(JSON.stringify(req.body[i]));
+    }
+
+    emails.save(function(err){
+        if(err){
+            console.log(err);
+            res.status(400).send(err.err);
+        }
+        else{
+            res.send(emails);
+        }
+    })
+
 };
 
 

@@ -21,27 +21,41 @@
     </div>
   </form><br>
 </div>
-<div class="input-group" style="align-content:center;width: 50%">
-  <span class="input-group-addon">Select Stage</span>
-  <select class="form-control">
-    <option>Initiation</option>
-    <option>Internal Preparation</option>
-    <option>Clarification</option>
-    <option>Engagement Start</option>
-  </select>
+<form name="uListForm" >
+<div class="input-group">
+          <span ng-if="prospect_id == ''" class="input-group-addon" required="true">Select Prospect</span>
+          <select ng-if="prospect_id == ''" class="form-control" ng-change="prospectSelected(prospect)" ng-init="prospect='prospect[0]'" data-ng-model="prospect" ng-options="prospect.name for prospect in prospects">
+          </select>
+    <span class="input-group-addon" required="true">Select Stage</span>
+    <select class="form-control" data-ng-model="stage" style="align:center;width:50%">
+        <option value="1">Initiation</option>
+        <option value="2">Clarification</option>
+        <option value="3">Internal Preparation</option>
+        <option value="4">Client Call</option>
+        <option value="5">Engagement Start</option>
+    </select>
     <span class="input-group-btn">
-      <button class="btn btn-default" type="button">Move</button>
+      <button class="btn btn-default" data-ng-click="moveEmail()">Move</button>
     </span>
 </div><br>
+    </form>
 <table class="table table-hover table-responsive"><th>Email Subject</th><th>Date</th><th></th></table>
 <table class="table table-hover table-responsive table-condensed tab-content" data-ng-repeat="email in emails | filter:searchText">
   <td width="50%">
-    <a ui-sref="email.view({emailId: email._id})">{{email.subject}}</a>
+    <a ui-sref="email.view({emailId: email._id})" popover-placement="right" popover="{{email.contents}}" popover-title="{{email.subject}}">{{email.subject}}</a>
+    <!--<a popover-placement="right" popover-template="myPopoverTemplate.html" popover-title="{{email.subject}}">{{email.subject}}</a>
+      <script type="text/ng-template" id="myPopoverTemplate.html">
+          <div>{{email.contents}}</div>
+          <div class="form-group">
+              <label>Popup Title:</label>
+              <input type="text" ng-model="email.subject" class="form-control">
+          </div>
+      </script>-->
   </td>
   <td>
     {{email.send_date}}
   </td>
-  <td><input type="checkbox"></td>
+  <td><input type="checkbox" data-ng-click="selectEmail(email._id)"></td>
 </table>
 
 

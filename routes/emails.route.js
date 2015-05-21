@@ -10,6 +10,9 @@ module.exports=function(app){
 
     app.route('/api/emails')
         .post(emails.create);
+    app.route('/api/emails/update/:eId')
+        .get(emails.read)
+        .put(emails.update)
     app.route('/api/emails/ulist')
        .get(emails.uncategorizedList);
     app.route('/api/emails/view/:pId')
@@ -22,6 +25,7 @@ module.exports=function(app){
 
     app.param('prospectIdStage',emails.getEmailsForProspectStage);
     app.param('pId',emails.getEmailsForProspect);
+    app.param('eId',emails.emailById);
    // app.param('prospect_id',emails.uncategorizedListForProspect);
 
 };

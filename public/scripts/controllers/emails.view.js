@@ -19,4 +19,13 @@ angular.module('dashboardApp')
       {subject: "Initied PayWize",body:"Internal Preparation",_id:"2",date:"02/10/2014"},
       {subject: " Initied CNM Connect",body:"Initiation",_id:"3",date:"12/12/2014"}
     ];
+        $scope.emailsSelected = new Array();
+
+        $scope.selectEmail = function(email_id){
+                console.log("emails is selected");
+            $scope.emailsSelected[$scope.emailsSelected.length] = email_id;
+        };
+        $scope.moveEmail = function(){
+            console.log("selected emails:"+$scope.emailsSelected);
+        };
   });

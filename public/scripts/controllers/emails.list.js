@@ -8,7 +8,7 @@
  * Controller of the dashboardApp
  */
 angular.module('dashboardApp')
-  .controller('EmailsListCtrl', function ($scope,$stateParams, Emails) {
+  .controller('EmailsListCtrl', function ($scope,$stateParams, Emails, ProspectService) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -20,18 +20,45 @@ angular.module('dashboardApp')
       {subject: " Initied CNM Connect",body:"Initiation",_id:"3",date:"12/12/2014"}
     ];*/
 
-
+        $scope.prospect_id = $stateParams.prospect_id;
         //uncategorized emails
         Emails.getEmailsForProspectStage($stateParams.prospect_id, 0)
             .success (function (data){
             $scope.emails = data;
             //console.log("uncategorized emails:"+$scope.emails[0].stage);
-            $scope.emails.forEach(function (eml) {
-                console.log("subject:"+eml.subject);
-            });
+           // $scope.emails.forEach(function (eml) {
+              //  console.log("subject:"+eml.subject);
+           // });
         })
             .error (function (error){
             console.log (error.msg);}
         );
+
+        $scope.emailsSelected = new Array();
+
+        $scope.selectEmail = function(email_id){
+            $scope.emailsSelected[$scope.emailsSelected.length] = email_id;
+        };
+        $scope.moveEmail = function(){
+            console.log("selected emails:"+$scope.emailsSelected);
+            console.log("selected stage:"+$scope.stage);
+
+
+            for(var i=0;i<$scope.emailsSelected.length;i++)
+            {
+                //update emails
+                Emails.updateEmail($scope.emailsSelected[i], '', $scope.stage )
+                    .success (function (data){
+                    console.log("Email is moved"+data);
+                })
+                    .error (function (error){
+                        console.log (error.msg);}
+                );
+            }
+            alert("Email moved");
+            $scope.stage = '';
+            window.location.reload();
+            //$scope.emailsSelected = new Array();
+        };
 
     });

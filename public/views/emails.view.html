@@ -30,7 +30,7 @@
     <option>Engagement Start</option>
   </select>
     <span class="input-group-btn">
-      <button class="btn btn-default" type="button">Move</button>
+      <button class="btn btn-default" data-ng-click="moveEmail()">Move</button>
     </span>
 </div><br>
 <table class="table table-hover table-responsive table-condensed tab-content" data-ng-repeat="email in emails | filter:searchText">
@@ -40,7 +40,7 @@
   <td>
     {{email.date}}
   </td>
-  <td><input type="checkbox"></td>
+  <td><input type="checkbox" data-ng-click="selectEmail(email._id)"></td>
 </table>
 
 

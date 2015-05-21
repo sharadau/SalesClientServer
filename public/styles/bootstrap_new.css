@@ -5928,7 +5928,7 @@ button.close {
   left: 0;
   z-index: 1060;
   display: none;
-  max-width: 276px;
+  max-width: 776px;
   padding: 1px;
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
@@ -5946,7 +5946,7 @@ button.close {
   white-space: normal;
 }
 .popover.top {
-  margin-top: -10px;
+  margin-top: 0px;
 }
 .popover.right {
   margin-left: 10px;
@@ -5967,6 +5967,9 @@ button.close {
 }
 .popover-content {
   padding: 9px 14px;
+    overflow-y: auto;
+    overflow-x: auto;
+    height: 300px;
 }
 .popover > .arrow,
 .popover > .arrow:after {
