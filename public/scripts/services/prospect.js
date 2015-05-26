@@ -216,6 +216,55 @@ angular.module('dashboardApp')
                 }
             });
     }
+        this.saveNotes = function(prospect_id, notes, stage) {
+            var newProspect = {};
+
+            newProspect._id = prospect_id;
+            if(stage == '1'){
+                newProspect.notes1 = notes;
+            }else if (stage == '2'){
+                newProspect.notes2 = notes;
+            }else if (stage == '3'){
+                newProspect.notes3 = notes;
+            }else if (stage == '4'){
+                newProspect.notes4 = notes;
+            }else if (stage == '5'){
+                newProspect.notes5 = notes;
+            }
+
+
+            console.log("prospect:"+newProspect);
+            $http.put(service_base_url+'/api/projects/' + newProspect._id, newProspect)
+                .success(function (item) {
+                    alert("Prospect notes saved");
+                })
+                .error(function (error) {
+                    if (error) {
+                        console.log(error);
+                    }
+                });
+        }
+        this.addQuestions = function(prospect_id, questions, questionsDoc) {
+            var newProspect = {};
+
+            newProspect._id = prospect_id;
+            newProspect.questions = questions;
+            if(questionsDoc != '')
+            {
+                newProspect.questionsDoc = questionsDoc;
+            }
+
+            console.log("prospect:"+newProspect);
+            $http.put(service_base_url+'/api/projects/' + newProspect._id, newProspect)
+                .success(function (item) {
+                    alert("Prospect questions added");
+                })
+                .error(function (error) {
+                    if (error) {
+                        console.log(error);
+                    }
+                });
+        }
     this.updateStage = function(prospect_id, stage,stage_id) {
 
         var newProspect = {};

@@ -56,8 +56,8 @@ angular.module('dashboardApp')
                 );
             }
             alert("Email moved");
+            $scope.prospect = '';
             $scope.stage = '';
-            window.location.reload();
             //$scope.emailsSelected = new Array();
         };
 

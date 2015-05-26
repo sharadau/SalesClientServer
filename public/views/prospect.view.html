@@ -79,11 +79,21 @@
       <td><a ng-if="prospect.state_id < '2'" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:1})"> Email</a> </td></tr>
       </table>
       <table>
-      <tr><td width="50%">Prospect is initiated on {{prospect.updatedDate}}</td><td></td></tr>
+          <tr><td><b>Notes:</b></td></tr>
+          <tr>
+              <td> <div ng-repeat="textArea1 in textAreas1">
+                  <textarea id="maxlength_textarea" class="form-control" maxlength="225" rows="2" cols="200" data-ng-model="textArea1.textBox" placeholder="textbox"></textarea>
+              </div></td>
+              <td>  <button class="btn btn-default" ng-click="addMore(1)">Add Notes</button></td>
+              <td> <button class="btn btn-default" ng-click="SaveNotes(prospect._id,'1')">Save Notes</button></td>
+          </tr>
+      </table>
+      <table><br/>
+      <!--<tr><td width="50%">Prospect is initiated on {{prospect.updatedDate}}</td><td></td></tr>-->
       <tr ><td width="50%"><b>Initiation Email Sent on: </b></td><td ng-if="prospect._id == emailsForStage1[0].prospect_id && email1.stage == 1">{{emailsForStage1[0].send_date}}</td></tr>
       <tr><td width="50%"><b>Email Subject: </b></td><td ng-if="prospect._id == emailsForStage1[0].prospect_id && email1.stage == 1">{{emailsForStage1[0].subject}}</td></tr>
       <tr><td width="50%"><b>Message: </b></td><td></td></tr>
-     </table>
+     </table><br/>
      <table data-ng-repeat="email1 in emailsForStage1">
       <tr ng-if="prospect._id == email1.prospect_id && email1.stage == 1"><td width="50%" colspan="2"><b>Sent from {{email1.from}} on {{email1.send_date}}:</b></td></tr>
       <tr ng-if="prospect._id == email1.prospect_id && email1.stage == 1"><td width="50%">Subject: {{email1.subject}}</td><td></td></tr>
@@ -120,15 +130,55 @@
     <td><a ng-if="prospect.state_id < '3'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Internal Preparation',3)"  title="Move in Next state"> Mark Complete </a></td>
     <td><a ng-if="prospect.state_id < '3'" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:2})"> Email</a> </td></tr>
     </table>
+      <table>
+          <tr><td><b>Notes:</b></td></tr>
+          <tr>
+              <td> <div ng-repeat="textArea2 in textAreas2">
+                  <textarea id="maxlength_textarea" class="form-control" maxlength="225" rows="2" cols="200" data-ng-model="textArea2.textBox" placeholder="textbox"></textarea>
+              </div></td>
+              <td>  <button class="btn btn-default" ng-click="addMore(2)">Add Notes</button></td>
+              <td> <button class="btn btn-default" ng-click="SaveNotes(prospect._id,'2')">Save Notes</button></td>
+          </tr>
+      </table>
+      <form name="questionsForm" enctype='multipart/form-data' ng-submit="addQuestions(newProspect,prospect._id,'Converted','6')" >
       <table width="100%">
-          <tr><td>
+          <tr><td  width="15%">
               <label class="control-label">Questions: </label>
-          </td>
+          </td><td width="20%"></td>
               <td>
                   <textarea rows="5" class="form-control" data-ng-model="newProspect.questions" placeholder="Please add questions here"></textarea>
               </td>
           </tr>
+          <tr>
+              <div class="panel-wrapper" ng-if="prospect.questionsDoc == ''"  >
+              <td width="20%" colspan="2">
+                  <label ng-if="prospect.questionsDoc == '' || prospect.questionsDoc == 'undefined'" class="control-label">Upload Questions Document: </label>
+              </td>
+                 <td> <input ng-if="prospect.questionsDoc == '' || prospect.questionsDoc == 'undefined'" type="file" ng-file-select="fileSelection($files)" class="form-control" file-model="questionsDoc"/>
+                  <label ng-if="prospect.questionsDoc == '' || prospect.questionsDoc == 'undefined'" class="control-label" data-ng-model="newProspect.uploadStatus"></label>
+              </td>
+              </div>
+              </tr>
+          <tr>
+               <div class="panel-wrapper" ng-if="prospect.questionsDoc != ''">
+                 <td colspan="2">
+                  <label class="control-label">Questions Document: </label>
+                 </td>
+                 <td>
+                  <a href='../uploads/{{prospect.questionsDoc}}' > {{prospect.questionsDoc}}</a>
+                 </td>
+              </div>
+              </td>
+          </tr>
+          <tr>
+              <td colspan="2">
+                  <button  class="btn btn-default" type="submit" ng-disabled="form.$invalid" >
+                      <span class="glyphicon glyphicon-thumbs-up"></span> Save Questions
+                  </button>
+                  </td>
+          </tr>
       </table>
+          </form>
     <table data-ng-repeat="email2 in emailsForStage2">
       <tr ng-if="prospect._id == email2.prospect_id && email2.stage == 2"><td width="50%" colspan="2"><b>Sent from {{email2.from}} on {{email2.send_date}}:</b></td></tr>
         <tr ng-if="prospect._id == email2.prospect_id && email2.stage == 2"><td width="50%">Subject: {{email2.subject}}</td><td></td></tr>
@@ -145,6 +195,16 @@
     <td><a ng-if="prospect.state_id < '4'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Client Call',4)" title="Move in Next state"> Mark Complete </a></td>
     <td><a ng-if="prospect.state_id < '4'" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:3})"> Email</a> </td></tr>
     </table>
+      <table>
+          <tr><td><b>Notes:</b></td></tr>
+          <tr>
+              <td> <div ng-repeat="textArea3 in textAreas3">
+                  <textarea id="maxlength_textarea" class="form-control" maxlength="225" rows="2" cols="200" data-ng-model="textArea3.textBox" placeholder="textbox"></textarea>
+              </div></td>
+              <td>  <button class="btn btn-default" ng-click="addMore(3)">Add Notes</button></td>
+              <td> <button class="btn btn-default" ng-click="SaveNotes(prospect._id,'3')">Save Notes</button></td>
+          </tr>
+      </table><br/>
     <table data-ng-repeat="email3 in emailsForStage3">
       <tr ng-if="prospect._id == email3.prospect_id && email3.stage == 3"><td width="50%" colspan="2"><b>Sent from {{email3.from}} on {{email3.send_date}}:</b></td></tr>
        <tr ng-if="prospect._id == email3.prospect_id && email3.stage == 3"><td width="50%">Subject: {{email3.subject}}</td><td></td></tr>
@@ -160,7 +220,17 @@
     <td><a ng-if="prospect.state_id < '5'" class="glyphicon glyphicon-calendar" data-ng-click="scheduleCall(prospect._id)" title="Schedule Call"> Schedule Call </a></td>
     <td><a ng-if="prospect.state_id < '5'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Engagement start',5)" title="Move in Next state"> Mark Complete </a></td>
     <td><a ng-if="prospect.state_id < '5'" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:4})"> Email</a> </td></tr>
-    </table>
+    </table><br/>
+      <table>
+          <tr><td><b>Notes:</b></td></tr>
+          <tr>
+              <td> <div ng-repeat="textArea4 in textAreas4">
+                  <textarea id="maxlength_textarea" class="form-control" maxlength="225" rows="2" cols="200" data-ng-model="textArea4.textBox" placeholder="textbox"></textarea>
+              </div></td>
+              <td>  <button class="btn btn-default" ng-click="addMore(4)">Add Notes</button></td>
+              <td> <button class="btn btn-default" ng-click="SaveNotes(prospect._id,'4')">Save Notes</button></td>
+          </tr>
+      </table>
     <table data-ng-repeat="email4 in emailsForStage4">
       <tr ng-if="prospect._id == email4.prospect_id && email4.stage == 4"><td width="50%" colspan="2"><b>Sent from {{email4.from}} on {{email4.send_date}}:</b></td></tr>
         <tr ng-if="prospect._id == email4.prospect_id && email4.stage == 4"><td width="50%">Subject: {{email4.subject}}</td><td></td></tr>
@@ -179,7 +249,17 @@
         <td><a ng-if="prospect.state_id < '6'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Converted',6)" title="Move in Next state"> Mark Complete </a></td>
         <td><a ng-if="prospect.state_id < '6'" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,to:prospect.participants,stage:5})"> Email</a> </td>
     </tr>
-   </table>
+   </table><br/>
+      <table>
+          <tr><td><b>Notes:</b></td></tr>
+          <tr>
+              <td> <div ng-repeat="textArea5 in textAreas5">
+                  <textarea id="maxlength_textarea" class="form-control" maxlength="225" rows="2" cols="200" data-ng-model="textArea5.textBox" placeholder="textbox"></textarea>
+              </div></td>
+              <td>  <button class="btn btn-default" ng-click="addMore(5)">Add Notes</button></td>
+              <td> <button class="btn btn-default" ng-click="SaveNotes(prospect._id,'5')">Save Notes</button></td>
+          </tr>
+      </table>
       <table data-ng-repeat="email5 in emailsForStage5">
           <tr ng-if="prospect._id == email5.prospect_id && email5.stage == 5"><td width="50%" colspan="2"><b>Sent from {{email5.from}} on {{email5.send_date}}:</b></td></tr>
           <tr ng-if="prospect._id == email5.prospect_id && email5.stage == 5"><td width="50%">Subject: {{email5.subject}}</td><td></td></tr>
@@ -191,7 +271,7 @@
        <tr><td width ="90%">
        <form name="newProspectForm" enctype='multipart/form-data' ng-submit="acceptProspect(newProspect,prospect._id,'Converted','6')" >
            <div class="panel-wrapper">
-               <label class="control-label">Notes: </label>
+               <label class="control-label">Closure Details: </label>
                <textarea rows="5" class="form-control" data-ng-model="newProspect.closureNotes" placeholder="Please add accept or reject reason"></textarea>
            </div>
 

@@ -123,6 +123,7 @@ angular.module('dashboardApp')
       return undefined;
     };
 
+
     var getParticipantIndex = function (prospects, prospectId) {
       var len = prospects.length;
       for (var idx = 0; idx < len; idx++) {

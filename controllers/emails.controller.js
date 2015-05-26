@@ -153,7 +153,7 @@ exports.getEmailsForProspectStage=function(req,res,next,prospect_id){
     //}
 };
 exports.getEmailsForProspect=function(req,res,next,prospect_id){
-//console.log("getEmailsForProspect::: "+prospect_id);
+console.log("getEmailsForProspect::: "+prospect_id);
 
     Emails.find({prospect_id: prospect_id},function(err,emails){
 
@@ -171,6 +171,7 @@ exports.getEmailsForProspect=function(req,res,next,prospect_id){
             console.log(error);
             res.status(404).send(error);
         }
+        //res.send(emails);
     });
 };
 
@@ -188,9 +189,6 @@ exports.delete=function(req,res){
 };
 
 exports.update=function(req,res){
-    console.log("update email"+JSON.stringify(req.emails));
-    console.log("update body"+JSON.stringify(req.body));
-    //console.log("update email"+JSON.stringify(req));
     var emails = req.emails;
     var newEmail = req.body;
 

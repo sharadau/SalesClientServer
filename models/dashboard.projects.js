@@ -103,6 +103,36 @@ var ProjectsSchema = new Schema({
     initiatedBy:{
         type:String,
         required:false
+    },
+    questions:{
+        type:String,
+        required:false
+    },
+    questionsDoc:{
+        type:String,
+        required:false
+    },
+    notes1:{
+        type:[String],
+        required:false
+    },
+    notes2:{
+        type:[String],
+        required:false
+    },
+    notes3:{
+        type:[String],
+        required:false
+    },
+    notes4:{
+        type:[String],
+        required:false
+    },
+    notes5:{
+        type:[String],
+        required:false
     }
+
+
 });
 mongoose.model('Projects',ProjectsSchema);

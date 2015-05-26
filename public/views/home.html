@@ -1,4 +1,6 @@
-<div class="header">
+<tabset>
+    <tab heading="Pipeline">
+<!--<div class="header">
   <div class="navbar navbar-default" role="navigation">
     <div class="container">
       <div class="navbar-header">
@@ -6,8 +8,8 @@
       </div>
       </div>
     </div>
-  </div>
-
+  </div>-->
+<br/>
   <div>
     <form>
      <!-- <div ng-if="prospects.length > 5">-->
@@ -21,15 +23,41 @@
       </div>
     </form><br>
   </div>
-  <table class="table table-hover table-responsive"><th>Prospect</th><th>State</th></table>
+  <table class="table table-hover table-responsive"><th width="40%">Prospect</th><th width="20%">State</th><th width="20%">Active From</th><th width="20%">No. of Emails</th></table>
   <table class="table table-hover table-responsive table-condensed tab-content" data-ng-repeat="prospect in prospects | filter:searchText">
-    <td width="50%">
+    <td width="40%">
         <a ui-sref="auth.prospect.view({prospectId: prospect._id})">{{prospect.name}}</a>
      </td>
-    <td>
+    <td width="20%">
       {{prospect.state}}
     </td>
+      <td width="20%" >
+          {{prospect.start_date}}
+      </td>
+      <td width="20%" align="center">
+          {{prospect.no_of_emails}}
+      </td>
     </table>
+</tab>
+    <tab heading="Search">
+         <div class="container">
+            <form name="newProspectForm" ng-submit="searchProspect(newProspect)" >
+                <br/>
+                <div class="panel-wrapper">
+                    <label class="control-label">Participant: </label>
+                    <input type="text" class="form-control" data-ng-model="newProspect.name" />
+                </div>
 
+                <div class="panel-wrapper" >
+                    <label class="control-label">Technology: </label>
+                    <input type="text" class="form-control" data-ng-model="newProspect.technology"/>
+                </div>
+                <button class="btn btn-default" type="submit" ng-disabled="form.$invalid" >
+                    <span class="glyphicon glyphicon-plus"></span> Search
+                </button>
+            </form>
+        </div>
+    </tab>
+    </tabset>
 
 

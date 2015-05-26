@@ -8,21 +8,83 @@
  * Controller of the dashboardApp
  */
 angular.module('dashboardApp')
-  .controller('ProspectViewCtrl', function ($scope, $stateParams, $parse, $upload,$sce, ProspectService, Emails) {
+  .controller('ProspectViewCtrl', function ($scope, $stateParams, $parse, $upload,$sce, ProspectService, Emails, auth) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
       'Karma'
     ];
 
+        $scope.textAreas1=[];
+        $scope.textAreas2=[];
+        $scope.textAreas3=[];
+        $scope.textAreas4=[];
+        $scope.textAreas5=[];
+
+        $scope.addMore=function(stage){
+            if(stage == '1')
+            {
+                $scope.textAreas1.push({textBox:""});
+            }else if(stage == '2')
+            {
+                $scope.textAreas2.push({textBox:""});
+            }else if(stage == '3')
+            {
+                $scope.textAreas3.push({textBox:""});
+            }else if(stage == '4')
+            {
+                $scope.textAreas4.push({textBox:""});
+            }else if(stage == '5')
+            {
+                $scope.textAreas5.push({textBox:""});
+            }
+
+        }
+        $scope.SaveNotes=function(prospectId,stage){
+            var notes = new Array();
+            var sender = auth.profile.name;
+
+            if(stage=='1') {
+                for (var i = 0; i < $scope.textAreas1.length; i++) {
+                    console.log($scope.textAreas1[i].textBox);
+                    notes[i] = $scope.textAreas1[i].textBox + "\n\r" + "-" + sender;
+                }
+            }
+            if(stage=='2') {
+                for (var i = 0; i < $scope.textAreas2.length; i++) {
+                    console.log($scope.textAreas2[i].textBox);
+                    notes[i] = $scope.textAreas2[i].textBox + "\n\r" + "-" + sender;
+                }
+            }
+            if(stage=='3') {
+                for (var i = 0; i < $scope.textAreas3.length; i++) {
+                    console.log($scope.textAreas3[i].textBox);
+                    notes[i] = $scope.textAreas3[i].textBox + "\n\r" + "-" + sender;
+                }
+            }
+            if(stage=='4') {
+                for (var i = 0; i < $scope.textAreas4.length; i++) {
+                    console.log($scope.textAreas4[i].textBox);
+                    notes[i] = $scope.textAreas4[i].textBox + "\n\r" + "-" + sender;
+                }
+            }
+            if(stage=='5') {
+                for (var i = 0; i < $scope.textAreas5.length; i++) {
+                    console.log($scope.textAreas5[i].textBox);
+                    notes[i] = $scope.textAreas5[i].textBox + "\n\r" + "-" + sender;
+                }
+            }
+
+            //update notes
+            ProspectService.saveNotes(prospectId, notes, stage);
+
+        }
         //$scope.newProspect = {};
         $scope.fileSelection = function($files){
            // $files[0].name = $files[0].name + Date.now();
             //console.log("file name updated:"+Date.now());
             $scope.uploadFiles = $files;
-
         };
-        //$scope.uploadFiles =
         $scope.onFileSelect = function($files, newProspect) {
             //$files: an array of files selected, each file has name, size, and type.
             for (var i = 0; i < $files.length; i++) {
@@ -67,6 +129,31 @@ angular.module('dashboardApp')
       .success (function (data){
       $scope.prospect = data;
         $scope.prospect.participants = "sharada.umarane@synerzip.com";
+        if(typeof $scope.prospect.questionsDoc != 'string')
+        {
+            $scope.prospect.questionsDoc = "";
+        }
+
+        for(var k=0;k<$scope.prospect.notes1.length;k++)
+        {
+            $scope.textAreas1.push({textBox:$scope.prospect.notes1[k]});
+        }
+        for(var k=0;k<$scope.prospect.notes2.length;k++)
+        {
+            $scope.textAreas2.push({textBox:$scope.prospect.notes2[k]});
+        }
+        for(var k=0;k<$scope.prospect.notes3.length;k++)
+        {
+            $scope.textAreas3.push({textBox:$scope.prospect.notes3[k]});
+        }
+        for(var k=0;k<$scope.prospect.notes4.length;k++)
+        {
+            $scope.textAreas4.push({textBox:$scope.prospect.notes4[k]});
+        }
+        for(var k=0;k<$scope.prospect.notes5.length;k++)
+        {
+            $scope.textAreas5.push({textBox:$scope.prospect.notes5[k]});
+        }
         $scope.newProspect = JSON.parse(JSON.stringify($scope.prospect));
 
     })
@@ -96,9 +183,6 @@ angular.module('dashboardApp')
     console.log (error.msg);});
 
         $scope.acceptProspect = function(newProspect, prospectId, stage, stage_id) {
-            console.log("engagement letter:"+$scope.uploadFiles[0].name);
-            console.log("newprospect:"+newProspect);
-            console.log("closureNotes:"+newProspect.closureNotes);
 
            // newProspect = newProspect || {};
 
@@ -112,6 +196,20 @@ angular.module('dashboardApp')
             ProspectService.ClosureDetails(prospectId, stage, stage_id, newProspect.closureNotes, $scope.uploadFiles[0].name);
             $scope.prospect.state_id = stage_id;
             $scope.prospect.engagementLetter = $scope.uploadFiles[0].name;
+
+
+        };
+        $scope.addQuestions = function(newProspect, prospectId) {
+            var filename = '';
+            if((typeof $scope.uploadFiles) == 'object')
+            {
+                console.log("add question");
+                $scope.onFileSelect($scope.uploadFiles, newProspect);
+                filename = $scope.uploadFiles[0].name;
+                $scope.prospect.questionsDoc = $scope.uploadFiles[0].name;
+            }
+
+            ProspectService.addQuestions(prospectId, newProspect.questions, filename);
 
 
         };

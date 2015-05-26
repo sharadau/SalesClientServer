@@ -14,18 +14,19 @@ module.exports=function(app){
         .get(emails.read)
         .put(emails.update)
     app.route('/api/emails/ulist')
-       .get(emails.uncategorizedList);
+        .get(emails.uncategorizedList);
     app.route('/api/emails/view/:pId')
-        .get(emails.list)
+        //.get(emails.list)
         .get(emails.read);
     app.route('/api/emails/:prospectIdStage')
         .get(emails.read);
     /*app.route('/api/emails/uncategorizedEmailsForProspect/:prospect_id')
-        .get(emails.read);*/
+     .get(emails.read);*/
 
     app.param('prospectIdStage',emails.getEmailsForProspectStage);
     app.param('pId',emails.getEmailsForProspect);
     app.param('eId',emails.emailById);
-   // app.param('prospect_id',emails.uncategorizedListForProspect);
+    // app.param('prospect_id',emails.uncategorizedListForProspect);
+
 
 };
