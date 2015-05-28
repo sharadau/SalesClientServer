@@ -100,6 +100,7 @@ module.exports=function(){
         {
             mail.message = '';
         }
+        console.log("check note:"+mail.message.toLowerCase().search("Please note this email is generated using Presales Dashboard"));
         if (mail.message.toLowerCase().search("Please note this email is generated using Presales Dashboard") == -1) {
             //put all emails in db
             var emails = require('../controllers/emails.controller');
@@ -132,6 +133,8 @@ module.exports=function(){
                     if (subject.toLowerCase().search(prospects[i].name.toLowerCase()) != -1) {
                         console.log("Found prospect in subject with id:" + prospects[i]._id + " name:" + prospects[i].name);
                         req.body.prospect_id = prospects[i]._id;
+                        console.log("current stage:"+prospects[i].state_id);
+                        req.body.stage = prospects[i].state_id;
                         prospectFlag = 1;
                         break;
                     } else if (typeof message == "string") {
@@ -139,6 +142,7 @@ module.exports=function(){
                         if (message.toLowerCase().search(prospects[i].name.toLowerCase()) != -1) {
                             console.log("Found prospect in message with id:" + prospects[i]._id + " name:" + prospects[i].name);
                             req.body.prospect_id = prospects[i]._id;
+                            req.body.stage = prospects[i].state_id;
                             prospectFlag = 1;
                             break;
                         }

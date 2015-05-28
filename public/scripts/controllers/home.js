@@ -24,8 +24,6 @@ angular.module('dashboardApp')
       $scope.prospects = data;
         $scope.count = 0;
         for(var i=0;i< $scope.prospects.length;i++) {
-            //console.log("email for prospect:" + $scope.prospects[i]._id);
-            console.log("email for prospect:"+$scope.prospects[i]._id);
           var emailList =  Emails.getUncategorizedEmailsForProspect($scope.prospects[i]._id)
                 .success(function (data1) {
                   $scope.prospects[$scope.count].no_of_emails = data1.length;
@@ -43,11 +41,30 @@ angular.module('dashboardApp')
       console.log (error);
     });
 
-        $scope.searchProspect = function (newProspect) {
+        $scope.searchProspect = function (searchVal) {
 
-            participant.getParticipantByName(newProspect.name)
+            participant.getProspectForParticipantTechnology(searchVal)
                 .success(function (data) {
-                    console.log("particiapnts by name: "+data);
+                    console.log("participant: "+JSON.stringify(data));
+                    $scope.count = 0;
+                    $scope.searchResult = new Array();
+                    for(var i=0;i<data.length;i++)
+                    {
+                        console.log("prospect id: "+JSON.stringify(data[i].prospect_id));
+                        ProspectService.getProspect(data[i].prospect_id)
+
+                            .success(function (data1) {
+                                $scope.searchResult[$scope.count] = {};
+                                $scope.searchResult[$scope.count].name = data1.name;
+                                $scope.searchResult[$scope.count]._id = data[$scope.count].prospect_id;
+                                $scope.searchResult[$scope.count].state = data1.state;
+                                $scope.count++;
+                            }).error(function (error) {
+                                console.log(error.msg);
+                            }
+                        );
+                    }
+
                 })
                 .error(function (error) {
                     console.log(error.msg);

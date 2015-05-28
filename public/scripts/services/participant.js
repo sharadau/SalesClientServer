@@ -52,6 +52,26 @@ angular.module('dashboardApp')
 
       return response;
     };
+        this.getProspectForParticipantTechnology = function (searchVal) {
+            var successCallback, errorCallback;
+            var response = {
+                success: function (callback) {successCallback = callback; return response;},
+                error: function (callback) {errorCallback = callback; return response;}
+            };
+            console.log("getProspectForParticipantTechnology prospectId: " + searchVal.name + " "+searchVal.technology);
+            // $http.get('http://localhost:3000/api/employees/prospect/'+participantId)
+            $http.get(service_base_url+'/api/participants/name/'+searchVal.name)
+                .success(function(item){
+                    successCallback(item);
+                })
+                .error(function(error){
+                    if (error) {
+                        errorCallback({msg: 'No prospect with: ' + searchVal.name});
+                    }
+                });
+
+            return response;
+        };
 
     this.addParticipant = function(name, prospect_id) {
       var newParticipant={};
