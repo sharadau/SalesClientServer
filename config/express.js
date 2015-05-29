@@ -94,14 +94,16 @@ module.exports=function(){
         {
             cc = mail.cc;
         }
-        console.log("GOT MAIL on: " +mail.date.toDateString());
+        console.log("GOT MAIL: " +mail.from[0].address);
+        console.log("GOT message: " +JSON.stringify(mail));
        //if email is not generated with sales dashboard
         if(typeof mail.message != "string")
         {
             mail.message = '';
         }
-        console.log("check note:"+mail.message.toLowerCase().search("Please note this email is generated using Presales Dashboard"));
-        if (mail.message.toLowerCase().search("Please note this email is generated using Presales Dashboard") == -1) {
+        console.log("check note:"+mail.text.match("Please note this email is generated using Presales Dashboard"));
+        console.log("html:"+ typeof mail.html);
+        if (mail.text.match("Please note this email is generated using Presales Dashboard") == null || ( typeof mail.html == 'string')) {
             //put all emails in db
             var emails = require('../controllers/emails.controller');
 
@@ -163,6 +165,8 @@ module.exports=function(){
                         updateProspectStartDate(prospects[i], prospects[i]._id);
                     }
                     //add the initiated by
+                    console.log("initiated by"+typeof prospects[i].initiatedBy);
+                    console.log("initiated by"+prospects[i].initiatedBy);
                     if (typeof prospects[i].initiatedBy != 'string' || prospects[i].initiatedBy == '' ) {
                         console.log("set initiated By:" + mail.from[0].address);
                         if(mail.from[0].address == 'subu@synerzip.com' || mail.from[0].address == 'hemant@synerzip.com' || mail.from[0].address == 'ashish.shanker@synerzip.com')
@@ -279,7 +283,7 @@ module.exports=function(){
 
     function updateProspectStage(project, prospect_id, end_date, state, state_id)
     {
-
+console.log("update stage");
         var projects = require('../controllers/projects.controller');
        /* var body ={
            // "_id":prospect_id,
@@ -375,7 +379,7 @@ console.log("set start date:"+project.start_date);
     };
     function updateProspectArea(project, prospect_id)
     {
-//console.log("updateProspectArea"+project.area);
+console.log("updateProspectArea"+project.area);
         var projects = require('../controllers/projects.controller');
         request({
             method: 'PUT',
@@ -400,7 +404,7 @@ console.log("set start date:"+project.start_date);
     };
     function updateProspectInitiatedBy(project, prospect_id)
     {
-        //console.log("update prospect:"+project);
+        console.log("update prospect for initiated by:"+project);
 
         var projects = require('../controllers/projects.controller');
 

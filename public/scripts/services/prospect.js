@@ -104,8 +104,24 @@ angular.module('dashboardApp')
             return response;
         };
     this.addProspect = function(newProspect1) {
-    	
+    	console.log("in addProspect service")
       var newProspect={};
+        if(typeof newProspect1.description != 'string')
+        {
+            newProspect1.description = '';
+        }
+        if(typeof newProspect1.othercomments != 'string')
+        {
+            newProspect1.othercomments = '';
+        }
+        if(typeof newProspect1.companyURL != 'string')
+        {
+            newProspect1.companyURL = '';
+        }
+        if(typeof newProspect1.company != 'string')
+        {
+            newProspect1.company = '';
+        }
     //add prospect to nodejs server
       newProspect1.state = "Initiation";
       newProspect1.state_id = 1;   

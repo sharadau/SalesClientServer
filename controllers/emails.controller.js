@@ -80,7 +80,8 @@ if(res.flag != "1") {
         subject: req.body.subject,
         //text: "test email"
         text: req.body.message,
-        cc: req.body.cc
+        cc: req.body.cc,
+        extra:"extraa"
     };
 //send Email
     smtpConfig.sendMail(mailOpts, function (error, response) {
