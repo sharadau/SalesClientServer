@@ -107,7 +107,8 @@ angular.module('dashboardApp')
 
 
         this.updateEmail = function (email_id, prospect_id, stage) {
-console.log("update email:"+email_id+" stage:"+stage);
+console.log("update email:"+email_id+" stage:"+stage + "pid:"+prospect_id);
+            console.log("pid typeof:"+ typeof prospect_id);
             //prospect_id = 1;
             var successCallback, errorCallback;
             var response = {
@@ -116,8 +117,9 @@ console.log("update email:"+email_id+" stage:"+stage);
             };
             var emails = {};
             emails.stage = stage;
-            //emails.prospect_id = prospect_id;
-
+            if(typeof prospect_id == 'number') {
+                emails.prospect_id = prospect_id;
+            }
             $http.put(service_base_url+'/api/emails/update/'+email_id,emails)
                 .success(function(item){
                     successCallback(item);

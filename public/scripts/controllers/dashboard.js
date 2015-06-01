@@ -120,10 +120,10 @@ angular.module('dashboardApp')
                                 $scope.initiatedBy1[m] = $scope.initiatedBy1[m] + 1;
                             }else if(project.initiatedBy == 'Ashish Shanker')
                             {
-                                $scope.initiatedBy2[m] = $scope.initiatedBy2[m] + 1;
+                                $scope.initiatedBy3[m] = $scope.initiatedBy3[m] + 1;
                             }else if(project.initiatedBy == 'Subu Sankara')
                             {
-                                $scope.initiatedBy3[m] = $scope.initiatedBy3[m] + 1;
+                                $scope.initiatedBy2[m] = $scope.initiatedBy2[m] + 1;
                             }
 
                         }
