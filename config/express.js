@@ -126,7 +126,7 @@ module.exports=function(){
 
             //search for prospect
             //request('http://localhost:3000/api/projects', {}, function (err, res, body) {
-                request('http://pure-crag-4108.herokuapp.com/api/projects', {}, function(err, res, body) {
+                request('http://lit-wave-1072.herokuapp.com/api/projects', {}, function(err, res, body) {
 
                 var prospects = JSON.parse(body);
                 var prospectFlag = 0;
@@ -305,7 +305,7 @@ console.log("update stage");
         request({
             method: 'PUT',
            // uri: 'http://localhost:3000/api/projects/updateStage/' + prospect_id,
-            uri: 'http://pure-crag-4108.herokuapp.com/api/projects/updateStage/' + prospect_id,
+            uri: 'http://lit-wave-1072.herokuapp.com/api/projects/updateStage/' + prospect_id,
             form:
                 {
                         state: 'Converted',
@@ -333,7 +333,7 @@ console.log("set start date:"+project.start_date);
         request({
             method: 'PUT',
             //uri: 'http://localhost:3000/api/projects/' + prospect_id,
-            uri: 'http://pure-crag-4108.herokuapp.com/api/projects/' + prospect_id,
+            uri: 'http://lit-wave-1072.herokuapp.com/api/projects/' + prospect_id,
             form:
             {
                 start_date: project.start_date
@@ -360,7 +360,7 @@ console.log("set start date:"+project.start_date);
         request({
             method: 'PUT',
            // uri: 'http://localhost:3000/api/projects/' + prospect_id,
-            uri: 'http://pure-crag-4108.herokuapp.com/api/projects/' + prospect_id,
+            uri: 'http://lit-wave-1072.herokuapp.com/api/projects/' + prospect_id,
             form:
             {
                 end_date: project.end_date
@@ -385,7 +385,7 @@ console.log("updateProspectArea"+project.area);
         request({
             method: 'PUT',
            // uri: 'http://localhost:3000/api/projects/' + prospect_id,
-            uri: 'http://pure-crag-4108.herokuapp.com/api/projects/' + prospect_id,
+            uri: 'http://lit-wave-1072.herokuapp.com/api/projects/' + prospect_id,
             form:
             {
                 area: project.area
@@ -412,7 +412,7 @@ console.log("updateProspectArea"+project.area);
         request({
             method: 'PUT',
             //uri: 'http://localhost:3000/api/projects/' + prospect_id,
-            uri: 'http://pure-crag-4108.herokuapp.com/api/projects/' + prospect_id,
+            uri: 'http://lit-wave-1072.herokuapp.com/api/projects/' + prospect_id,
             form:
             {
                 initiatedBy: project.initiatedBy
@@ -433,7 +433,7 @@ console.log("updateProspectArea"+project.area);
 
         //check if participant exists or not
         //request('http://localhost:3000/api/participants/prospect/'+p_id, function(err, res, body) {
-        request('http://pure-crag-4108.herokuapp.com/api/participants/prospect/'+p_id, function(err, res, body) {
+        request('http://lit-wave-1072.herokuapp.com/api/participants/prospect/'+p_id, function(err, res, body) {
             //console.log("particiapants:"+JSON.stringify(body)+"for project:"+p_id);
             var emails = JSON.parse(body);
             var existsFlag = 0;
