@@ -68,4 +68,5 @@ angular.module('dashboardApp')
         collection.push(item);
       }
     };
+
   });

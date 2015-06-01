@@ -94,8 +94,8 @@ module.exports=function(){
         {
             cc = mail.cc;
         }
-        console.log("GOT MAIL: " +mail.from[0].address);
-        console.log("GOT message: " +JSON.stringify(mail));
+        console.log("GOT MAIL from: " +mail.from[0].address);
+        //console.log("GOT message: " +JSON.stringify(mail));
        //if email is not generated with sales dashboard
         if(typeof mail.message != "string")
         {
@@ -105,6 +105,7 @@ module.exports=function(){
         console.log("html:"+ typeof mail.html);
         if (mail.text.match("Please note this email is generated using Presales Dashboard") == null || ( typeof mail.html == 'string')) {
             //put all emails in db
+            console.log("mail sent from personal account");
             var emails = require('../controllers/emails.controller');
 
             var body = {
