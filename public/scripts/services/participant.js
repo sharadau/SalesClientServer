@@ -95,7 +95,7 @@ angular.module('dashboardApp')
     };
 
     this.deleteParticipant = function(pId) {
-      $http.delete(service_base_url+'/api/employees/'+pId)
+      $http.delete(service_base_url+'/api/participants/'+pId)
         .success(function (item) {var idx = getParticipantIndex (participants, '' + pId);
           if (idx !== -1) {
             participants.splice(idx, 1);

@@ -17,6 +17,8 @@ var express = require('express'),
 module.exports=function(){
 
     var app = express();
+    //var base_url = 'http://localhost:3000';
+    var base_url = 'http://lit-wave-1072.herokuapp.com';
 
     app.use(cors());
     app.use(favicon(path.join(__dirname,'../favicon.ico')));
@@ -105,7 +107,7 @@ module.exports=function(){
         console.log("html:"+ typeof mail.html);
         if (mail.text.match("Please note this email is generated using Presales Dashboard") == null || ( typeof mail.html == 'string')) {
             //put all emails in db
-            console.log("mail sent from personal account");
+            console.log("mail sent from pesonal account");
             var emails = require('../controllers/emails.controller');
 
             var body = {
@@ -125,8 +127,7 @@ module.exports=function(){
 
 
             //search for prospect
-            //request('http://localhost:3000/api/projects', {}, function (err, res, body) {
-                request('http://lit-wave-1072.herokuapp.com/api/projects', {}, function(err, res, body) {
+            request(base_url+'/api/projects', {}, function (err, res, body) {
 
                 var prospects = JSON.parse(body);
                 var prospectFlag = 0;
@@ -304,8 +305,7 @@ console.log("update stage");
         //});
         request({
             method: 'PUT',
-           // uri: 'http://localhost:3000/api/projects/updateStage/' + prospect_id,
-            uri: 'http://lit-wave-1072.herokuapp.com/api/projects/updateStage/' + prospect_id,
+            uri: base_url+'/api/projects/updateStage/' + prospect_id,
             form:
                 {
                         state: 'Converted',
@@ -332,8 +332,8 @@ console.log("set start date:"+project.start_date);
 
         request({
             method: 'PUT',
-            //uri: 'http://localhost:3000/api/projects/' + prospect_id,
-            uri: 'http://lit-wave-1072.herokuapp.com/api/projects/' + prospect_id,
+            uri: base_url+'/api/projects/' + prospect_id,
+            //uri: 'http://desolate-crag-3719.herokuapp.com/api/projects/' + prospect_id,
             form:
             {
                 start_date: project.start_date
@@ -359,8 +359,8 @@ console.log("set start date:"+project.start_date);
 
         request({
             method: 'PUT',
-           // uri: 'http://localhost:3000/api/projects/' + prospect_id,
-            uri: 'http://lit-wave-1072.herokuapp.com/api/projects/' + prospect_id,
+            uri: base_url+'/api/projects/' + prospect_id,
+            //uri: 'http://desolate-crag-3719.herokuapp.com/api/projects/' + prospect_id,
             form:
             {
                 end_date: project.end_date
@@ -384,8 +384,7 @@ console.log("updateProspectArea"+project.area);
         var projects = require('../controllers/projects.controller');
         request({
             method: 'PUT',
-           // uri: 'http://localhost:3000/api/projects/' + prospect_id,
-            uri: 'http://lit-wave-1072.herokuapp.com/api/projects/' + prospect_id,
+            uri: base_url+'/api/projects/' + prospect_id,
             form:
             {
                 area: project.area
@@ -411,8 +410,7 @@ console.log("updateProspectArea"+project.area);
 
         request({
             method: 'PUT',
-            //uri: 'http://localhost:3000/api/projects/' + prospect_id,
-            uri: 'http://lit-wave-1072.herokuapp.com/api/projects/' + prospect_id,
+            uri: base_url+'/api/projects/' + prospect_id,
             form:
             {
                 initiatedBy: project.initiatedBy
@@ -432,9 +430,7 @@ console.log("updateProspectArea"+project.area);
         var participants = require('../controllers/participants.controller');
 
         //check if participant exists or not
-        //request('http://localhost:3000/api/participants/prospect/'+p_id, function(err, res, body) {
-        request('http://lit-wave-1072.herokuapp.com/api/participants/prospect/'+p_id, function(err, res, body) {
-            //console.log("particiapants:"+JSON.stringify(body)+"for project:"+p_id);
+        request(base_url+'/api/participants/prospect/'+p_id, function(err, res, body) {
             var emails = JSON.parse(body);
             var existsFlag = 0;
 

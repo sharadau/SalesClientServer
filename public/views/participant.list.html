@@ -27,7 +27,7 @@
   <td width="80%">
     <a ui-sref="participant.view({participantId: participant._id})">{{participant.name}}</a>
   </td>
-  <td><a ui-sref="participant.delete({participantId:participant._id})"><span class="glyphicon glyphicon-remove"></span> Delete </a></td>
+  <td><a data-ng-click="deleteParticipant(participant._id,participant.name,prospect_id)" ui-sref="home"><span class="glyphicon glyphicon-remove"></span> Delete </a></td>
 </table>
   </div>
   </div>

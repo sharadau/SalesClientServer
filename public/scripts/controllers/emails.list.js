@@ -40,10 +40,13 @@ angular.module('dashboardApp')
             $scope.emailsSelected[$scope.emailsSelected.length] = email_id;
         };
         $scope.moveEmail = function(){
-            console.log("selected emails:"+$scope.emailsSelected);
+            console.log("selected emails:"+(typeof $scope.emailsSelected));
+            console.log("selected emails:"+( $scope.emailsSelected));
+            console.log("selected stage:"+(typeof $scope.stage));
             console.log("selected stage:"+$scope.stage);
 
-
+            //if(typeof $scope.stage == 'number' && typeof $scope.emailsSelected == 'object') {
+            if(typeof $scope.stage == 'string') {
             for(var i=0;i<$scope.emailsSelected.length;i++)
             {
                 //update emails
@@ -54,7 +57,11 @@ angular.module('dashboardApp')
                     .error (function (error){
                         console.log (error.msg);}
                 );
+            }}else{
+                alert("Please select Stage and Email!");
+                return;
             }
+
             alert("Email moved");
             $scope.prospect = '';
             $scope.stage = '';

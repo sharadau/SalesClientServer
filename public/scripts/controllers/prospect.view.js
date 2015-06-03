@@ -8,7 +8,7 @@
  * Controller of the dashboardApp
  */
 angular.module('dashboardApp')
-  .controller('ProspectViewCtrl', function ($scope, $stateParams, $parse, $upload,$sce, ProspectService, Emails, auth) {
+  .controller('ProspectViewCtrl', function ($scope, $stateParams, $state, $parse, $upload,$sce, ProspectService, Emails, auth) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -164,12 +164,8 @@ angular.module('dashboardApp')
     	
     	if (confirm("Do you want to delete prospect "+name) == true) {
             // todo code for deletion    
-		      ProspectService.deleteProspectById(prospectId) 
-		      .success (function (data){
-		    	  console.log(data);
-		      })
-		        .error (function (error){
-		        console.log (error.msg);});
+		      ProspectService.deleteProspectById(prospectId);
+              $state.transitionTo('auth.home');
     	}
     }
     

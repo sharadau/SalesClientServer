@@ -52,4 +52,13 @@ console.log("prospect name in participant list controller: "+$scope.prospect_nam
       $scope.asyncSelected = null;
       $scope.fetchList();
     };
+
+        $scope.deleteParticipant = function(participantId, name, prospectId) {
+
+            if (confirm("Do you want to delete participant "+name) == true) {
+                // todo code for deletion
+                participant.deleteParticipant(participantId);
+                $state.transitionTo('auth.prospect.view', {prospectId: prospectId});
+            }
+        }
   });

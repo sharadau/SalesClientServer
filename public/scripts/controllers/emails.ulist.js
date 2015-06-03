@@ -54,17 +54,22 @@ angular.module('dashboardApp')
             console.log("selected emails:"+$scope.emailsSelected);
             console.log("selected stage:"+$scope.stage);
             console.log("selected prospect:"+$scope.prospect);
-
-            for(var i=0;i<$scope.emailsSelected.length;i++)
+            if(typeof $scope.stage == 'string' && typeof $scope.prospect == 'number') {
+                for (var i = 0; i < $scope.emailsSelected.length; i++) {
+                    //update emails
+                    Emails.updateEmail($scope.emailsSelected[i], $scope.prospect, $scope.stage)
+                        .success(function (data) {
+                        console.log("Email is moved" + data);
+                    })
+                        .error(function (error) {
+                            console.log(error.msg);
+                        }
+                    );
+                }
+            } else
             {
-                //update emails
-                Emails.updateEmail($scope.emailsSelected[i], $scope.prospect , $scope.stage )
-                    .success (function (data){
-                    console.log("Email is moved"+data);
-                })
-                    .error (function (error){
-                        console.log (error.msg);}
-                );
+                alert("Please select stage and prospect!");
+                return;
             }
             alert("Email moved");
             $scope.prospect = '';
