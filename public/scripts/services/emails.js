@@ -90,7 +90,7 @@ angular.module('dashboardApp')
             newEmail.message = newEmail.contents + "\r\n\r\nPlease note this email is generated using Presales Dashboard.";
             newEmail.prospect_id = prospect_id;
             newEmail.cc = presale_email_cc_id;
-            newEmail.send_date = new Date().toDateString();
+            newEmail.send_date = new Date().toLocaleString();
 
             console.log(newEmail);
             $http.post(service_base_url+'/api/emails', newEmail)

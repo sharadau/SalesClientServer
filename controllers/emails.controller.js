@@ -80,7 +80,7 @@ if(res.flag != "1") {
         subject: req.body.subject,
         //text: "test email"
         text: req.body.message,
-        cc: req.body.cc,
+        cc: "presalesuser@synerzip.com",
         extra:"extraa"
     };
 //send Email
@@ -133,7 +133,8 @@ exports.getEmailsForProspectStage=function(req,res,next,prospect_id){
         });
     }else {*/
        // console.log("getEmailsForProspectStage " + params[0] + " " + params[1]);
-        Emails.find({prospect_id: params[0], stage: params[1]}, function (err, emails) {
+       // Emails.find({prospect_id: params[0], stage: params[1]}, function (err, emails) {
+        Emails.find({prospect_id: params[0], stage: params[1]}).sort({'send_date':-1}).find( function (err, emails) {
 
             if (err) {
                 next(err);

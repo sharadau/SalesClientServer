@@ -8,7 +8,7 @@
  * Controller of the dashboardApp
  */
 angular.module('dashboardApp')
-  .controller('ProspectEditCtrl', function ($scope, $state, $stateParams, ProspectService, Emails) {
+  .controller('ProspectEditCtrl', function ($scope, $state, $stateParams, ProspectService, Emails, auth) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -47,9 +47,11 @@ angular.module('dashboardApp')
       	  	console.log("Send email on");
       	    var newEmail = {};
               var subject = "Presale Prospect: "+newProspect.name;
-              var from = email_from;
-              var from_name = email_from;
-      	      newEmail.send_date = new Date().toDateString();
+              var from = auth.profile.name;
+              var from_name = auth.profile.name;
+      	      var d = new Date();
+              newEmail.send_date = d.toLocaleString();
+      	      //newEmail.send_date = new Date().toDateString();
       	      newEmail.to = presale_email_id;
               newEmail.contents = subject + " is initialized." + " \r\nProspect Description: "+newProspect.description + " \r\nComments: "+ newProspect.othercomments;
       	    Emails.sendEmail(newEmail, from, from_name, subject, newProspect._id,1);
