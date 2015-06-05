@@ -7,7 +7,7 @@ var express = require('express'),
     cookieParser = require('cookie-parser'),
     cors = require('cors'),
     multer  = require('multer'),
-    maillistener2  = require('mail-listener2'),
+   // maillistener2  = require('mail-listener2'),
     nodemailer = require('nodemailer'),
     querystring = require('querystring'),
     request = require('request'),
@@ -73,6 +73,7 @@ module.exports=function(){
 
     notifier(imap).on('mail',function(mail){
         var areaMapping = new Array;
+        console.log("Mail notifier started!!!");
 
         areaMapping[0] = new Array();
         areaMapping[1] = new Array();
@@ -96,7 +97,7 @@ module.exports=function(){
         {
             cc = mail.cc;
         }
-        console.log("GOT MAIL from: " +mail.from[0].address);
+        console.log("GOT MAIL on: " +date);
         //console.log("GOT message: " +JSON.stringify(mail));
        //if email is not generated with sales dashboard
         if(typeof mail.message != "string")
@@ -107,7 +108,7 @@ module.exports=function(){
         console.log("html:"+ typeof mail.html);
         if (mail.text.match("Please note this email is generated using Presales Dashboard") == null || ( typeof mail.html == 'string')) {
             //put all emails in db
-            console.log("mail sent from pesonal account");
+            console.log("mail sent from personal account");
             var emails = require('../controllers/emails.controller');
 
             var body = {
@@ -115,12 +116,13 @@ module.exports=function(){
                 // "to":tos,
                 "from": from[0].address,
                 "from_name": from[0].name,
-                "send_date": date,
+                "send_date": mail.date.toLocaleString(),
                 "cc": cc,
                 "message": message,
                 "contents": message,
                 "stage": 0
             };
+
             var req = {
                 "body": body
             };
@@ -153,6 +155,7 @@ module.exports=function(){
                     }
                 }
                 if (prospectFlag == "1") {
+                    console.log("attachment:"+JSON.stringify(mail.attachments));
                     if (typeof mail.attachments == "object") {
                         //update prospect stage and end date
                         updateProspectStage(prospects[i], prospects[i]._id, date, "Converted", "6");
@@ -167,8 +170,6 @@ module.exports=function(){
                         updateProspectStartDate(prospects[i], prospects[i]._id);
                     }
                     //add the initiated by
-                    console.log("initiated by"+typeof prospects[i].initiatedBy);
-                    console.log("initiated by"+prospects[i].initiatedBy);
                     if (typeof prospects[i].initiatedBy != 'string' || prospects[i].initiatedBy == '' ) {
                         console.log("set initiated By:" + mail.from[0].address);
                         if(mail.from[0].address == 'subu@synerzip.com' || mail.from[0].address == 'hemant@synerzip.com' || mail.from[0].address == 'ashish.shanker@synerzip.com')
@@ -194,7 +195,36 @@ module.exports=function(){
 
 
                     }
+                    //find client URL
+                    if (typeof prospects[i].companyURL != 'string' || prospects[i].companyURL == '') {
+                        prospects[i].companyURL = '';
+                        console.log("set client URL");
+                        console.log("search URL"+message.toLowerCase().search('www.'));
+                        //search link in content
+                        if (message.toLowerCase().search('www.') != -1) {
+                            var position = 0;
+                            for(var s=0;s<message.toLowerCase().search('www.');s++) {
+                                console.log("search position:"+position);
+                                var start = message.indexOf('www.',position);
+                                var end = message.indexOf('.com',position);
+                                var url1 = message.substring(start, end);
+                                var url = url1 + '.com';
+                                console.log("url1:" + url1 + " url:" + url + " start:" + start + " end:" + end);
+                                if (url1 != 'www.facebook' && url1 != 'www.linkedin' && url1 != 'www.synerzip' && url1 != 'www.twitter') {
+                                    //update client URL
+                                    console.log("set client URL" + url);
+                                    prospects[i].companyURL = url;
+                                    updateClientURL(prospects[i], prospects[i]._id);
+                                    break;
+                                }
+                                position = end+4;
 
+                            }
+                        }
+                    }
+                }else{
+
+                    console.log("No prospect found");
                 }
                 var res = {
                     "flag": "1"
@@ -421,6 +451,28 @@ console.log("updateProspectArea"+project.area);
             } else {
                 console.log('error: '+ response.statusCode + " "+error);
                // console.log(body);
+            }
+        })
+
+    };
+    function updateClientURL(project, prospect_id)
+    {
+        console.log("updateClientURL"+project.companyURL);
+        var projects = require('../controllers/projects.controller');
+        request({
+            method: 'PUT',
+            uri: base_url+'/api/projects/' + prospect_id,
+            form:
+            {
+                companyURL: project.companyURL
+            }
+        }, function (error, response, body) {
+            if(response.statusCode == 201){
+                console.log("prospect company url updated to "+project.companyURL);
+                //  console.log('document saved as: http://mikeal.iriscouch.com/testjs/'+ rand);
+            } else {
+                console.log('error: '+ response.statusCode + " "+error);
+                //console.log(body);
             }
         })
 

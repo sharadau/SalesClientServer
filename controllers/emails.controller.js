@@ -59,7 +59,6 @@ exports.read=function(req,res){
 };
 exports.create=function(req,res){
     var emails = new Emails (req.body);
-
     // TODO: Add to project
 if(res.flag != "1") {
     var mailOpts, smtpConfig;
@@ -88,7 +87,7 @@ if(res.flag != "1") {
 //Email not sent
         if (error) {
             console.log(error);
-            res.end("Email send Falied");
+            res.end("Email send Failed");
         }
 //email sent successfully
         else {
