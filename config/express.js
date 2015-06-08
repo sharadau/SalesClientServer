@@ -155,12 +155,26 @@ module.exports=function(){
                     }
                 }
                 if (prospectFlag == "1") {
-                    console.log("attachment:"+JSON.stringify(mail.attachments));
+
                     if (typeof mail.attachments == "object") {
-                        //update prospect stage and end date
-                        updateProspectStage(prospects[i], prospects[i]._id, date, "Converted", "6");
-                        prospects[i].end_date = mail.date.toDateString();
-                        updateProspectEndDate(prospects[i], prospects[i]._id);
+                        console.log("attachment:"+JSON.stringify(mail.attachments[0]));
+                        console.log("attachment:"+JSON.stringify(mail.attachments[0].fileName));
+                        if(mail.attachments[0].fileName.toLowerCase().search('engagement') != -1) {
+                            console.log("found engagement letter");
+                            //update prospect stage and end date
+                            updateProspectStage(prospects[i], prospects[i]._id, date, "Converted", "6");
+                            prospects[i].end_date = mail.date.toDateString();
+                            updateProspectEndDate(prospects[i], prospects[i]._id);
+                            //add engagement letter - engagementLetter
+                            prospects[i].engagementLetter = mail.attachments[0].fileName;
+                            updateProspectEngagementLetter(prospects[i], prospects[i]._id);
+                            require("fs").writeFile('./uploads/'+mail.attachments[0].fileName, mail.attachments[0].content, 'base64', function(err) {
+                                console.log(err);
+                            });
+                        }else if(mail.attachments[0].fileName == 'invite.ics'){
+                            console.log("found calendar invite");
+                            updateProspectStage(prospects[i], prospects[i]._id, date, "Client Call", "4");
+                        }
                     }
                     //add the start_date
                     if (typeof prospects[i].start_date != 'date') {
@@ -338,8 +352,8 @@ console.log("update stage");
             uri: base_url+'/api/projects/updateStage/' + prospect_id,
             form:
                 {
-                        state: 'Converted',
-                        state_id: '6'
+                        state: state,
+                        state_id: state_id
                 }
         }, function (error, response, body) {
             if(response.statusCode == 201){
@@ -379,6 +393,29 @@ console.log("set start date:"+project.start_date);
         })
         //  console.log("asdsd"+typeof  JSON.parse(project));
         //projects.updateStage(req, res);
+
+    };
+
+    function updateProspectEngagementLetter(project, prospect_id)
+    {
+         console.log("updateProspectEngagementLetter:"+project.engagementLetter);
+
+        var projects = require('../controllers/projects.controller');
+
+        request({
+            method: 'PUT',
+            uri: base_url+'/api/projects/' + prospect_id,
+            form:
+            {
+                engagementLetter: project.engagementLetter
+            }
+        }, function (error, response, body) {
+            if(response.statusCode == 201){
+                console.log("prospect engagement letter updated");
+            } else {
+                console.log('error: '+ response.statusCode + " "+error);
+            }
+        })
 
     };
     function updateProspectEndDate(project, prospect_id)
