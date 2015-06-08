@@ -54,19 +54,14 @@
     <accordion-heading>
       <b>Prospect Information</b> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
     </accordion-heading>
-    <table>
-      <tr><td></td><td></td><td><a ui-sref="auth.prospect.edit({prospectId:prospect._id,stage:1})"><span class="glyphicon glyphicon-edit"></span> Edit </a></b> &nbsp;&nbsp;
+    <table border="0">
+      <tr><td></td><td></td><td></td><td align="right" colspan="2"><a ui-sref="auth.prospect.edit({prospectId:prospect._id,stage:1})"><span class="glyphicon glyphicon-edit"></span> Edit </a></b> &nbsp;&nbsp;
       <a data-ng-click="deleteProspect(prospect._id,prospect.name)"  ui-sref="home"><span class="glyphicon glyphicon-remove"></span> Delete </a></td></tr>
-      <tr><td width="30%"><b>Name : </b></td><td width="50%"> {{prospect.name}}</td></tr>
-      <tr><td><b>Description : </b></td><td> {{prospect.description}}</td></tr>
-      <tr><td><b>Organization : </b></td><td> {{prospect.company}}</td></tr>
-      <tr><td><b>Company URL: </b></td><td> {{prospect.companyURL}}</td></tr>
-      <tr><td><b>Other Comments: </b></td><td> {{prospect.othercomments}}</td></tr>
-      <tr><td><b>Start Date: </b></td><td> {{prospect.start_date}}</td></tr>
-      <tr><td><b>End Date: </b></td><td> {{prospect.end_date}}</td></tr>
-      <tr><td><b>Area: </b></td><td> {{prospect.area}}</td></tr>
-      <tr><td><b>State: </b></td><td> {{prospect.state}}</td></tr>
-      <tr><td><b>Initiated By: </b></td><td> {{prospect.initiatedBy}}</td></tr>
+      <tr><td width="20%"><b>Name : </b></td><td width="30%"> {{prospect.name}}</td><td width="20%"><b>Company URL: </b></td><td width="30%"> {{prospect.companyURL}}</td></tr>
+      <tr><td><b>Start Date: </b></td><td> {{prospect.start_date}}</td><td><b>Initiated By: </b></td><td> {{prospect.initiatedBy}}</td></tr>
+        <tr><td><b>Description : </b></td><td> {{prospect.description}}</td></tr>
+        <tr><td><b>Other Comments: </b></td><td> {{prospect.othercomments}}</td></tr>
+        <tr></tr>
     </table>
   </accordion-group>
   <accordion-group>

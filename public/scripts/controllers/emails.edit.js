@@ -8,7 +8,7 @@
  * Controller of the dashboardApp
  */
 angular.module('dashboardApp')
-  .controller('EmailsEditCtrl', function ($scope, $state, $stateParams, auth, Emails, participant) {
+  .controller('EmailsEditCtrl', function ($scope, $state, $stateParams, auth, Emails, participant, ProspectService) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -17,6 +17,7 @@ angular.module('dashboardApp')
 
     $scope.prospect_name = $stateParams.prospectName;
     $scope.prospect_id = $stateParams.prospectId;
+    $scope.stage_id = $stateParams.stage;
     $scope.from = auth.profile.name;
     $scope.from_name = auth.profile.name;
         $scope.fetchParticipantList = function(){
@@ -47,7 +48,14 @@ angular.module('dashboardApp')
 
         $scope.newEmail = {};
         Emails.sendEmail(newEmail, $scope.from, $scope.from_name, $scope.subject, $scope.prospect_id,$scope.stage);
-        
+        //check if this is first email and close the initition stage
+       // console.log("Current stage:"+$scope.stage);
+        if($scope.stage == 1)
+        {
+            //complete initiation stage
+            ProspectService.updateStage($scope.prospect_id,"Client Call","4");
+
+        }
         $state.transitionTo('auth.prospect.view', {prospectId: $scope.prospect_id});
        // $state.transitionTo('prospect.view', {prospectId: 2});
       };

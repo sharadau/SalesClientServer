@@ -17,10 +17,10 @@ var express = require('express'),
 module.exports=function(){
 
     var app = express();
-    //var base_url = 'http://localhost:3000';
-    //var upload_url = 'http://localhost:3000';
-    var base_url = 'http://lit-wave-1072.herokuapp.com';
-    var upload_url = 'http://lit-wave-1072.herokuapp.com/static';
+    var base_url = 'http://localhost:3000';
+    var upload_url = '.';
+    //var base_url = 'http://lit-wave-1072.herokuapp.com';
+    //var upload_url = './static';
 
 
     app.use(cors());
@@ -174,8 +174,11 @@ module.exports=function(){
                             require("fs").writeFile('./uploads/'+mail.attachments[0].fileName, mail.attachments[0].content, 'base64', function(err) {
                                 console.log(err);
                             });
-                        }else if(mail.attachments[0].fileName == 'invite.ics'){
+                        }else if(mail.attachments[0].fileName == 'invite.ics' && prospects[i].stage_id < 4){
                             console.log("found calendar invite");
+                            updateProspectStage(prospects[i], prospects[i]._id, date, "Client Call", "4");
+                        }else if(prospects[i].stage_id < 4)
+                        {
                             updateProspectStage(prospects[i], prospects[i]._id, date, "Client Call", "4");
                         }
                     }
@@ -213,21 +216,22 @@ module.exports=function(){
 
                     }
                     //find client URL
-                    if (typeof prospects[i].companyURL != 'string' || prospects[i].companyURL == '') {
+                    if (typeof prospects[i].companyURL != 'string' || prospects[i].companyURL == '' && mail.attachments[0].fileName != 'invite.ics') {
                         prospects[i].companyURL = '';
                         console.log("set client URL");
-                        console.log("search URL"+message.toLowerCase().search('www.'));
                         //search link in content
                         if (message.toLowerCase().search('www.') != -1) {
                             var position = 0;
                             for(var s=0;s<message.toLowerCase().search('www.');s++) {
+
                                 console.log("search position:"+position);
                                 var start = message.indexOf('www.',position);
                                 var end = message.indexOf('.com',position);
                                 var url1 = message.substring(start, end);
                                 var url = url1 + '.com';
+                                console.log("search if innvite:"+url1.toLowerCase().search('hangouts'));
                                 console.log("url1:" + url1 + " url:" + url + " start:" + start + " end:" + end);
-                                if (url1 != 'www.facebook' && url1 != 'www.linkedin' && url1 != 'www.synerzip' && url1 != 'www.twitter') {
+                                if (url1 != 'www.facebook' && url1 != 'www.linkedin' && url1 != 'www.synerzip' && url1 != 'www.twitter' && url1.length < 40) {
                                     //update client URL
                                     console.log("set client URL" + url);
                                     prospects[i].companyURL = url;

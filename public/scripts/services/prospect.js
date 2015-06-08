@@ -104,7 +104,7 @@ angular.module('dashboardApp')
             return response;
         };
     this.addProspect = function(newProspect1) {
-    	console.log("in addProspect service")
+    	console.log("in addProspect service");
       var newProspect={};
         if(typeof newProspect1.description != 'string')
         {
@@ -123,8 +123,15 @@ angular.module('dashboardApp')
             newProspect1.company = '';
         }
     //add prospect to nodejs server
-      newProspect1.state = "Initiation";
-      newProspect1.state_id = 1;   
+        if(newProspect1.sendEmail == true)
+        {
+            newProspect1.state = "Internal Preparation";
+            newProspect1.state_id = 4;
+        }else{
+            newProspect1.state = "Initiation";
+            newProspect1.state_id = 1;
+        }
+
       newProspect1.organization = newProspect1.company;
       newProspect1.employees = ['Ram','Raghu'];
       newProspect1.owner = 'Ram';
