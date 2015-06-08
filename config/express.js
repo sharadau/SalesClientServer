@@ -18,7 +18,10 @@ module.exports=function(){
 
     var app = express();
     //var base_url = 'http://localhost:3000';
+    //var upload_url = 'http://localhost:3000';
     var base_url = 'http://lit-wave-1072.herokuapp.com';
+    var upload_url = 'http://lit-wave-1072.herokuapp.com/static';
+
 
     app.use(cors());
     app.use(favicon(path.join(__dirname,'../favicon.ico')));
@@ -32,7 +35,7 @@ module.exports=function(){
 
     /*Configure the multer.*/
 
-    app.use(multer({ dest: './uploads/',
+    app.use(multer({ dest: upload_url+'/uploads/',
         rename: function (fieldname, filename) {
             return filename;
         },
