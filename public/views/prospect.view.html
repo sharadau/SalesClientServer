@@ -70,17 +70,18 @@
     </accordion-heading>
     <table>
       <tr><td width="70%"></td>
-      <td><a ng-if="prospect.state_id < '2'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Clarification',2)" title="Move in Next state"> Mark Complete </a></td>
-      <td><a ng-if="prospect.state_id < '2'" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:1})"> Email</a> </td></tr>
+      <td><a ng-if="prospect.state_id < '3'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Internal Preparation',3)" title="Move in Next state"> Mark Complete </a></td>
+      <td><a ng-if="prospect.state_id < '3'" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:1})"> Email</a> </td></tr>
       </table>
       <table>
-          <tr><td><b>Notes:</b></td></tr>
+          <tr><td><b>Notes: </b>
+                <button class="btn btn-default" ng-click="addMore(1)"><span class="glyphicon glyphicon-plus"></span></button>
+               <button class="btn btn-default" ng-click="SaveNotes(prospect._id,'1')"><span class="glyphicon glyphicon-floppy-save"></span> Save Notes</button></td>
+          </tr>
           <tr>
-              <td> <div ng-repeat="textArea1 in textAreas1">
-                  <textarea id="maxlength_textarea" class="form-control" maxlength="225" rows="2" cols="200" data-ng-model="textArea1.textBox" placeholder="textbox"></textarea>
+              <td colspan="5"> <div ng-repeat="textArea1 in textAreas1">
+                  <textarea id="maxlength_textarea" style="background: lightgoldenrodyellow" class="form-control" maxlength="225" rows="2" cols="200" data-ng-model="textArea1.textBox" placeholder="Enter Note here"></textarea>
               </div></td>
-              <td>  <button class="btn btn-default" ng-click="addMore(1)">Add Notes</button></td>
-              <td> <button class="btn btn-default" ng-click="SaveNotes(prospect._id,'1')">Save Notes</button></td>
           </tr>
       </table>
       <table><br/>
@@ -116,7 +117,7 @@
 </div>
 </div>-->
   </accordion-group>
-  <accordion-group>
+  <!--<accordion-group>
     <accordion-heading>
       <b>Clarification</b> <i ng-if="prospect.state_id > '2'" class="glyphicon glyphicon-ok-sign" title="Completed"> </i><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
     </accordion-heading>
@@ -179,34 +180,74 @@
         <tr ng-if="prospect._id == email2.prospect_id && email2.stage == 2"><td width="50%">Subject: {{email2.subject}}</td><td></td></tr>
         <tr ng-if="prospect._id == email2.prospect_id && email2.stage == 2"><td width="50%"><textarea rows="3" cols="93" readonly="readonly">{{email2.contents}}</textarea></td><td></td></tr>
     </table>
-  </accordion-group>
+  </accordion-group>-->
   <accordion-group>
     <accordion-heading>
       <b>Internal Preparation</b> <i ng-if="prospect.state_id > '3'" class="glyphicon glyphicon-ok-sign" title="Completed"> </i> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
     </accordion-heading>
     <table>
     <tr><td width="50%"></td>
-        <td><a ng-if="prospect.state_id < '4'" class="glyphicon glyphicon-calendar" data-ng-click="scheduleCall(prospect._id)" title="Schedule Call"> Schedule Call </a></td>
-    <td><a ng-if="prospect.state_id < '4'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Client Call',4)" title="Move in Next state"> Mark Complete </a></td>
-    <td><a ng-if="prospect.state_id < '4'" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:3})"> Email</a> </td></tr>
+        <td><a ng-if="prospect.state_id < '5'" class="glyphicon glyphicon-calendar" data-ng-click="scheduleCall(prospect._id)" title="Schedule Call"> Schedule Call </a></td>
+    <td><a ng-if="prospect.state_id < '5'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Engagement Start',5)" title="Move in Next state"> Mark Complete </a></td>
+    <td><a ng-if="prospect.state_id < '5'" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:3})"> Email</a> </td></tr>
     </table>
       <table>
-          <tr><td><b>Notes:</b></td></tr>
+          <tr><td><b>Notes:</b>
+               <button class="btn btn-default" ng-click="addMore(3)"><span class="glyphicon glyphicon-plus"></span></button>
+               <button class="btn btn-default" ng-click="SaveNotes(prospect._id,'3')"><span class="glyphicon glyphicon-floppy-save"></span> Save Notes</button></td>
+          </tr>
           <tr>
               <td> <div ng-repeat="textArea3 in textAreas3">
-                  <textarea id="maxlength_textarea" class="form-control" maxlength="225" rows="2" cols="200" data-ng-model="textArea3.textBox" placeholder="textbox"></textarea>
+                  <textarea id="maxlength_textarea" class="form-control" style="background: lightgoldenrodyellow" maxlength="225" rows="2" cols="200" data-ng-model="textArea3.textBox" placeholder="Enter Note here"></textarea>
               </div></td>
-              <td>  <button class="btn btn-default" ng-click="addMore(3)">Add Notes</button></td>
-              <td> <button class="btn btn-default" ng-click="SaveNotes(prospect._id,'3')">Save Notes</button></td>
           </tr>
       </table><br/>
+      <form name="questionsForm" enctype='multipart/form-data' ng-submit="addQuestions(newProspect,prospect._id,'Converted','6')" >
+          <table width="100%">
+              <tr><td  width="15%">
+                  <label class="control-label">Questions: </label>
+              </td><td width="20%"></td>
+                  <td>
+                      <textarea rows="5" class="form-control" data-ng-model="newProspect.questions" placeholder="Please add questions here"></textarea>
+                  </td>
+              </tr>
+              <tr>
+                  <div class="panel-wrapper" ng-if="prospect.questionsDoc == ''"  >
+                      <td width="20%" colspan="2">
+                          <label ng-if="prospect.questionsDoc == '' || prospect.questionsDoc == 'undefined'" class="control-label">Upload Questions Document: </label>
+                      </td>
+                      <td> <input ng-if="prospect.questionsDoc == '' || prospect.questionsDoc == 'undefined'" type="file" ng-file-select="fileSelection($files)" class="form-control" file-model="questionsDoc"/>
+                          <label ng-if="prospect.questionsDoc == '' || prospect.questionsDoc == 'undefined'" class="control-label" data-ng-model="newProspect.uploadStatus"></label>
+                      </td>
+                  </div>
+              </tr>
+              <tr>
+                  <div class="panel-wrapper" ng-if="prospect.questionsDoc != ''">
+                      <td colspan="2">
+                          <label class="control-label">Questions Document: </label>
+                      </td>
+                      <td>
+                          <a href='../uploads/{{prospect.questionsDoc}}' > {{prospect.questionsDoc}}</a>
+                      </td>
+                  </div>
+                  </td>
+              </tr>
+              <tr>
+                  <td colspan="2">
+                      <button  class="btn btn-default" type="submit" ng-disabled="form.$invalid" >
+                          <span class="glyphicon glyphicon-thumbs-up"></span> Save Questions
+                      </button>
+                  </td>
+              </tr>
+          </table>
+      </form>
     <table data-ng-repeat="email3 in emailsForStage3">
       <tr ng-if="prospect._id == email3.prospect_id && email3.stage == 3"><td width="50%" colspan="2"><b>Sent from {{email3.from}} on {{email3.send_date}}:</b></td></tr>
        <tr ng-if="prospect._id == email3.prospect_id && email3.stage == 3"><td width="50%">Subject: {{email3.subject}}</td><td></td></tr>
       <tr ng-if="prospect._id == email3.prospect_id && email3.stage == 3"><td width="50%"><textarea rows="3" cols="93" readonly="readonly">{{email3.contents}}</textarea></td><td></td></tr>
     </table>
   </accordion-group>
-  <accordion-group>
+  <!--<accordion-group>
     <accordion-heading>
      <b>Client Call</b> <i ng-if="prospect.state_id > '4'" class="glyphicon glyphicon-ok-sign" title="Completed"> </i><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
     </accordion-heading>
@@ -231,28 +272,29 @@
         <tr ng-if="prospect._id == email4.prospect_id && email4.stage == 4"><td width="50%">Subject: {{email4.subject}}</td><td></td></tr>
       <tr ng-if="prospect._id == email4.prospect_id && email4.stage == 4"><td width="50%"><textarea rows="3" cols="93" readonly="readonly">{{email4.contents}}</textarea></td><td></td></tr>
     </table>
-     </accordion-group>
+     </accordion-group>-->
   <accordion-group>
     <accordion-heading>
       <b>Engagement Start</b><i ng-if="prospect.state_id > '5'" class="glyphicon glyphicon-ok-sign" title="Completed"> </i> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
     </accordion-heading>
    <table cellpadding="5">
-    <tr><td width="70%"></td>
+    <tr><td width="90%"></td>
       <!--  <td><a ng-if="prospect.state_id < '6'" class="glyphicon glyphicon-thumbs-up" data-ng-click="acceptProspect(prospect._id)" title="Accept Prospect"> Accept Prospect </a></td>
         <td><a ng-if="prospect.state_id < '6'" class="glyphicon glyphicon-thumbs-down" data-ng-click="rejectProspect(prospect._id)" title="Reject Prospect"> Reject Prospect </a></td>
         <td><a ng-if="prospect.state_id < '6'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="closePropspect(prospect._id, 'Converted',6)" title="Accept or Reject Prospect"> Close prospect </a></td>-->
-        <td><a ng-if="prospect.state_id < '6'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Converted',6)" title="Move in Next state"> Mark Complete </a></td>
+        <!--<td><a ng-if="prospect.state_id < '6'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Converted',6)" title="Move in Next state"> Mark Complete </a></td>-->
         <td><a ng-if="prospect.state_id < '6'" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,to:prospect.participants,stage:5})"> Email</a> </td>
     </tr>
    </table><br/>
       <table>
-          <tr><td><b>Notes:</b></td></tr>
+          <tr><td><b>Notes:</b>
+                <button class="btn btn-default" ng-click="addMore(5)"><span class="glyphicon glyphicon-plus"></span></button>
+               <button class="btn btn-default" ng-click="SaveNotes(prospect._id,'5')"><span class="glyphicon glyphicon-floppy-save"></span> Save Notes</button></td>
+          </tr>
           <tr>
               <td> <div ng-repeat="textArea5 in textAreas5">
-                  <textarea id="maxlength_textarea" class="form-control" maxlength="225" rows="2" cols="200" data-ng-model="textArea5.textBox" placeholder="textbox"></textarea>
+                  <textarea id="maxlength_textarea" style="background: lightgoldenrodyellow" class="form-control" maxlength="225" rows="2" cols="200" data-ng-model="textArea5.textBox" placeholder="Enter Note here"></textarea>
               </div></td>
-              <td>  <button class="btn btn-default" ng-click="addMore(5)">Add Notes</button></td>
-              <td> <button class="btn btn-default" ng-click="SaveNotes(prospect._id,'5')">Save Notes</button></td>
           </tr>
       </table>
       <table data-ng-repeat="email5 in emailsForStage5">
@@ -284,7 +326,7 @@
                <span class="glyphicon glyphicon-thumbs-up"></span> Accept Prospect
            </button>&nbsp;&nbsp;&nbsp;
 
-           <button ng-if="prospect.state_id < 6" class="btn btn-default" data-ng-click="rejectProspect(newProspect,prospect._id,'Rejected','7')">
+           <button ng-if="prospect.state_id < 6" class="btn btn-default" data-ng-click="rejectProspect(newProspect,prospect._id,'On Hold','7')">
                <span class="glyphicon glyphicon-thumbs-down"></span> Hold Prospect
            </button>
        </form>

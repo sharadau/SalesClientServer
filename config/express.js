@@ -17,10 +17,10 @@ var express = require('express'),
 module.exports=function(){
 
     var app = express();
-    var base_url = 'http://localhost:3000';
-    var upload_url = '.';
-    //var base_url = 'http://lit-wave-1072.herokuapp.com';
-    //var upload_url = './static';
+    //var base_url = 'http://localhost:3000';
+    //var upload_url = '.';
+    var base_url = 'http://lit-wave-1072.herokuapp.com';
+    var upload_url = './static';
 
 
     app.use(cors());
@@ -158,9 +158,11 @@ module.exports=function(){
                     }
                 }
                 if (prospectFlag == "1") {
-
+                    console.log("in aaaa");
+                    console.log("stage:"+prospects[i].state_id);
+                    console.log("prospect:"+prospects[i]._id);
                     if (typeof mail.attachments == "object") {
-                        console.log("attachment:"+JSON.stringify(mail.attachments[0]));
+
                         console.log("attachment:"+JSON.stringify(mail.attachments[0].fileName));
                         if(mail.attachments[0].fileName.toLowerCase().search('engagement') != -1) {
                             console.log("found engagement letter");
@@ -174,13 +176,14 @@ module.exports=function(){
                             require("fs").writeFile('./uploads/'+mail.attachments[0].fileName, mail.attachments[0].content, 'base64', function(err) {
                                 console.log(err);
                             });
-                        }else if(mail.attachments[0].fileName == 'invite.ics' && prospects[i].stage_id < 4){
+                        }else if(mail.attachments[0].fileName == 'invite.ics' && prospects[i].state_id < 3){
                             console.log("found calendar invite");
-                            updateProspectStage(prospects[i], prospects[i]._id, date, "Client Call", "4");
-                        }else if(prospects[i].stage_id < 4)
-                        {
-                            updateProspectStage(prospects[i], prospects[i]._id, date, "Client Call", "4");
+                            updateProspectStage(prospects[i], prospects[i]._id, date, "Internal Preparation", "3");
                         }
+                    }else if(prospects[i].state_id < 3)
+                    {
+                        console.log("update state id to 3 as its initiation email");
+                        updateProspectStage(prospects[i], prospects[i]._id, date, "Internal Preparation", "3");
                     }
                     //add the start_date
                     if (typeof prospects[i].start_date != 'date') {
@@ -216,7 +219,11 @@ module.exports=function(){
 
                     }
                     //find client URL
-                    if (typeof prospects[i].companyURL != 'string' || prospects[i].companyURL == '' && mail.attachments[0].fileName != 'invite.ics') {
+                    var calendarInvite = 0;
+                    if (typeof mail.attachments == "object" && mail.attachments[0].fileName != 'invite.ics'){
+                        calendarInvite = 1;
+                    }
+                    if (typeof prospects[i].companyURL != 'string' || prospects[i].companyURL == '' && calendarInvite == 0) {
                         prospects[i].companyURL = '';
                         console.log("set client URL");
                         //search link in content

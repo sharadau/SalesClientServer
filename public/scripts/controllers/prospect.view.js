@@ -47,31 +47,32 @@ angular.module('dashboardApp')
             if(stage=='1') {
                 for (var i = 0; i < $scope.textAreas1.length; i++) {
                     console.log($scope.textAreas1[i].textBox);
-                    notes[i] = $scope.textAreas1[i].textBox + "\n\r" + "-" + sender;
+                    //notes[i] = $scope.textAreas1[i].textBox + "\n\r" + "-" + sender;
+                    notes[i] = $scope.textAreas1[i].textBox;
                 }
             }
             if(stage=='2') {
                 for (var i = 0; i < $scope.textAreas2.length; i++) {
                     console.log($scope.textAreas2[i].textBox);
-                    notes[i] = $scope.textAreas2[i].textBox + "\n\r" + "-" + sender;
+                    notes[i] = $scope.textAreas2[i].textBox;
                 }
             }
             if(stage=='3') {
                 for (var i = 0; i < $scope.textAreas3.length; i++) {
                     console.log($scope.textAreas3[i].textBox);
-                    notes[i] = $scope.textAreas3[i].textBox + "\n\r" + "-" + sender;
+                    notes[i] = $scope.textAreas3[i].textBox;
                 }
             }
             if(stage=='4') {
                 for (var i = 0; i < $scope.textAreas4.length; i++) {
                     console.log($scope.textAreas4[i].textBox);
-                    notes[i] = $scope.textAreas4[i].textBox + "\n\r" + "-" + sender;
+                    notes[i] = $scope.textAreas4[i].textBox;
                 }
             }
             if(stage=='5') {
                 for (var i = 0; i < $scope.textAreas5.length; i++) {
                     console.log($scope.textAreas5[i].textBox);
-                    notes[i] = $scope.textAreas5[i].textBox + "\n\r" + "-" + sender;
+                    notes[i] = $scope.textAreas5[i].textBox;
                 }
             }
 

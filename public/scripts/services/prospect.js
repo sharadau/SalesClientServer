@@ -104,7 +104,6 @@ angular.module('dashboardApp')
             return response;
         };
     this.addProspect = function(newProspect1) {
-    	console.log("in addProspect service");
       var newProspect={};
         if(typeof newProspect1.description != 'string')
         {
@@ -126,7 +125,7 @@ angular.module('dashboardApp')
         if(newProspect1.sendEmail == true)
         {
             newProspect1.state = "Internal Preparation";
-            newProspect1.state_id = 4;
+            newProspect1.state_id = 3;
         }else{
             newProspect1.state = "Initiation";
             newProspect1.state_id = 1;

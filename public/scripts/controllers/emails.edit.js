@@ -53,7 +53,7 @@ angular.module('dashboardApp')
         if($scope.stage == 1)
         {
             //complete initiation stage
-            ProspectService.updateStage($scope.prospect_id,"Client Call","4");
+            ProspectService.updateStage($scope.prospect_id,"Internal Preparation","3");
 
         }
         $state.transitionTo('auth.prospect.view', {prospectId: $scope.prospect_id});
