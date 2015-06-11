@@ -75,12 +75,19 @@
       </table>
       <table>
           <tr><td><b>Notes: </b>
-                <button class="btn btn-default" ng-click="addMore(1)"><span class="glyphicon glyphicon-plus"></span></button>
+               <button class="btn btn-default" ng-click="addMore(1)"><span class="glyphicon glyphicon-plus"></span></button>
                <button class="btn btn-default" ng-click="SaveNotes(prospect._id,'1')"><span class="glyphicon glyphicon-floppy-save"></span> Save Notes</button></td>
           </tr>
           <tr>
-              <td colspan="5"> <div ng-repeat="textArea1 in textAreas1">
-                  <textarea id="maxlength_textarea" style="background: lightgoldenrodyellow" class="form-control" maxlength="225" rows="2" cols="200" data-ng-model="textArea1.textBox" placeholder="Enter Note here"></textarea>
+              <td colspan="5"><div ng-repeat="textArea1 in textAreas1">
+                  <table>
+                      <tr><td>
+                      <textarea id="maxlength_textarea" style="background: lightgoldenrodyellow" class="form-control" maxlength="225" rows="2" cols="80" data-ng-model="textArea1.textBox" placeholder="Enter Note here"></textarea>
+                      </td><td>
+                          <button class="btn btn-default" data-ng-model="textArea1.button" ng-click="sendNotesEmail(textArea1,prospect.name,prospect._id,'1','Initiation')"><span class="glyphicon glyphicon-envelope"></span></button>
+                     </td>
+                      </tr>
+               </table>
               </div></td>
           </tr>
       </table>
@@ -198,7 +205,11 @@
           </tr>
           <tr>
               <td> <div ng-repeat="textArea3 in textAreas3">
+                  <table><tr><td>
                   <textarea id="maxlength_textarea" class="form-control" style="background: lightgoldenrodyellow" maxlength="225" rows="2" cols="200" data-ng-model="textArea3.textBox" placeholder="Enter Note here"></textarea>
+                  <td>
+                      <button class="btn btn-default" data-ng-model="textArea1.button" ng-click="sendNotesEmail(textArea3,prospect.name,prospect._id,'3','Internal Preparation')"><span class="glyphicon glyphicon-envelope"></span></button>
+                  </td></tr></table>
               </div></td>
           </tr>
       </table><br/>
@@ -293,7 +304,12 @@
           </tr>
           <tr>
               <td> <div ng-repeat="textArea5 in textAreas5">
+                  <table>
+                      <tr><td>
                   <textarea id="maxlength_textarea" style="background: lightgoldenrodyellow" class="form-control" maxlength="225" rows="2" cols="200" data-ng-model="textArea5.textBox" placeholder="Enter Note here"></textarea>
+                          </td><td> <button class="btn btn-default" data-ng-model="textArea1.button" ng-click="sendNotesEmail(textArea5,prospect.name,prospect._id,'5','Engagement Start')"><span class="glyphicon glyphicon-envelope"></span></button></td>
+                  </tr>
+                  </table>
               </div></td>
           </tr>
       </table>

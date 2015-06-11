@@ -8,7 +8,7 @@
  * Controller of the dashboardApp
  */
 angular.module('dashboardApp')
-  .controller('ProspectViewCtrl', function ($scope, $stateParams, $state, $parse, $upload,$sce, ProspectService, Emails, auth) {
+  .controller('ProspectViewCtrl', function ($scope, $stateParams, $state, $parse, $upload,$sce, ProspectService, Emails, auth, participant) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -25,6 +25,7 @@ angular.module('dashboardApp')
             if(stage == '1')
             {
                 $scope.textAreas1.push({textBox:""});
+
             }else if(stage == '2')
             {
                 $scope.textAreas2.push({textBox:""});
@@ -38,6 +39,44 @@ angular.module('dashboardApp')
             {
                 $scope.textAreas5.push({textBox:""});
             }
+
+        }
+        $scope.sendNotesEmail=function(item, pname, prospectId,stage_id,stage){
+
+            //fetch participants
+            $scope.fetchParticipantList = function(){
+                participant.getParticipantForProspect(prospectId)
+                    .success (function (data){
+                    $scope.participants = '';
+                    for(var i=0;i<data.length;i++)
+                    {
+                        $scope.participants += data[i].email + ",";
+                    }
+                    $scope.participants = $scope.participants.substr(0,$scope.participants.length-1);
+                    $scope.newEmail = {
+                        to: $scope.participants
+                    }
+                })
+                    .error (function (error){
+                    console.log (error);
+                });
+            }
+            //fetch participants for this prospect
+            $scope.fetchParticipantList();
+            console.log("stage:"+stage);
+            console.log("item:"+item.textBox);
+            console.log("to:"+$scope.participants);
+            //send note as email
+            var newEmail = {};
+            var subject = "Presale Prospect: Notes for prospect "+pname + " For stage "+stage;
+            var from = auth.profile.name;
+            var from_name = auth.profile.name;
+            var d = new Date();
+            newEmail.send_date = d.toLocaleString();
+            newEmail.to = $scope.participants;
+            newEmail.contents = "Note: " + " \r\n"+item.textBox;
+            Emails.sendEmail(newEmail, from, from_name, subject, prospectId, stage_id);
+            alert("Note as Email Sent Successfully!")
 
         }
         $scope.SaveNotes=function(prospectId,stage){
