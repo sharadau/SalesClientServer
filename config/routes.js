@@ -8,6 +8,7 @@ module.exports=function(app){
     require('../routes/participants.route')(app);
     require('../routes/emails.route')(app);
     require('../routes/fileupload.route')(app);
+    require('../routes/cycles.route')(app);
 
     app.use('/api/*', function(req,res,next){
         res.status(404).json({"error":"No such service present"});

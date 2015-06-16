@@ -8,7 +8,7 @@
  * Controller of the dashboardApp
  */
 angular.module('dashboardApp')
-  .controller('ProspectViewCtrl', function ($scope, $stateParams, $state, $parse, $upload,$sce, ProspectService, Emails, auth, participant) {
+  .controller('ProspectViewCtrl', function ($scope, $stateParams, $state, $parse, $upload,$sce, ProspectService, Emails, auth, participant, CyclesService) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -74,9 +74,12 @@ angular.module('dashboardApp')
             var d = new Date();
             newEmail.send_date = d.toLocaleString();
             newEmail.to = $scope.participants;
-            newEmail.contents = "Note: " + " \r\n"+item.textBox;
-            Emails.sendEmail(newEmail, from, from_name, subject, prospectId, stage_id);
-            alert("Note as Email Sent Successfully!")
+            console.log($scope.participants);
+            if(confirm("Are you sure to send email to below participants:"+$scope.participants)==true) {
+                newEmail.contents = "Note: " + " \r\n" + item.textBox;
+                Emails.sendEmail(newEmail, from, from_name, subject, prospectId, stage_id);
+                alert("Note as Email Sent Successfully!");
+            }
 
         }
         $scope.SaveNotes=function(prospectId,stage){
@@ -266,6 +269,38 @@ angular.module('dashboardApp')
 	    $scope.prospect.state_id = stage_id;
 	   
 	  };
+        //retrieve cycles for stage1
+        CyclesService.getCycleForProspect($stateParams.prospectId)
+            .success (function (data){
+            $scope.cycles = data;
+            console.log("Cycles:"+JSON.stringify(data));
+
+        })
+            .error (function (error){
+            console.log (error.msg);});
+
+        $scope.completeCycle = function(cycle_no, cycle_id, prospectId, name) {
+            console.log("update cycle");
+            var newCycle = {};
+            newCycle._id = cycle_id;
+            var d = new Date();
+            newCycle.end_date = d.toLocaleString();
+            newCycle.status = "Complete";
+            CyclesService.updatecycle(newCycle);
+           // $scope.prospect.state_id = stage_id;
+            alert("cycle "+cycle_no+ " is completed!");
+
+            //create new cycle
+            var cycleNew = {};
+            cycleNew._id = getUniqueTime();
+            cycleNew.start_date = d.toLocaleString();
+            cycleNew.status = "In Progress";
+            cycleNew.prospect_id = prospectId;
+            cycleNew.prospect = name;
+            cycleNew.cycle_no = cycle_no + 1;
+            console.log("new cycle:"+cycleNew);
+            CyclesService.addCycle(cycleNew);
+        };
   //stage2 email
   Emails.getEmailsForProspectStage($stateParams.prospectId, "2")
   .success (function (data){
@@ -301,6 +336,7 @@ angular.module('dashboardApp')
 })
   .error (function (error){
   console.log (error.msg);});
+
 
         //uncategorized emails
         //Emails.getUncategorizedEmailsForProspect($stateParams.prospectId)

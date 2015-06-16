@@ -17,10 +17,10 @@ var express = require('express'),
 module.exports=function(){
 
     var app = express();
-    //var base_url = 'http://localhost:3000';
-    //var upload_url = '.';
-    var base_url = 'http://lit-wave-1072.herokuapp.com';
-    var upload_url = './static';
+    var base_url = 'http://localhost:3000';
+    var upload_url = '.';
+   // var base_url = 'http://lit-wave-1072.herokuapp.com';
+    //var upload_url = './static';
 
 
     app.use(cors());

@@ -90,6 +90,8 @@ angular.module('dashboardApp')
             newEmail.message = newEmail.contents + "\r\n\r\nPlease note this email is generated using Presales Dashboard.";
             newEmail.prospect_id = prospect_id;
             newEmail.cc = presale_email_cc_id;
+            newEmail.cycle_no = newEmail.cycle_no;
+            newEmail.cycle_id = newEmail.cycle_id;
             newEmail.send_date = new Date().toLocaleString();
 
             console.log(newEmail);

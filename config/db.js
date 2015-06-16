@@ -19,5 +19,6 @@ module.exports = function(){
     require('../models/dashboard.participants.js');
     require('../models/dashboard.billable_status.js');
     require('../models/dashboard.emails.js');
+    require('../models/dashboard.cycles.js');
   return db;
 }

@@ -8,7 +8,7 @@
  * Controller of the dashboardApp
  */
 angular.module('dashboardApp')
-  .controller('ProspectEditCtrl', function ($scope, $state, $stateParams, ProspectService, Emails, auth) {
+  .controller('ProspectEditCtrl', function ($scope, $state, $stateParams, ProspectService, Emails, auth, CyclesService) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -40,19 +40,29 @@ angular.module('dashboardApp')
         newProspect._id = getUniqueTime();
         ProspectService.addProspect(newProspect);
 
-          console.log("email sts:"+newProspect.sendEmail);
+          //create cycle
+          var newCycle = {};
+          newCycle._id = getUniqueTime();
+          newCycle.no = 1;
+          newCycle.status = "In progress";
+          newCycle.prospect_id = newProspect._id;
+          newCycle.prospect = newProspect.name;
+          var d = new Date();
+          newCycle.start_date = d.toLocaleString();
+            CyclesService.addCycle(newCycle);
+
       //send email
         if(newProspect.sendEmail)
       	  {
-      	  	console.log("Send email on");
       	    var newEmail = {};
               var subject = "Presale Prospect: "+newProspect.name;
               var from = auth.profile.name;
               var from_name = auth.profile.name;
-      	      var d = new Date();
               newEmail.send_date = d.toLocaleString();
       	      //newEmail.send_date = new Date().toDateString();
       	      newEmail.to = presale_email_id;
+      	      newEmail.cycle_no = 1;
+      	      newEmail.cycle_id = newCycle._id;
               newEmail.contents = subject + " is initialized." + " \r\nProspect Description: "+newProspect.description + " \r\nComments: "+ newProspect.othercomments;
       	    Emails.sendEmail(newEmail, from, from_name, subject, newProspect._id,1);
       	  }

@@ -23,17 +23,29 @@
 
       <div class="collapse navbar-collapse" id="js-navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
-          <li class="active"><a ui-sref="auth.participant.list({prospectId: prospect._id,prospectName:prospect.name})"> Participants</a></li>
+          <li class="active"><a ui-sref="auth.participant.list({prospectId: prospect._id,prospectName:prospect.name})"> Participants &nbsp;</a></li>
          <!-- <li><a ui-sref="auth.emails.uncategorizedEmailsForProspect({prospect_id:prospect._id})"><span class="glyphicon glyphicon-inbox"></span> Uncategorized </a></li>-->
      <!--     <li><a ui-sref="prospect.edit({prospectId: prospect_id})"><span class="glyphicon glyphicon-edit"></span> Edit </a></li>
           <li><a ui-sref="prospect.delete({prospectId: prospect._id})"><span class="glyphicon glyphicon-remove"></span> Delete </a></li>-->
         </ul>
       </div>
-      </div>
-    </div>
-  </div>
-</div>
 
+    </div>
+
+      </div>
+
+    </div>
+<div ng-repeat="cycle in cycles">
+<div class="navbar navbar-default" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <div class="navbar-brand">Cycle {{cycle.no}}</div>
+            </div>
+        <div class="nav navbar-nav navbar-right" width="100%">
+            <a style="font-style: inherit" data-ng-click="completeCycle(1,cycle._id,prospect._id,prospect.name)"><span ng-if="cycle.status != 'Complete'" class="active" ><b>Complete Cycle &nbsp;</b> &nbsp;</span></a>
+        </div>
+    </div>
+</div>
 <!--<div id="parent">
   <div class="panel">
     <div data-toggle="collapse" data-parent="#parent" data-target="#child">test</div>
@@ -349,6 +361,8 @@
        </td></tr>
     </table>
   </accordion-group>
+    </accordion>
+    </div>
    <!-- <accordion-group>
         <accordion-heading>
             <b>Uncategorized Emails</b><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>

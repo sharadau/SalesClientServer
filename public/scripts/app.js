@@ -94,6 +94,16 @@ angular
         templateUrl: "views/participant.list.html",
         controller: "ParticipantListCtrl"
       })
+        .state("auth.cycle", {
+            url: "/cycles/:cycleId",
+            templateUrl: "views/cycle.html",
+            controller: "CycleCtrl"
+        })
+        .state("auth.cycle.list", {
+            url: "/list/:prospectId/:prospectName",
+            templateUrl: "views/cycles.list.html",
+            controller: "CycleListCtrl"
+        })
       .state("auth.emails", {
         url: "/emails",
         templateUrl: "views/emails.html",
