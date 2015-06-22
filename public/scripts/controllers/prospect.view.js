@@ -315,6 +315,8 @@ angular.module('dashboardApp')
             var newP = {};
             newP.cycle_no = cycleNew.cycle_no;
             newP.cycle_id = cycleNew._id;
+            newP.state_id = 1;
+            newP.state = "Initiation";
             newP._id = prospectId;
 
             ProspectService.updateProspect(newP);
