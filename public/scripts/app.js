@@ -110,7 +110,7 @@ angular
         controller: "EmailsCtrl"
       })
       .state("auth.emails.edit", {
-        url: "/edit/:prospectId/:prospectName/:from/:stage",
+        url: "/edit/:prospectId/:prospectName/:from/:stage/:cycle_id/:cycle_no",
         templateUrl: "views/emails.edit.html",
         controller: "EmailsEditCtrl"
       })

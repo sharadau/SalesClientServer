@@ -69,7 +69,7 @@ angular.module('dashboardApp')
                         errorCallback(error);
                     }
                 });
-            this.getCycleForProspect(prospect_id);
+            //this.getCycleForProspect(prospect_id);
         };
 
        /* this.deleteParticipant = function(pId) {

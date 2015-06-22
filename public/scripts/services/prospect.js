@@ -121,21 +121,16 @@ angular.module('dashboardApp')
         {
             newProspect1.company = '';
         }
-    //add prospect to nodejs server
-        if(newProspect1.sendEmail == true)
-        {
-            newProspect1.state = "Internal Preparation";
-            newProspect1.state_id = 3;
-        }else{
-            newProspect1.state = "Initiation";
-            newProspect1.state_id = 1;
-        }
+      //add prospect to nodejs server
+
 
       newProspect1.organization = newProspect1.company;
       newProspect1.employees = ['Ram','Raghu'];
       newProspect1.owner = 'Ram';
       newProspect1.openpositions = 2;
       newProspect1.reddays = 0;
+      newProspect1.state = newProspect1.state;
+      newProspect1.state_id = newProspect1.state_id;
       newProspect1.company = newProspect1.company;
       newProspect1.companyURL = newProspect1.companyURL;
       newProspect1.description = newProspect1.description;

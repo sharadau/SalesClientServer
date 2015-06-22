@@ -79,7 +79,7 @@ if(res.flag != "1") {
         subject: req.body.subject,
         //text: "test email"
         text: req.body.message,
-        cc: "presalesuser@synerzip.com",
+        cc: "salestool1@synerzip.com",
         extra:"extraa"
     };
 //send Email

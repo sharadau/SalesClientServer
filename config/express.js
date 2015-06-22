@@ -17,10 +17,10 @@ var express = require('express'),
 module.exports=function(){
 
     var app = express();
-    var base_url = 'http://localhost:3000';
-    var upload_url = '.';
-   // var base_url = 'http://lit-wave-1072.herokuapp.com';
-    //var upload_url = './static';
+   // var base_url = 'http://localhost:3000';
+    //var upload_url = '.';
+    var base_url = 'http://lit-wave-1072.herokuapp.com';
+    var upload_url = './static';
 
 
     app.use(cors());
@@ -53,12 +53,13 @@ module.exports=function(){
 
     //mail notifier
     var notifier = require('mail-notifier');
-
+    var emailAccount = 'salestool1@synerzip.com';
+    var emailAccountPwd = 'synerzip123';
     var imap = {
-        user: "presalesuser@synerzip.com",
-        //user: "sharada.umarane@synerzip.com",
-        password: "sales@synerzip",
-        //password: "sharada_1210",
+        //user: "presalesuser@synerzip.com",
+        user: "salestool1@synerzip.com",
+        password: "synerzip123",
+        //password: "sales@synerzip",
         host: "imap.gmail.com",
         port: 993,
         tls: true,
@@ -82,9 +83,9 @@ module.exports=function(){
         areaMapping[1] = new Array();
         areaMapping[2] = new Array();
 
-        areaMapping[0][0] = 'subu@synerzip.com';
-        areaMapping[1][0] = 'hemant@synerzip.com';
-        areaMapping[2][0] = 'ashish.shanker@synerzip.com';
+        areaMapping[0][0] = 'mrudula@synerzip.com';
+        areaMapping[1][0] = 'Salesp2@synerzip.com';
+        areaMapping[2][0] = 'Salesp3@synerzip.com';
         areaMapping[0][1] = 'Bay Area';
         areaMapping[1][1] = 'Texas';
         areaMapping[2][1] = 'Texas';
@@ -158,9 +159,12 @@ module.exports=function(){
                     }
                 }
                 if (prospectFlag == "1") {
-                    console.log("in aaaa");
+                    console.log("Cycle no:"+prospects[i].cycle_no);
+                    console.log("Cycle id:"+prospects[i].cycle_id);
                     console.log("stage:"+prospects[i].state_id);
                     console.log("prospect:"+prospects[i]._id);
+                    req.body.cycle_id = prospects[i].cycle_id;
+                    req.body.cycle_no = prospects[i].cycle_no;
                     if (typeof mail.attachments == "object") {
 
                         console.log("attachment:"+JSON.stringify(mail.attachments[0].fileName));
@@ -168,6 +172,8 @@ module.exports=function(){
                             console.log("found engagement letter");
                             //update prospect stage and end date
                             updateProspectStage(prospects[i], prospects[i]._id, date, "Converted", "6");
+                            //update cycle state
+                            updateCycleStage(prospects[i].cycle_id,6);
                             prospects[i].end_date = mail.date.toDateString();
                             updateProspectEndDate(prospects[i], prospects[i]._id);
                             //add engagement letter - engagementLetter
@@ -179,11 +185,15 @@ module.exports=function(){
                         }else if(mail.attachments[0].fileName == 'invite.ics' && prospects[i].state_id < 3){
                             console.log("found calendar invite");
                             updateProspectStage(prospects[i], prospects[i]._id, date, "Internal Preparation", "3");
+                            //update cycle state
+                            updateCycleStage(prospects[i].cycle_id,3);
                         }
                     }else if(prospects[i].state_id < 3)
                     {
                         console.log("update state id to 3 as its initiation email");
                         updateProspectStage(prospects[i], prospects[i]._id, date, "Internal Preparation", "3");
+                        //update cycle state
+                        updateCycleStage(prospects[i].cycle_id,3);
                     }
                     //add the start_date
                     if (typeof prospects[i].start_date != 'date') {
@@ -195,7 +205,7 @@ module.exports=function(){
                     //add the initiated by
                     if (typeof prospects[i].initiatedBy != 'string' || prospects[i].initiatedBy == '' ) {
                         console.log("set initiated By:" + mail.from[0].address);
-                        if(mail.from[0].address == 'subu@synerzip.com' || mail.from[0].address == 'hemant@synerzip.com' || mail.from[0].address == 'ashish.shanker@synerzip.com')
+                        if(mail.from[0].address == 'mrudula@synerzip.com' || mail.from[0].address == 'Salesp2@synerzip.com' || mail.from[0].address == 'Salesp3@synerzip.com')
                         {
                             prospects[i].initiatedBy = mail.from[0].name;
 
@@ -263,7 +273,7 @@ module.exports=function(){
                 var ccs = '';
 
                 //from
-                if (from[0].address != 'presalesuser@synerzip.com' && from[0].address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
+                if (from[0].address != emailAccount && from[0].address != 'presalesuser@synerzip.com' && from[0].address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
                     addParticpant(from[0].address, from[0].name, req.body.prospect_id);
                     // emailNameArray[emailNameArray.length] = from[0].name;
                     // emailArray[emailArray.length] = from[0].address;
@@ -273,7 +283,7 @@ module.exports=function(){
                 mail.to.forEach(function (toUser) {
                     tos += toUser.address + ";";
 
-                    if (toUser.address != 'presalesuser@synerzip.com' && toUser.address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
+                    if (toUser.address != emailAccount && toUser.address != 'presalesuser@synerzip.com' && toUser.address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
                         //console.log("add to:" + toUser.address + " to prospect:" + req.body.prospect_id);
                         addParticpant(toUser.address, toUser.name, req.body.prospect_id);
                         // emailNameArray[emailNameArray.length] = toUser.name;
@@ -285,7 +295,7 @@ module.exports=function(){
                     mail.cc.forEach(function (ccUser) {
                         ccs += ccUser.address + ";";
 
-                        if (ccUser.address != 'presalesuser@synerzip.com' && ccUser.address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
+                        if (ccUser.address != 'presalesuser@synerzip.com' && ccUser.address != emailAccount &&  ccUser.address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
                           //  console.log("add cc:" + ccUser.address + " to prospect:" + req.body.prospect_id);
                             addParticpant(ccUser.address, ccUser.name, req.body.prospect_id);
                             // emailNameArray[emailNameArray.length] = ccUser.name;
@@ -322,6 +332,7 @@ module.exports=function(){
                 req.body.to = tos;
                 req.body.cc = ccs;
 
+
                 //console.log(req.body);
                 emails.create(req, res);
 
@@ -341,9 +352,28 @@ module.exports=function(){
         }
     }).start();
 
+    function updateCycleStage(cycle_id, stage)
+    {
+        console.log("in updateCycleStage:"+cycle_id + " "+stage);
+        var cycles = require('../controllers/cycles.controller');
+
+        request({
+            method: 'PUT',
+            uri: base_url+'/api/cycles/' + cycle_id,
+            form:
+            {
+                current_state: stage
+            }
+        }, function (error, response, body) {
+            if(response.statusCode == 201){
+                console.log("cycle stage updated");
+            } else {
+                console.log('error: '+ response.statusCode + " "+error);
+            }
+        })
+    }
     function updateProspectStage(project, prospect_id, end_date, state, state_id)
     {
-console.log("update stage");
         var projects = require('../controllers/projects.controller');
        /* var body ={
            // "_id":prospect_id,

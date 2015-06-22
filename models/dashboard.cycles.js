@@ -37,7 +37,11 @@ var CyclesSchema = new Schema({
         type:String,
         required:false
     },
-    no:{
+    cycle_no:{
+        type:Number,
+        required:false
+    },
+    current_state:{
         type:Number,
         required:false
     }

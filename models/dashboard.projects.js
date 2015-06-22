@@ -131,6 +131,14 @@ var ProjectsSchema = new Schema({
     notes5:{
         type:[String],
         required:false
+    },
+    cycle_no:{
+        type:Number,
+        required:false
+    },
+    cycle_id:{
+        type:String,
+        required:false
     }
 
 

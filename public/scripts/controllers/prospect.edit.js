@@ -38,17 +38,32 @@ angular.module('dashboardApp')
       {
 
         newProspect._id = getUniqueTime();
-        ProspectService.addProspect(newProspect);
-
           //create cycle
           var newCycle = {};
           newCycle._id = getUniqueTime();
-          newCycle.no = 1;
+          newProspect.cycle_id = newCycle._id;
+          newProspect.cycle_no = 1;
+
+          if(newProspect.sendEmail == true)
+          {
+              newProspect.state = "Internal Preparation";
+              newProspect.state_id = 3;
+          }else{
+              newProspect.state = "Initiation";
+              newProspect.state_id = 1;
+          }
+        ProspectService.addProspect(newProspect);
+
+          //create cycle
+          //var newCycle = {};
+          //newCycle._id = getUniqueTime();
+          newCycle.cycle_no = 1;
           newCycle.status = "In progress";
           newCycle.prospect_id = newProspect._id;
           newCycle.prospect = newProspect.name;
+          newCycle.current_state = newProspect.state_id;
           var d = new Date();
-          newCycle.start_date = d.toLocaleString();
+          newCycle.start_date = d.toDateString();
             CyclesService.addCycle(newCycle);
 
       //send email

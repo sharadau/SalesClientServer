@@ -94,7 +94,9 @@ angular.module('dashboardApp')
             newEmail.cycle_id = newEmail.cycle_id;
             newEmail.send_date = new Date().toLocaleString();
 
-            console.log(newEmail);
+            console.log("newemail:"+JSON.stringify(newEmail));
+            console.log("cycle no in email:"+(newEmail.cycle_no));
+            console.log("cycle in email:"+(newEmail.cycle_id));
             $http.post(service_base_url+'/api/emails', newEmail)
                 .success(function (item) {
                     emails.push(item);

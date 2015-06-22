@@ -263,9 +263,16 @@ angular.module('dashboardApp')
             $scope.prospect.state_id = stage_id;
 
         };
-  $scope.markComplete = function(prospectId, stage, stage_id) {
+  $scope.markComplete = function(prospectId, stage, stage_id, cycle_id) {
 
 	    ProspectService.updateStage(prospectId, stage, stage_id);
+
+      //update cycle stage
+        console.log("update cycle stage");
+        var newCycle = {};
+        newCycle.current_state = stage_id;
+        newCycle._id = cycle_id;
+        CyclesService.updatecycle(newCycle);
 	    $scope.prospect.state_id = stage_id;
 	   
 	  };
@@ -284,22 +291,35 @@ angular.module('dashboardApp')
             var newCycle = {};
             newCycle._id = cycle_id;
             var d = new Date();
-            newCycle.end_date = d.toLocaleString();
+            newCycle.end_date = d.toDateString();
             newCycle.status = "Complete";
             CyclesService.updatecycle(newCycle);
            // $scope.prospect.state_id = stage_id;
-            alert("cycle "+cycle_no+ " is completed!");
 
             //create new cycle
+            console.log("create new cycle");
             var cycleNew = {};
             cycleNew._id = getUniqueTime();
-            cycleNew.start_date = d.toLocaleString();
+            cycleNew.start_date = d.toDateString();
             cycleNew.status = "In Progress";
             cycleNew.prospect_id = prospectId;
             cycleNew.prospect = name;
+            cycleNew.current_state = 1;
             cycleNew.cycle_no = cycle_no + 1;
-            console.log("new cycle:"+cycleNew);
+            console.log("new cycle:"+JSON.stringify(cycleNew));
+            console.log("no cycle:"+cycle_no);
             CyclesService.addCycle(cycleNew);
+
+            //update prospect cycle
+            console.log("update cycle in prospect");
+            var newP = {};
+            newP.cycle_no = cycleNew.cycle_no;
+            newP.cycle_id = cycleNew._id;
+            newP._id = prospectId;
+
+            ProspectService.updateProspect(newP);
+
+            alert("cycle "+cycle_no+ " is completed!");
         };
   //stage2 email
   Emails.getEmailsForProspectStage($stateParams.prospectId, "2")
