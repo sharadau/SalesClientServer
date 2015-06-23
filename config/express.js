@@ -83,8 +83,8 @@ module.exports=function(){
         areaMapping[1] = new Array();
         areaMapping[2] = new Array();
 
-        areaMapping[0][0] = 'mrudula@synerzip.com';
-        areaMapping[1][0] = 'shivalika.phatak@synerzip.com';
+        areaMapping[0][0] = 'Salesp1@synerzip.com';
+        areaMapping[1][0] = 'Salesp2@synerzip.com';
         areaMapping[2][0] = 'Salesp3@synerzip.com';
         areaMapping[0][1] = 'Bay Area';
         areaMapping[1][1] = 'Texas';
@@ -205,7 +205,7 @@ module.exports=function(){
                     //add the initiated by
                     if (typeof prospects[i].initiatedBy != 'string' || prospects[i].initiatedBy == '' ) {
                         console.log("set initiated By:" + mail.from[0].address);
-                        if(mail.from[0].address == 'mrudula@synerzip.com' || mail.from[0].address == 'shivalika.phatak@synerzip.com' || mail.from[0].address == 'Salesp3@synerzip.com')
+                        if(mail.from[0].address == 'Salesp1@synerzip.com' || mail.from[0].address == 'Salesp2@synerzip.com' || mail.from[0].address == 'Salesp3@synerzip.com')
                         {
                             prospects[i].initiatedBy = mail.from[0].name;
 
