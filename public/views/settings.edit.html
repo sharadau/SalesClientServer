@@ -41,35 +41,35 @@
     <label class="navbar-brand subheader" style="color: #000066"><b>Add User</b></label>
 </div>
 <div class="container">
-<form name="addSalesPersonForm" ng-submit="addUser()">
-    <div class="input-group">
-        <span class="input-group-addon">Select</span>
-        <input type="text" style="width:200px" ng-blur="getEmail()" ng-model="asyncSelected" placeholder="Employee" typeahead="name for name in getEmployees($viewValue)" typeahead-loading="loading" class="form-control" required="true">
-    </div><br>
-    <div class="panel-wrapper">
-        <label class="control-label">User Type: </label>
-        <select class="form-control" style="width: 200px" data-ng-model="userType" required="true" >
-            <option value="1">Sales Person</option>
-            <option value="5">Admin</option>
+    <form name="addSalesPersonForm" ng-submit="addUser()">
+        <div class="input-group">
+            <span class="input-group-addon">Select</span>
+            <input type="text" style="width:200px" ng-blur="getEmail()" ng-model="asyncSelected" placeholder="Employee" typeahead="name for name in getEmployees($viewValue)" typeahead-loading="loading" class="form-control" required="true">
+        </div><br>
+        <div class="panel-wrapper">
+            <label class="control-label">User Type: </label>
+            <select class="form-control" style="width: 200px" data-ng-model="userType" required="true" >
+                <option value="1">Sales Person</option>
+                <option value="5">Admin</option>
             </select>
 
-    </div>
-    <div class="panel-wrapper">
-        <label class="control-label">Email Id: </label>
-        <input type="text" style="width:200px" class="form-control" data-ng-model="emailId" required="true" />
-    </div>
-    <div class="panel-wrapper" >
-        <label  class="control-label">Area: </label>
-        <select class="form-control" style="width: 200px" data-ng-model="area" required="true" >
-            <option value="Texas">Texas</option>
-            <option value="Bay Area">Bay Area</option>
-        </select>
-    </div>
-    <div class="panel-wrapper">
-        <button class="btn btn-default" type="submit" ng-disabled="form.$invalid">Add</button>
-    </div>
-</form>
-    </div>
+        </div>
+        <div class="panel-wrapper">
+            <label class="control-label">Email Id: </label>
+            <input type="text" style="width:200px" class="form-control" data-ng-model="emailId" required />
+        </div>
+        <div class="panel-wrapper" >
+            <label  class="control-label">Area: </label>
+            <select class="form-control" style="width: 200px" data-ng-model="area"  required>
+                <option value="Texas">Texas</option>
+                <option value="Bay Area">Bay Area</option>
+            </select>
+        </div>
+        <div class="panel-wrapper">
+            <button ng-disabled="!addSalesPersonForm.$valid" class="btn btn-default" type="submit" ng-disabled="form.$invalid">Add</button>
+        </div>
+    </form>
+</div>
 
 
 

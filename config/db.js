@@ -20,5 +20,6 @@ module.exports = function(){
     require('../models/dashboard.billable_status.js');
     require('../models/dashboard.emails.js');
     require('../models/dashboard.cycles.js');
+    require('../models/dashboard.users.js');
   return db;
 }

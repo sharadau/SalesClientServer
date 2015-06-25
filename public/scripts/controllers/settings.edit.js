@@ -18,13 +18,16 @@ angular.module('dashboardApp')
             UsersService.getUsers()
                 .success (function (data){
                 $scope.Users = data;
-               // console.log("Users: "+$scope.Users)
+                // console.log("Users: "+$scope.Users)
             })
                 .error (function (error){
                 console.log (error);
             });
         }
         $scope.fetchList();
+        /*$scope.displayArea = function() {
+         $scope.areaDiv.style.display = "block";
+         }*/
         $scope.getEmail = function(val) {
             console.log("emps:"+$scope.empEmail);
             console.log("emps:"+$scope.empEmail.length);
@@ -67,7 +70,7 @@ angular.module('dashboardApp')
                 // todo code for deletion
                 UsersService.deleteUser(id);
                 $scope.fetchList();
-               // $state.transitionTo('auth.settings.edit');
+                // $state.transitionTo('auth.settings.edit');
             }
         }
 
