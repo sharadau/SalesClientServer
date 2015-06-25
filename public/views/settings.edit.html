@@ -1,0 +1,76 @@
+<div class="header">
+    <div class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <span class="navbar-brand subheader" style="color: #000066"><b>Users</b></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div ng-if="Users.length > 0" style="overflow: scroll; height:auto;">
+        <table width="100%">
+            <tr>
+                <th width="25%">Name</th>
+                <th width="34%">Email Id</th>
+                <th width="20%">User Type</th>
+                <th width="15%">Area</th>
+                <th width="25%">Delete</th>
+            </tr>
+        </table>
+        <table class="table table-hover table-responsive table-condensed tab-content" data-ng-repeat="sp in Users">
+            <td width="25%">
+                {{sp.name}}
+            </td>
+            <td width="35%">
+                {{sp.emailId}}
+            </td>
+            <td width="20%">
+                <span ng-if="sp.user_type == 5">Admin</span>
+                <span ng-if="sp.user_type == 1">Sales Person</span>
+            </td>
+            <td width="15%">
+                {{sp.area}}
+            </td>
+            <td><a data-ng-click="deleteSalesPerson(sp._id,sp.name)"><span class="glyphicon glyphicon-remove"></span></a></td>
+        </table>
+    </div>
+</div>
+<div class="container">
+    <label class="navbar-brand subheader" style="color: #000066"><b>Add User</b></label>
+</div>
+<div class="container">
+<form name="addSalesPersonForm" ng-submit="addUser()">
+    <div class="input-group">
+        <span class="input-group-addon">Select</span>
+        <input type="text" style="width:200px" ng-blur="getEmail()" ng-model="asyncSelected" placeholder="Employee" typeahead="name for name in getEmployees($viewValue)" typeahead-loading="loading" class="form-control" required="true">
+    </div><br>
+    <div class="panel-wrapper">
+        <label class="control-label">User Type: </label>
+        <select class="form-control" style="width: 200px" data-ng-model="userType" required="true" >
+            <option value="1">Sales Person</option>
+            <option value="5">Admin</option>
+            </select>
+
+    </div>
+    <div class="panel-wrapper">
+        <label class="control-label">Email Id: </label>
+        <input type="text" style="width:200px" class="form-control" data-ng-model="emailId" required="true" />
+    </div>
+    <div class="panel-wrapper" >
+        <label  class="control-label">Area: </label>
+        <select class="form-control" style="width: 200px" data-ng-model="area" required="true" >
+            <option value="Texas">Texas</option>
+            <option value="Bay Area">Bay Area</option>
+        </select>
+    </div>
+    <div class="panel-wrapper">
+        <button class="btn btn-default" type="submit" ng-disabled="form.$invalid">Add</button>
+    </div>
+</form>
+    </div>
+
+
+
+

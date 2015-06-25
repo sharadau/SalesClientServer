@@ -171,7 +171,7 @@ angular.module('dashboardApp')
     ProspectService.getProspect($stateParams.prospectId)
       .success (function (data){
       $scope.prospect = data;
-        $scope.prospect.participants = "sharada.umarane@synerzip.com";
+       // $scope.prospect.participants = "sharada.umarane@synerzip.com";
         if(typeof $scope.prospect.questionsDoc != 'string')
         {
             $scope.prospect.questionsDoc = "";

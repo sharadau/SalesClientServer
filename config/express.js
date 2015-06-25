@@ -17,10 +17,10 @@ var express = require('express'),
 module.exports=function(){
 
     var app = express();
-   // var base_url = 'http://localhost:3000';
-    //var upload_url = '.';
-    var base_url = 'http://lit-wave-1072.herokuapp.com';
-    var upload_url = './static';
+    var base_url = 'http://localhost:3000';
+    var upload_url = '.';
+    //var base_url = 'http://lit-wave-1072.herokuapp.com';
+    //var upload_url = './static';
 
 
     app.use(cors());
@@ -53,13 +53,13 @@ module.exports=function(){
 
     //mail notifier
     var notifier = require('mail-notifier');
-    var emailAccount = 'salestool1@synerzip.com';
-    var emailAccountPwd = 'synerzip123';
+    var emailAccount = 'presalesuser@synerzip.com';
+    var emailAccountPwd = 'sales@synerzip';
     var imap = {
-        //user: "presalesuser@synerzip.com",
-        user: "salestool1@synerzip.com",
-        password: "synerzip123",
-        //password: "sales@synerzip",
+        user: emailAccount,
+        //user: "salestool1@synerzip.com",
+        //password: "synerzip123",
+        password: emailAccountPwd,
         host: "imap.gmail.com",
         port: 993,
         tls: true,
@@ -75,20 +75,22 @@ module.exports=function(){
     var uemailNameArray = [];
     var uemailArray = [];*/
 
+
     notifier(imap).on('mail',function(mail){
-        var areaMapping = new Array;
+
         console.log("Mail notifier started!!!");
 
-        areaMapping[0] = new Array();
+
+       /* areaMapping[0] = new Array();
         areaMapping[1] = new Array();
         areaMapping[2] = new Array();
 
-        areaMapping[0][0] = 'salesp1@synerzip.com';
-        areaMapping[1][0] = 'salesp2@synerzip.com';
-        areaMapping[2][0] = 'salesp3@synerzip.com';
+        areaMapping[0][0] = 'sharada.umarane@gmail.com';
+        areaMapping[1][0] = 'Salesp2@synerzip.com';
+        areaMapping[2][0] = 'Salesp3@synerzip.com';
         areaMapping[0][1] = 'Bay Area';
         areaMapping[1][1] = 'Texas';
-        areaMapping[2][1] = 'Texas';
+        areaMapping[2][1] = 'Texas';*/
 
         var subject = mail.subject;
         var from = mail.from;
@@ -137,7 +139,7 @@ module.exports=function(){
 
                 var prospects = JSON.parse(body);
                 var prospectFlag = 0;
-
+                var prospectFound = '';
                 //add prospect id
                 for (i = 0; i < prospects.length; i++) {
                     if (subject.toLowerCase().search(prospects[i].name.toLowerCase()) != -1) {
@@ -146,6 +148,7 @@ module.exports=function(){
                         console.log("current stage:"+prospects[i].state_id);
                         req.body.stage = prospects[i].state_id;
                         prospectFlag = 1;
+                        prospectFound = prospects[i]._id;
                         break;
                     } else if (typeof message == "string") {
 
@@ -154,6 +157,7 @@ module.exports=function(){
                             req.body.prospect_id = prospects[i]._id;
                             req.body.stage = prospects[i].state_id;
                             prospectFlag = 1;
+                            prospectFound = prospects[i]._id;
                             break;
                         }
                     }
@@ -163,6 +167,7 @@ module.exports=function(){
                     console.log("Cycle id:"+prospects[i].cycle_id);
                     console.log("stage:"+prospects[i].state_id);
                     console.log("prospect:"+prospects[i]._id);
+                    console.log("prospectFound:"+prospectFound);
                     req.body.cycle_id = prospects[i].cycle_id;
                     req.body.cycle_no = prospects[i].cycle_no;
                     if (typeof mail.attachments == "object") {
@@ -202,32 +207,60 @@ module.exports=function(){
                         //update prospect for start date
                         updateProspectStartDate(prospects[i], prospects[i]._id);
                     }
-                    //add the initiated by
-                    if (typeof prospects[i].initiatedBy != 'string' || prospects[i].initiatedBy == '' ) {
-                        console.log("set initiated By:" + mail.from[0].address);
-                        if(mail.from[0].address == 'salesp1@synerzip.com' || mail.from[0].address == 'salesp2@synerzip.com' || mail.from[0].address == 'salesp3@synerzip.com')
-                        {
-                            prospects[i].initiatedBy = mail.from[0].name;
 
-                            //update prospect for start date
-                            updateProspectInitiatedBy(prospects[i], prospects[i]._id);
-                        }
+                    //add the initiated by
+                    console.log("type of :"+typeof prospects[i].initiatedBy);
+                    console.log("ini by:"+ prospects[i].initiatedBy);
+                    if (typeof prospects[i].initiatedBy != 'string' || prospects[i].initiatedBy == '' ) {
+
+                        //retrieve sales persons
+                        var areaMapping = new Array;
+                        var saleFlag = false;
+                        console.log("check initiated by")
+                        request(base_url+'/api/users/user_type/'+'1', {}, function (err, res, body) {
+                            var salesPersons = JSON.parse(body);
+                            console.log(JSON.parse(body));
+                            for (i = 0; i < salesPersons.length; i++) {
+                                console.log("sales p:"+salesPersons[i].name);
+                                areaMapping[i] = new Array();
+                                areaMapping[i][0] = salesPersons[i].emailId;
+                                areaMapping[i][1] = salesPersons[i].area;
+                                console.log("compare sale p:"+mail.from[0].address+" "+salesPersons[i].emailId);
+                                if(mail.from[0].address == salesPersons[i].emailId){
+                                    saleFlag = true;
+                                    console.log("got match");
+                                    console.log("set initiated By:" + mail.from[0].address);
+                                    console.log("saleFlag:" + saleFlag);
+                                    if(saleFlag)
+                                    {
+                                        console.log("in salesflag"+JSON.stringify(prospects[i]));
+                                        //prospects[i].initiatedBy = mail.from[0].name;
+                                        //update prospect for start date
+                                        updateProspectInitiatedBy(mail.from[0].name, prospectFound);
+                                        console.log("set area");
+                                        updateProspectArea(salesPersons[i].area,prospectFound);
+                                    }
+                                    break;
+                                }
+                            }
+                        });
+
                     }
                     //add area depend on sales person
-                    if (typeof prospects[i].area != 'string' || prospects[i].area == '') {
+                   /* if (typeof prospects[i].area != 'string' || prospects[i].area == '') {
                         prospects[i].area = '';
                         console.log("set area");
                         for (j = 0; j < areaMapping.length; j++) {
                             if (mail.from[0].address == areaMapping[j][0]) {
                                 prospects[i].area = areaMapping[j][1];
                                 //update prospect for area
-                                updateProspectArea(prospects[i], prospects[i]._id);
+                                updateProspectArea(prospects[i].area, prospects[i]._id);
                                 break;
                             }
                         }
 
 
-                    }
+                    }*/
                     //find client URL
                     var calendarInvite = 0;
                     if (typeof mail.attachments == "object" && mail.attachments[0].fileName != 'invite.ics'){
@@ -489,16 +522,16 @@ console.log("set start date:"+project.start_date);
         //projects.updateStage(req, res);
 
     };
-    function updateProspectArea(project, prospect_id)
+    function updateProspectArea(area, prospect_id)
     {
-console.log("updateProspectArea"+project.area);
+console.log("updateProspectArea"+area);
         var projects = require('../controllers/projects.controller');
         request({
             method: 'PUT',
             uri: base_url+'/api/projects/' + prospect_id,
             form:
             {
-                area: project.area
+                area: area
             }
         }, function (error, response, body) {
             if(response.statusCode == 201){
@@ -513,9 +546,9 @@ console.log("updateProspectArea"+project.area);
         //projects.updateStage(req, res);
 
     };
-    function updateProspectInitiatedBy(project, prospect_id)
+    function updateProspectInitiatedBy(initiatedBy, prospect_id)
     {
-        console.log("update prospect for initiated by:"+project);
+        console.log("update prospect for initiated by:"+initiatedBy+" project:"+prospect_id);
 
         var projects = require('../controllers/projects.controller');
 
@@ -524,7 +557,7 @@ console.log("updateProspectArea"+project.area);
             uri: base_url+'/api/projects/' + prospect_id,
             form:
             {
-                initiatedBy: project.initiatedBy
+                initiatedBy: initiatedBy
             }
         }, function (error, response, body) {
             if(response.statusCode == 201){

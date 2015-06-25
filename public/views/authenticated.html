@@ -19,9 +19,10 @@
                 <li ><a ui-sref="auth.dashboard"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
               <li class="active"><a ui-sref="auth.home"><span class="glyphicon glyphicon-tasks"></span> Prospects</a></li>
 
-              <li><a ng-if="auth.profile.name=='salesp1@synerzip.com' || auth.profile.name=='salesp2@synerzip.com'" ui-sref="auth.prospect.edit"><span class="glyphicon glyphicon-certificate"></span> New</a></li>
+              <li><a ng-if="auth.profile.name=='sharada.umarane@synerzip.com' || auth.profile.name=='mrudula@synerzip.com'" ui-sref="auth.prospect.edit"><span class="glyphicon glyphicon-certificate"></span> New</a></li>
 
               <li><a ui-sref="auth.emails.ulist"><span class="glyphicon glyphicon-inbox"></span> Uncategorized </a></li>
+              <li><a ng-if="auth.profile.name=='sharada.umarane@synerzip.com' || auth.profile.name=='mrudula@synerzip.com' || auth.profile.name=='salesp2@synerzip.com' || auth.profile.name=='salesp1@synerzip.com'" ui-sref="auth.settings.edit"><span class="glyphicon glyphicon-cog"></span> Settings </a></li>
             </ul>
             <button ng-click="logout()" style="float: right;" class="btn btn-default navbar-btn">Logout</button>
         </div>

@@ -6,6 +6,6 @@
 var service_base_url = 'https://lit-wave-1072.herokuapp.com';
 //var service_base_url = 'http://localhost:3000';
 //var presale_email_id = "presales@synerzip.com";
-var presale_email_id = "sharada.umarane@synerzip.com";
+var presale_email_id = "salestool1@synerzip.com";
 var presale_email_cc_id = "salestool1@synerzip.com";
 var email_from = auth.profile.name;
