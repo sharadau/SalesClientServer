@@ -5,6 +5,10 @@ module.exports = {
   // db: 'mongodb://sharadaumarane:sharadaumarane@ds031962.mongolab.com:31962/dashboard', //for dev
     //baseUrl:"http://localhost:3000",
    // baseUrl:"http://pure-crag-4108.herokuapp.com",
-    presalesEmailId:"presalesuser@synerzip.com",
-    presalesEmailPwd:"sales@synerzip"
+    presalesEmailId:"salestool1@synerzip.com",
+    presalesEmailPwd:"synerzip123",
+   // base_url :'http://localhost:3000',
+   // upload_url: '.'
+    base_url : 'http://lit-wave-1072.herokuapp.com',
+    upload_url : './static'
 };

@@ -13,12 +13,13 @@ var express = require('express'),
     request = require('request'),
     response = require('response'),
     https = require('https');
+    var config = require('./config-dev');
 
 module.exports=function(){
 
     var app = express();
-    var base_url = 'http://localhost:3000';
-    var upload_url = '.';
+    var base_url = config.base_url;
+    var upload_url = config.upload_url;
     //var base_url = 'http://lit-wave-1072.herokuapp.com';
     //var upload_url = './static';
 
@@ -53,8 +54,8 @@ module.exports=function(){
 
     //mail notifier
     var notifier = require('mail-notifier');
-    var emailAccount = 'presalesuser@synerzip.com';
-    var emailAccountPwd = 'sales@synerzip';
+    var emailAccount = config.presalesEmailId;
+    var emailAccountPwd = config.presalesEmailPwd;
     var imap = {
         user: emailAccount,
         //user: "salestool1@synerzip.com",
@@ -306,7 +307,7 @@ module.exports=function(){
                 var ccs = '';
 
                 //from
-                if (from[0].address != emailAccount && from[0].address != 'presalesuser@synerzip.com' && from[0].address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
+                if (from[0].address != emailAccount && from[0].address != config.presalesEmailId && from[0].address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
                     addParticpant(from[0].address, from[0].name, req.body.prospect_id);
                     // emailNameArray[emailNameArray.length] = from[0].name;
                     // emailArray[emailArray.length] = from[0].address;
@@ -316,7 +317,7 @@ module.exports=function(){
                 mail.to.forEach(function (toUser) {
                     tos += toUser.address + ";";
 
-                    if (toUser.address != emailAccount && toUser.address != 'presalesuser@synerzip.com' && toUser.address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
+                    if (toUser.address != emailAccount && toUser.address != config.presalesEmailId && toUser.address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
                         //console.log("add to:" + toUser.address + " to prospect:" + req.body.prospect_id);
                         addParticpant(toUser.address, toUser.name, req.body.prospect_id);
                         // emailNameArray[emailNameArray.length] = toUser.name;
@@ -328,7 +329,7 @@ module.exports=function(){
                     mail.cc.forEach(function (ccUser) {
                         ccs += ccUser.address + ";";
 
-                        if (ccUser.address != 'presalesuser@synerzip.com' && ccUser.address != emailAccount &&  ccUser.address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
+                        if (ccUser.address != config.presalesEmailId && ccUser.address != emailAccount &&  ccUser.address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
                           //  console.log("add cc:" + ccUser.address + " to prospect:" + req.body.prospect_id);
                             addParticpant(ccUser.address, ccUser.name, req.body.prospect_id);
                             // emailNameArray[emailNameArray.length] = ccUser.name;

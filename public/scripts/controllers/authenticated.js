@@ -11,8 +11,27 @@
  * Controller of the dashboardApp
  */
 angular.module('dashboardApp')
-    .controller('AuthCtrl', function ($scope, auth, $state,store) {
+    .controller('AuthCtrl', function ($scope, auth, $state,store, UsersService) {
         $scope.auth = auth;
+        UsersService.getUserForType(5)
+            .success (function (data){
+            $scope.adminUsers = data;
+            $scope.auth.profile.role = '';
+            for(var u=0;u<$scope.adminUsers.length;u++)
+            {
+                if($scope.adminUsers[u].emailId == $scope.auth.profile.name)
+                {
+                    $scope.auth.profile.role = "admin";
+                    console.log("user is admin");
+                    break;
+                }
+            }
+
+        })
+            .error (function (error){
+            console.log (error);
+        });
+
         //console.log($scope.auth);
         $scope.logout = function(){
             auth.signout();
