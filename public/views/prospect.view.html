@@ -97,9 +97,9 @@
               <td colspan="5"><div ng-repeat="textArea1 in textAreas1">
                   <table>
                       <tr><td>
-                      <textarea id="maxlength_textarea" style="background: lightgoldenrodyellow" class="form-control" maxlength="225" rows="2" cols="80" data-ng-model="textArea1.textBox" placeholder="Enter Note here"></textarea>
+                      <textarea id="maxlength_textarea" style="background: lightgoldenrodyellow" class="form-control" maxlength="225" rows="2" cols="70" data-ng-model="textArea1.textBox" placeholder="Enter Note here"></textarea>
                       </td><td>
-                          <button class="btn btn-default" data-ng-model="textArea1.button" ng-click="sendNotesEmail(textArea1,prospect.name,prospect._id,'1','Initiation')"><span class="glyphicon glyphicon-envelope"></span></button>
+                          <button ng-show="participants.length > 0" class="btn btn-default" data-ng-model="textArea1.button" ng-click="sendNotesEmail(textArea1,prospect.name,prospect._id,'1','Initiation')"><span class="glyphicon glyphicon-envelope"></span></button>
                      </td>
                       </tr>
                </table>
@@ -112,10 +112,10 @@
       <tr><td width="50%"><b>Email Subject: </b></td><td ng-if="prospect._id == emailsForStage1[0].prospect_id && email1.stage == 1">{{emailsForStage1[0].subject}}</td></tr>
       <tr><td width="50%"><b>Message: </b></td><td></td></tr>
      </table><br/>
-     <table data-ng-repeat="email1 in emailsForStage1">
+     <table  data-ng-repeat="email1 in emailsForStage1">
       <tr ng-if="prospect._id == email1.prospect_id && email1.stage == 1 && cycle.cycle_no == email1.cycle_no"><td width="50%" colspan="2"><b>Sent from {{email1.from}} on {{email1.send_date}}:</b></td></tr>
       <tr ng-if="prospect._id == email1.prospect_id && email1.stage == 1 && cycle.cycle_no == email1.cycle_no"><td width="50%">Subject: {{email1.subject}}</td><td></td></tr>
-      <tr ng-if="prospect._id == email1.prospect_id && email1.stage == 1 && cycle.cycle_no == email1.cycle_no"><td width="50%"><textarea rows="3" cols="93" readonly="readonly">{{email1.contents}}</textarea></td><td></td></tr>
+      <tr ng-if="prospect._id == email1.prospect_id && email1.stage == 1 && cycle.cycle_no == email1.cycle_no"><td width="50%"><textarea rows="3" cols="78" readonly="readonly">{{email1.contents}}</textarea></td><td></td></tr>
     </table>
    <!-- <accordion-group heading="{{email1.subject}}" ng-repeat="email1 in emailsForStage1">
       {{email1.contents}}
@@ -223,7 +223,7 @@
                   <table><tr><td>
                   <textarea id="maxlength_textarea" class="form-control" style="background: lightgoldenrodyellow" maxlength="225" rows="2" cols="200" data-ng-model="textArea3.textBox" placeholder="Enter Note here"></textarea>
                   <td>
-                      <button class="btn btn-default" data-ng-model="textArea1.button" ng-click="sendNotesEmail(textArea3,prospect.name,prospect._id,'3','Internal Preparation')"><span class="glyphicon glyphicon-envelope"></span></button>
+                      <button ng-show="participants.length > 0" class="btn btn-default" data-ng-model="textArea1.button" ng-click="sendNotesEmail(textArea3,prospect.name,prospect._id,'3','Internal Preparation')"><span class="glyphicon glyphicon-envelope"></span></button>
                   </td></tr></table>
               </div></td>
           </tr>
@@ -270,7 +270,7 @@
     <table data-ng-repeat="email3 in emailsForStage3">
       <tr ng-if="prospect._id == email3.prospect_id && email3.stage == 3 && cycle.cycle_no == email3.cycle_no"><td width="50%" colspan="2"><b>Sent from {{email3.from}} on {{email3.send_date}}:</b></td></tr>
        <tr ng-if="prospect._id == email3.prospect_id && email3.stage == 3 && cycle.cycle_no == email3.cycle_no"><td width="50%">Subject: {{email3.subject}}</td><td></td></tr>
-      <tr ng-if="prospect._id == email3.prospect_id && email3.stage == 3 && cycle.cycle_no == email3.cycle_no"><td width="50%"><textarea rows="3" cols="93" readonly="readonly">{{email3.contents}}</textarea></td><td></td></tr>
+      <tr ng-if="prospect._id == email3.prospect_id && email3.stage == 3 && cycle.cycle_no == email3.cycle_no"><td width="50%"><textarea rows="3" cols="78" readonly="readonly">{{email3.contents}}</textarea></td><td></td></tr>
     </table>
   </accordion-group>
   <!--<accordion-group>
@@ -322,7 +322,8 @@
                   <table>
                       <tr><td>
                   <textarea id="maxlength_textarea" style="background: lightgoldenrodyellow" class="form-control" maxlength="225" rows="2" cols="200" data-ng-model="textArea5.textBox" placeholder="Enter Note here"></textarea>
-                          </td><td> <button class="btn btn-default" data-ng-model="textArea1.button" ng-click="sendNotesEmail(textArea5,prospect.name,prospect._id,'5','Engagement Start')"><span class="glyphicon glyphicon-envelope"></span></button></td>
+                          </td><td>
+                          <button ng-show="participants.length > 0" class="btn btn-default" data-ng-model="textArea1.button" ng-click="sendNotesEmail(textArea5,prospect.name,prospect._id,'5','Engagement Start')"><span class="glyphicon glyphicon-envelope"></span></button></td>
                   </tr>
                   </table>
               </div></td>
@@ -331,7 +332,7 @@
       <table data-ng-repeat="email5 in emailsForStage5">
           <tr ng-if="prospect._id == email5.prospect_id && email5.stage == 5 && cycle.cycle_no == email5.cycle_no"><td width="50%" colspan="2"><b>Sent from {{email5.from}} on {{email5.send_date}}:</b></td></tr>
           <tr ng-if="prospect._id == email5.prospect_id && email5.stage == 5 && cycle.cycle_no == email5.cycle_no"><td width="50%">Subject: {{email5.subject}}</td><td></td></tr>
-          <tr ng-if="prospect._id == email5.prospect_id && email5.stage == 5 && cycle.cycle_no == email5.cycle_no"><td width="50%"><textarea rows="3" cols="93" readonly="readonly">{{email5.contents}}</textarea></td><td></td></tr>
+          <tr ng-if="prospect._id == email5.prospect_id && email5.stage == 5 && cycle.cycle_no == email5.cycle_no"><td width="50%"><textarea rows="3" cols="78" readonly="readonly">{{email5.contents}}</textarea></td><td></td></tr>
       </table>
       <hr>
       <table width="100%">

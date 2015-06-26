@@ -21,6 +21,26 @@ angular.module('dashboardApp')
         $scope.textAreas4=[];
         $scope.textAreas5=[];
 
+        //fetch participants
+        $scope.fetchParticipantList = function(){
+            participant.getParticipantForProspect($stateParams.prospectId)
+                .success (function (data){
+                $scope.participants = '';
+                for(var i=0;i<data.length;i++)
+                {
+                    $scope.participants += data[i].email + ",";
+                }
+                $scope.participants = $scope.participants.substr(0,$scope.participants.length-1);
+                $scope.newEmail = {
+                    to: $scope.participants
+                }
+            })
+                .error (function (error){
+                console.log (error);
+            });
+        }
+        //fetch participants for this prospect
+        $scope.fetchParticipantList();
         $scope.addMore=function(stage){
             if(stage == '1')
             {
@@ -43,26 +63,7 @@ angular.module('dashboardApp')
         }
         $scope.sendNotesEmail=function(item, pname, prospectId,stage_id,stage){
 
-            //fetch participants
-            $scope.fetchParticipantList = function(){
-                participant.getParticipantForProspect(prospectId)
-                    .success (function (data){
-                    $scope.participants = '';
-                    for(var i=0;i<data.length;i++)
-                    {
-                        $scope.participants += data[i].email + ",";
-                    }
-                    $scope.participants = $scope.participants.substr(0,$scope.participants.length-1);
-                    $scope.newEmail = {
-                        to: $scope.participants
-                    }
-                })
-                    .error (function (error){
-                    console.log (error);
-                });
-            }
-            //fetch participants for this prospect
-            $scope.fetchParticipantList();
+
             console.log("stage:"+stage);
             console.log("item:"+item.textBox);
             console.log("to:"+$scope.participants);
