@@ -18,7 +18,7 @@ angular.module('dashboardApp')
             UsersService.getUsers()
                 .success (function (data){
                 $scope.Users = data;
-                // console.log("Users: "+$scope.Users)
+               // console.log("Users: "+$scope.Users)
             })
                 .error (function (error){
                 console.log (error);
@@ -26,8 +26,8 @@ angular.module('dashboardApp')
         }
         $scope.fetchList();
         /*$scope.displayArea = function() {
-         $scope.areaDiv.style.display = "block";
-         }*/
+            $scope.areaDiv.style.display = "block";
+        }*/
         $scope.getEmail = function(val) {
             console.log("emps:"+$scope.empEmail);
             console.log("emps:"+$scope.empEmail.length);
@@ -36,6 +36,7 @@ angular.module('dashboardApp')
                 console.log("emp array:"+$scope.empEmail[i][0] + " sync:"+$scope.asyncSelected);
                 if($scope.asyncSelected == $scope.empEmail[i][0])
                 {
+                    $scope.emailId = $scope.empEmail[i][1];
                     $scope.emailId = $scope.empEmail[i][1];
                 }
             }
@@ -62,6 +63,7 @@ angular.module('dashboardApp')
             //$scope.area = null;
             $scope.fetchList();
             alert("Added User");
+            window.location.reload();
         };
 
         $scope.deleteSalesPerson = function(id, name) {
@@ -70,7 +72,8 @@ angular.module('dashboardApp')
                 // todo code for deletion
                 UsersService.deleteUser(id);
                 $scope.fetchList();
-                // $state.transitionTo('auth.settings.edit');
+               // $state.reload();
+                window.location.reload();
             }
         }
 

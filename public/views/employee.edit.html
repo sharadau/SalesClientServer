@@ -1,0 +1,52 @@
+<div class="header">
+    <div class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <span class="navbar-brand subheader" style="color: #000066"><b>Employees</b></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div ng-if="employees.length > 0" style="overflow: scroll; height:auto;">
+        <table width="100%">
+            <tr>
+                <th width="35%">Name</th>
+                <th width="40%">Email Id</th>
+                <th width="25%">Delete</th>
+            </tr>
+        </table>
+        <table class="table table-hover table-responsive table-condensed tab-content" data-ng-repeat="sp in employees">
+            <td width="35%">
+                {{sp.name}}
+            </td>
+            <td width="40%">
+                {{sp.emailId}}
+            </td>
+            <td><a data-ng-click="deleteEmployee(sp._id,sp.name)"><span class="glyphicon glyphicon-remove"></span></a></td>
+        </table>
+    </div>
+</div>
+<div class="container">
+    <label class="navbar-brand subheader" style="color: #000066"><b>Add Employee</b></label>
+</div>
+<div class="container">
+<form name="addEmployeeForm" ng-submit="addEmployee()">
+     <div class="panel-wrapper">
+        <label class="control-label">Name: </label>
+        <input type="text" style="width:200px" class="form-control" data-ng-model="name" required />
+    </div>
+    <div class="panel-wrapper">
+        <label class="control-label">Email Id: </label>
+        <input type="text" style="width:200px" class="form-control" data-ng-model="emailId" required />
+    </div>
+    <div class="panel-wrapper">
+        <button ng-disabled="!addEmployeeForm.$valid" class="btn btn-default" type="submit" ng-disabled="form.$invalid">Add</button>
+    </div>
+</form>
+    </div>
+
+
+
+

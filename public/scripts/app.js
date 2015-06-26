@@ -147,6 +147,19 @@ angular
             url: "/edit",
             templateUrl: "views/settings.edit.html",
             controller: "SettingsEditCtrl"
+        }).state("auth.settings.view", {
+            url: "/view",
+            templateUrl: "views/settings.view.html"
+        })
+        .state("auth.employee", {
+            url: "/employee",
+            templateUrl: "views/employee.html",
+            controller: "EmployeeCtrl"
+        })
+        .state("auth.employee.edit", {
+            url: "/edit",
+            templateUrl: "views/employee.edit.html",
+            controller: "EmployeeEditCtrl"
         })
         // Add a simple interceptor that will fetch all requests and add the jwt token to its authorization header.
         // NOTE: in case you are calling APIs which expect a token signed with a different secret, you might

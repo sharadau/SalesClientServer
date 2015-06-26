@@ -22,7 +22,7 @@
               <li><a ng-if="auth.profile.role == 'admin'" ui-sref="auth.prospect.edit"><span class="glyphicon glyphicon-certificate"></span> New</a></li>
 
               <li><a ui-sref="auth.emails.ulist"><span class="glyphicon glyphicon-inbox"></span> Uncategorized </a></li>
-              <li><a ng-if="auth.profile.role == 'admin'" ui-sref="auth.settings.edit"><span class="glyphicon glyphicon-cog"></span> Settings </a></li>
+              <li ><a ng-if="auth.profile.role == 'admin'" ui-sref="auth.settings.view"><span class="glyphicon glyphicon-cog"></span> Settings </a></li>
             </ul>
             <button ng-click="logout()" style="float: right;" class="btn btn-default navbar-btn">Logout</button>
         </div>
