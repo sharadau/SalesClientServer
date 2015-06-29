@@ -163,14 +163,35 @@ module.exports=function(){
                         }
                     }
                 }
+
+                //add participants
+                var tos = '';
+                var ccs = '';
                 if (prospectFlag == "1") {
-                    console.log("Cycle no:"+prospects[i].cycle_no);
-                    console.log("Cycle id:"+prospects[i].cycle_id);
+                    var nonSynerzipId = false;
+
                     console.log("stage:"+prospects[i].state_id);
-                    console.log("prospect:"+prospects[i]._id);
                     console.log("prospectFound:"+prospectFound);
                     req.body.cycle_id = prospects[i].cycle_id;
                     req.body.cycle_no = prospects[i].cycle_no;
+
+                    //to
+                    mail.to.forEach(function (toUser) {
+                        tos += toUser.address + ";";
+
+                        if (toUser.address != emailAccount && toUser.address != config.presalesEmailId && toUser.address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
+                            console.log("add to:" + toUser.address + " to prospect:" + req.body.prospect_id);
+                            addParticpant(toUser.address, toUser.name, prospectFound);
+                            //check if one of the email id is non synerzip
+                            var emailPart = '';
+                            if(toUser.address.toLowerCase().search('synerzip.com') == -1)
+                            {
+                                console.log("found id without synerzip.com");
+                                nonSynerzipId = true;
+
+                            }
+                        }
+                    });
                     if (typeof mail.attachments == "object") {
 
                         console.log("attachment:"+JSON.stringify(mail.attachments[0].fileName));
@@ -188,11 +209,11 @@ module.exports=function(){
                             require("fs").writeFile('./uploads/'+mail.attachments[0].fileName, mail.attachments[0].content, 'base64', function(err) {
                                 console.log(err);
                             });
-                        }else if(mail.attachments[0].fileName == 'invite.ics' && prospects[i].state_id < 3){
+                        }else if(mail.attachments[0].fileName == 'invite.ics' && prospects[i].state_id < 5 && nonSynerzipId == true){
                             console.log("found calendar invite");
-                            updateProspectStage(prospects[i], prospects[i]._id, date, "Internal Preparation", "3");
+                            updateProspectStage(prospects[i], prospects[i]._id, date, "Engagement Start", "5");
                             //update cycle state
-                            updateCycleStage(prospects[i].cycle_id,3);
+                            updateCycleStage(prospects[i].cycle_id,5);
                         }
                     }else if(prospects[i].state_id < 3)
                     {
@@ -208,6 +229,7 @@ module.exports=function(){
                         //update prospect for start date
                         updateProspectStartDate(prospects[i], prospects[i]._id);
                     }
+
 
                     //add the initiated by
                     console.log("type of :"+typeof prospects[i].initiatedBy);
@@ -226,15 +248,11 @@ module.exports=function(){
                                 areaMapping[i] = new Array();
                                 areaMapping[i][0] = salesPersons[i].emailId;
                                 areaMapping[i][1] = salesPersons[i].area;
-                                console.log("compare sale p:"+mail.from[0].address+" "+salesPersons[i].emailId);
                                 if(mail.from[0].address == salesPersons[i].emailId){
                                     saleFlag = true;
-                                    console.log("got match");
                                     console.log("set initiated By:" + mail.from[0].address);
-                                    console.log("saleFlag:" + saleFlag);
                                     if(saleFlag)
                                     {
-                                        console.log("in salesflag"+JSON.stringify(prospects[i]));
                                         //prospects[i].initiatedBy = mail.from[0].name;
                                         //update prospect for start date
                                         updateProspectInitiatedBy(mail.from[0].name, prospectFound);
@@ -302,9 +320,7 @@ module.exports=function(){
                     "flag": "1"
                 };
 
-                //add participants
-                var tos = '';
-                var ccs = '';
+
 
                 //from
                 if (from[0].address != emailAccount && from[0].address != config.presalesEmailId && from[0].address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
@@ -314,7 +330,7 @@ module.exports=function(){
 
                 }
                 //to
-                mail.to.forEach(function (toUser) {
+               /* mail.to.forEach(function (toUser) {
                     tos += toUser.address + ";";
 
                     if (toUser.address != emailAccount && toUser.address != config.presalesEmailId && toUser.address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
@@ -323,7 +339,7 @@ module.exports=function(){
                         // emailNameArray[emailNameArray.length] = toUser.name;
                         //emailArray[emailArray.length] = toUser.address;
                     }
-                });
+                });*/
                 //cc
                 if (typeof mail.cc == "object") {
                     mail.cc.forEach(function (ccUser) {
@@ -425,6 +441,7 @@ module.exports=function(){
         //request.put('http://localhost:3000/api/projects/updateStage/'+prospect_id, {multipart:[{body:body}]}, function(err, res, body) {
            // console.log("get project:" + body);
         //});
+        console.log("in updateCycleStage:"+prospect_id+" state:"+state);
         request({
             method: 'PUT',
             uri: base_url+'/api/projects/updateStage/' + prospect_id,
@@ -435,7 +452,7 @@ module.exports=function(){
                 }
         }, function (error, response, body) {
             if(response.statusCode == 201){
-             console.log("prospect stage updated");
+             console.log("prospect stage updated:"+prospect_id+" st:"+state);
               //  console.log('document saved as: http://mikeal.iriscouch.com/testjs/'+ rand);
             } else {
                 console.log('error: '+ response.statusCode + " "+error);
