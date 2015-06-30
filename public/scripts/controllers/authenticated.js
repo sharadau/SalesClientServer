@@ -38,5 +38,6 @@ angular.module('dashboardApp')
             store.remove('profile');
             store.remove('token');
             $state.go('auth.dashboard');
+            window.location.reload();
         }
     });
