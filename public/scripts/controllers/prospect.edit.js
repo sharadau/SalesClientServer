@@ -95,5 +95,8 @@ angular.module('dashboardApp')
         collection.push(item);
       }
     };
+        $scope.cancelUpdate = function(){
+            window.history.back();
+        }
 
   });

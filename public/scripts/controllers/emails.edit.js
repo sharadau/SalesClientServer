@@ -69,5 +69,8 @@ angular.module('dashboardApp')
         $state.transitionTo('auth.prospect.view', {prospectId: $scope.prospect_id});
        // $state.transitionTo('prospect.view', {prospectId: 2});
       };
+        $scope.cancelEmail = function(){
+            window.history.back();
+        }
 
   });
