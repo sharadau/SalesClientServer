@@ -110,8 +110,8 @@ angular.module('dashboardApp')
         };
 
 
-        this.updateEmail = function (email_id, prospect_id, stage) {
-console.log("update email:"+email_id+" stage:"+stage + "pid:"+prospect_id);
+        this.updateEmail = function (email_id, prospect_id, stage, prospect_cycle_id, prospect_cycle_no) {
+console.log("update email:"+email_id+" stage:"+stage + "pid:"+prospect_id+" cycle:"+prospect_cycle_id);
             console.log("pid typeof:"+ typeof prospect_id);
             //prospect_id = 1;
             var successCallback, errorCallback;
@@ -123,6 +123,8 @@ console.log("update email:"+email_id+" stage:"+stage + "pid:"+prospect_id);
             emails.stage = stage;
             if(typeof prospect_id == 'number') {
                 emails.prospect_id = prospect_id;
+                emails.cycle_id = prospect_cycle_id;
+                emails.cycle_no = prospect_cycle_no;
             }
             $http.put(service_base_url+'/api/emails/update/'+email_id,emails)
                 .success(function(item){

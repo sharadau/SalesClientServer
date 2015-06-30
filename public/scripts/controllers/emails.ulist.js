@@ -45,6 +45,8 @@ angular.module('dashboardApp')
 
         $scope.prospectSelected=function(item){
             $scope.prospect = item._id;
+            $scope.prospect_cycle_id = item.cycle_id;
+            $scope.prospect_cycle_no = item.cycle_no;
 
         }
         $scope.selectEmail = function(email_id){
@@ -54,10 +56,11 @@ angular.module('dashboardApp')
             console.log("selected emails:"+$scope.emailsSelected);
             console.log("selected stage:"+$scope.stage);
             console.log("selected prospect:"+$scope.prospect);
+            console.log("cycle:"+$scope.prospect_cycle_id);
             if(typeof $scope.stage == 'string' && typeof $scope.prospect == 'number') {
                 for (var i = 0; i < $scope.emailsSelected.length; i++) {
                     //update emails
-                    Emails.updateEmail($scope.emailsSelected[i], $scope.prospect, $scope.stage)
+                    Emails.updateEmail($scope.emailsSelected[i], $scope.prospect, $scope.stage,$scope.prospect_cycle_id, $scope.prospect_cycle_no)
                         .success(function (data) {
                         console.log("Email is moved" + data);
                     })
