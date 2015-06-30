@@ -8,7 +8,7 @@
  * Controller of the dashboardApp
  */
 angular.module('dashboardApp')
-  .controller('EmailsUListCtrl', function ($scope, $state, $stateParams, Emails, ProspectService) {
+  .controller('EmailsUListCtrl', function ($scope, $state, $stateParams, $modal, Emails, ProspectService) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -82,4 +82,27 @@ angular.module('dashboardApp')
             //$scope.emailsSelected = new Array();
         };
 
+
+        $scope.open = function (subject,contents,from) {
+
+            var modalInstance = $modal.open({
+                animation: true,
+                template: '<div class="modal-header"><h3 class="modal-title">'+subject+'</h3><h4 class="modal-title"> From:'+from+'</h4></div><div class="modal-body"><textarea rows="20" cols="70" readonly>'+contents+'</textarea></div><div class="modal-footer"><button class="btn btn-primary" ng-click="ok()">OK</button></div>',
+                //template: 'contents:'+contents,
+                controller: 'ModalInstanceCtrl',
+                size: ''
+            });
+
+        };
+
     });
+angular.module('dashboardApp').controller('ModalInstanceCtrl', function ($scope, $modalInstance) {
+
+    $scope.ok = function () {
+        $modalInstance.close();
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+});
