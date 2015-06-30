@@ -167,6 +167,23 @@ module.exports=function(){
                 //add participants
                 var tos = '';
                 var ccs = '';
+                //to
+                mail.to.forEach(function (toUser) {
+                    tos += toUser.address + ";";
+
+                    if (toUser.address != emailAccount && toUser.address != config.presalesEmailId && toUser.address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
+                        console.log("add to:" + toUser.address + " to prospect:" + req.body.prospect_id);
+                        addParticpant(toUser.address, toUser.name, prospectFound);
+                        //check if one of the email id is non synerzip
+                        var emailPart = '';
+                        if(toUser.address.toLowerCase().search('synerzip.com') == -1)
+                        {
+                            console.log("found id without synerzip.com");
+                            nonSynerzipId = true;
+
+                        }
+                    }
+                });
                 if (prospectFlag == "1") {
                     var nonSynerzipId = false;
 
@@ -175,23 +192,7 @@ module.exports=function(){
                     req.body.cycle_id = prospects[i].cycle_id;
                     req.body.cycle_no = prospects[i].cycle_no;
 
-                    //to
-                    mail.to.forEach(function (toUser) {
-                        tos += toUser.address + ";";
 
-                        if (toUser.address != emailAccount && toUser.address != config.presalesEmailId && toUser.address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
-                            console.log("add to:" + toUser.address + " to prospect:" + req.body.prospect_id);
-                            addParticpant(toUser.address, toUser.name, prospectFound);
-                            //check if one of the email id is non synerzip
-                            var emailPart = '';
-                            if(toUser.address.toLowerCase().search('synerzip.com') == -1)
-                            {
-                                console.log("found id without synerzip.com");
-                                nonSynerzipId = true;
-
-                            }
-                        }
-                    });
                     if (typeof mail.attachments == "object") {
 
                         console.log("attachment:"+JSON.stringify(mail.attachments[0].fileName));
