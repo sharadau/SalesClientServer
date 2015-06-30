@@ -1,10 +1,8 @@
 module.exports=function(app){
 
 
-    require('../routes/organizations.route')(app);
     require('../routes/projects.route')(app);
     require('../routes/employees.route')(app);
-    require('../routes/billable_status.route')(app);
     require('../routes/participants.route')(app);
     require('../routes/emails.route')(app);
     require('../routes/fileupload.route')(app);
