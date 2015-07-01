@@ -131,36 +131,39 @@ angular.module('dashboardApp')
         };
         $scope.onFileSelect = function($files, newProspect) {
             //$files: an array of files selected, each file has name, size, and type.
-            for (var i = 0; i < $files.length; i++) {
-                var file = $files[i];
-                $scope.upload = $upload.upload({
-                    url: service_base_url+'/api/fileupload', //upload.php script, node.js route, or servlet url
-                    //url: 'htt://localhost:63342/Phantom-Server/public/', //upload.php script, node.js route, or servlet url
-                    method: 'POST',
-                    //headers: {'header-key': 'header-value'},
-                    //withCredentials: true,
-                    data: {myObj: file.name},
-                    file: file // or list of files ($files) for html5 only
-                    //fileName: 'doc.jpg' or ['1.jpg', '2.jpg', ...] // to modify the name of the file(s)
-                    // customize file formData name ('Content-Desposition'), server side file variable name.
-                    //fileFormDataName: myFile, //or a list of names for multiple files (html5). Default is 'file'
-                    // customize how data is added to formData. See #40#issuecomment-28612000 for sample code
-                    //formDataAppender: function(formData, key, val){}
-                }).progress(function(evt) {
-                    console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
-                }).success(function(data, status, headers, config) {
-                    // file is uploaded successfully
-                    console.log(newProspect);
-                    //$scope.newProspect.uploadStatus.value = "File uploaded successfully!!!";
-                    console.log("uploaded file name:"+data);
-                }).error(function (err) {
-                    // file failed to upload
-                    console.log("upload error"+err);
-                });
-                //.error(...)
-                //.then(success, error, progress);
-                // access or attach event listeners to the underlying XMLHttpRequest.
-                //.xhr(function(xhr){xhr.upload.addEventListener(...)})
+            console.log("files:"+$files);
+            if(typeof $files == 'object') {
+                for (var i = 0; i < $files.length; i++) {
+                    var file = $files[i];
+                    $scope.upload = $upload.upload({
+                        url: service_base_url + '/api/fileupload', //upload.php script, node.js route, or servlet url
+                        //url: 'htt://localhost:63342/Phantom-Server/public/', //upload.php script, node.js route, or servlet url
+                        method: 'POST',
+                        //headers: {'header-key': 'header-value'},
+                        //withCredentials: true,
+                        data: {myObj: file.name},
+                        file: file // or list of files ($files) for html5 only
+                        //fileName: 'doc.jpg' or ['1.jpg', '2.jpg', ...] // to modify the name of the file(s)
+                        // customize file formData name ('Content-Desposition'), server side file variable name.
+                        //fileFormDataName: myFile, //or a list of names for multiple files (html5). Default is 'file'
+                        // customize how data is added to formData. See #40#issuecomment-28612000 for sample code
+                        //formDataAppender: function(formData, key, val){}
+                    }).progress(function (evt) {
+                        console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+                    }).success(function (data, status, headers, config) {
+                        // file is uploaded successfully
+                        console.log(newProspect);
+                        //$scope.newProspect.uploadStatus.value = "File uploaded successfully!!!";
+                        console.log("uploaded file name:" + data);
+                    }).error(function (err) {
+                        // file failed to upload
+                        console.log("upload error" + err);
+                    });
+                    //.error(...)
+                    //.then(success, error, progress);
+                    // access or attach event listeners to the underlying XMLHttpRequest.
+                    //.xhr(function(xhr){xhr.upload.addEventListener(...)})
+                }
             }
             /* alternative way of uploading, send the file binary with the file's content-type.
              Could be used to upload files to CouchDB, imgur, etc... html5 FileReader is needed.
@@ -222,21 +225,26 @@ angular.module('dashboardApp')
     .error (function (error){
     console.log (error.msg);});
 
-        $scope.acceptProspect = function(newProspect, prospectId, stage, stage_id) {
+        $scope.acceptProspect = function(newProspect, prospectId, stage, stage_id, cycle_id) {
 
-           // newProspect = newProspect || {};
-
-           // $scope.newProspect = {};
-           // console.log("notes:"+notes);
-            //console.log("notess:"+newProspect.closureNotes);
-            //console.log(newProspect);
             $scope.onFileSelect($scope.uploadFiles, newProspect);
 
+            var fileN = '';
+            if(typeof $scope.uploadFiles == 'object' )
+            {
+                fileN = $scope.uploadFiles[0].name;
+            }
            // ProspectService.updateStage(prospectId, stage, stage_id);
-            ProspectService.ClosureDetails(prospectId, stage, stage_id, newProspect.closureNotes, $scope.uploadFiles[0].name);
+            ProspectService.ClosureDetails(prospectId, stage, stage_id, newProspect.closureNotes, fileN);
             $scope.prospect.state_id = stage_id;
-            $scope.prospect.engagementLetter = $scope.uploadFiles[0].name;
-
+            $scope.prospect.engagementLetter = fileN;
+            //update cycle stage
+            console.log("update cycle stage");
+            var newCycle = {};
+            newCycle.current_state = stage_id;
+            newCycle._id = cycle_id;
+            CyclesService.updatecycle(newCycle);
+            window.location.reload();
 
         };
         $scope.addQuestions = function(newProspect, prospectId) {
@@ -253,7 +261,7 @@ angular.module('dashboardApp')
 
 
         };
-        $scope.rejectProspect = function(newProspect, prospectId, stage, stage_id) {
+        $scope.rejectProspect = function(newProspect, prospectId, stage, stage_id, cycle_id) {
 
             newProspect = newProspect || {};
 
@@ -262,20 +270,37 @@ angular.module('dashboardApp')
 
             ProspectService.ClosureDetails(prospectId, stage, stage_id, "closurenotes","");
             $scope.prospect.state_id = stage_id;
+            //update cycle stage
+            console.log("update cycle stage");
+            var newCycle = {};
+            newCycle.current_state = stage_id;
+            newCycle._id = cycle_id;
+            CyclesService.updatecycle(newCycle);
+            window.location.reload();
 
         };
   $scope.markComplete = function(prospectId, stage, stage_id, cycle_id) {
 
-	    ProspectService.updateStage(prospectId, stage, stage_id);
+        var markFlag = true;
+        if(stage_id == 5 && $scope.emailsForStage3.length == 0)
+        {
+            if(confirm("Are u sure you want to complete this stage? Generally Internal Preparation completes after client call!") == false)
+            {
+                markFlag = false;
+            }
+        }
+      if(markFlag == true) {
+          ProspectService.updateStage(prospectId, stage, stage_id);
 
-      //update cycle stage
-        console.log("update cycle stage");
-        var newCycle = {};
-        newCycle.current_state = stage_id;
-        newCycle._id = cycle_id;
-        CyclesService.updatecycle(newCycle);
-	    $scope.prospect.state_id = stage_id;
-	   
+          //update cycle stage
+          console.log("update cycle stage");
+          var newCycle = {};
+          newCycle.current_state = stage_id;
+          newCycle._id = cycle_id;
+          CyclesService.updatecycle(newCycle);
+          $scope.prospect.state_id = stage_id;
+          window.location.reload();
+      }
 	  };
         //retrieve cycles for stage1
         CyclesService.getCycleForProspect($stateParams.prospectId)
@@ -295,7 +320,7 @@ angular.module('dashboardApp')
             newCycle.end_date = d.toDateString();
             newCycle.status = "Complete";
             CyclesService.updatecycle(newCycle);
-           // $scope.prospect.state_id = stage_id;
+            // $scope.prospect.state_id = stage_id;
 
             //create new cycle
             console.log("create new cycle");
@@ -307,8 +332,8 @@ angular.module('dashboardApp')
             cycleNew.prospect = name;
             cycleNew.current_state = 1;
             cycleNew.cycle_no = cycle_no + 1;
-            console.log("new cycle:"+JSON.stringify(cycleNew));
-            console.log("no cycle:"+cycle_no);
+            console.log("new cycle:" + JSON.stringify(cycleNew));
+            console.log("no cycle:" + cycle_no);
             CyclesService.addCycle(cycleNew);
 
             //update prospect cycle
@@ -322,7 +347,8 @@ angular.module('dashboardApp')
 
             ProspectService.updateProspect(newP);
 
-            alert("cycle "+cycle_no+ " is completed!");
+            alert("cycle " + cycle_no + " is completed!");
+            window.location.reload();
         };
   //stage2 email
   Emails.getEmailsForProspectStage($stateParams.prospectId, "2")

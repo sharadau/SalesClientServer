@@ -338,7 +338,7 @@
       <table width="100%">
           <tr><td> &nbsp; </td></tr>
        <tr><td width ="90%">
-       <form name="newProspectForm" enctype='multipart/form-data' ng-submit="acceptProspect(newProspect,prospect._id,'Converted','6')" >
+       <form name="newProspectForm" enctype='multipart/form-data' ng-submit="acceptProspect(newProspect,prospect._id,'Converted','6',cycle._id)" >
            <div class="panel-wrapper">
                <label class="control-label">Closure Details: </label>
                <textarea rows="5" class="form-control" data-ng-model="newProspect.closureNotes" placeholder="Please add accept or reject reason"></textarea>
@@ -358,7 +358,7 @@
                <span class="glyphicon glyphicon-thumbs-up"></span> Accept Prospect
            </button>&nbsp;&nbsp;&nbsp;
 
-           <button ng-if="cycle.current_state < 6" class="btn btn-default" data-ng-click="rejectProspect(newProspect,prospect._id,'On Hold','7')">
+           <button ng-if="cycle.current_state < 6" class="btn btn-default" data-ng-click="rejectProspect(newProspect,prospect._id,'On Hold','7',cycle._id)">
                <span class="glyphicon glyphicon-thumbs-down"></span> Hold Prospect
            </button>
        </form>
