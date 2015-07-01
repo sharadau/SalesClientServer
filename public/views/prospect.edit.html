@@ -12,7 +12,8 @@
 
     <div class="panel-wrapper">
       <label class="control-label">Company URL: </label>
-      <input type="text" class="form-control" data-ng-model="newProspect.companyURL" />
+        <input type="url" ng-model="newProspect.companyURL" class="form-control" name="url"  />
+        <span style="color: red" ng-show="newProspectForm.url.$error.url">Please enter a valid url</span>
     </div>
 
     <div class="panel-wrapper">

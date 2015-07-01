@@ -240,7 +240,7 @@
               <tr>
                   <div class="panel-wrapper" ng-if="prospect.questionsDoc == ''"  >
                       <td width="20%" colspan="2">
-                          <label ng-if="prospect.questionsDoc == '' || prospect.questionsDoc == 'undefined'" class="control-label">Upload Questions Document: </label>
+                          <label ng-if="prospect.questionsDoc == '' || prospect.questionsDoc == 'undefined'" class="control-label">Upload Document: </label>
                       </td>
                       <td> <input ng-if="prospect.questionsDoc == '' || prospect.questionsDoc == 'undefined'" type="file" ng-file-select="fileSelection($files)" class="form-control" file-model="questionsDoc"/>
                           <label ng-if="prospect.questionsDoc == '' || prospect.questionsDoc == 'undefined'" class="control-label" data-ng-model="newProspect.uploadStatus"></label>
