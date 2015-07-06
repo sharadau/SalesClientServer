@@ -29,6 +29,8 @@
             <td width="20%">
                 <span ng-if="sp.user_type == 5">Admin</span>
                 <span ng-if="sp.user_type == 1">Sales Person</span>
+                <span ng-if="sp.user_type == 6">CEO/CTO</span>
+                <span ng-if="sp.user_type == 2">Engineering Person</span>
             </td>
             <td width="15%">
                 {{sp.area}}
@@ -51,7 +53,9 @@
     <div class="panel-wrapper">
         <label class="control-label">User Type: </label>
         <select class="form-control" style="width: 200px" data-ng-model="userType" required="true" >
+            <option value="6">CEO/CTO</option>
             <option value="1">Sales Person</option>
+            <option value="2">Engineering Person</option>
             <option value="5">Admin</option>
             </select>
 

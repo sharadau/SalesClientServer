@@ -27,17 +27,18 @@
   <td width="80%">
     <a ui-sref="participant.view({participantId: participant._id})">{{participant.name}}</a>
   </td>
-  <td><a data-ng-click="deleteParticipant(participant._id,participant.name,prospect_id)" ui-sref="home"><span class="glyphicon glyphicon-remove"></span> Delete </a></td>
+  <td><a ng-if="auth.profile.prospectPrivilage.length > 0 && auth.profile.prospectPrivilage.indexOf('DELETE_PARTICIPANT') != -1" data-ng-click="deleteParticipant(participant._id,participant.name,prospect_id)" ui-sref="home"><span class="glyphicon glyphicon-remove"></span> Delete </a></td>
 </table>
   </div>
   </div>
+<!--<span ng-if="auth.profile.prospectPrivilage.length > 0 && auth.profile.prospectPrivilage.indexOf('ADD_PARTICIPANT') != -1">-->
 <div class="container">
       <label class="navbar-brand subheader" style="color: #000066"><b>Add Participant</b></label>
 </div>
 <form name="addParticipantForm" novalidate>
   <div class="input-group">
     <span class="input-group-addon">Select</span>
-    <input type="text" ng-model="asyncSelected" placeholder="Employees" typeahead="name for name in getEmployees($viewValue)" typeahead-loading="loading" class="form-control">
+    <input type="text" ng-model="asyncSelected" placeholder="Employees" typeahead="emailId for emailId in getEmployees($viewValue)" typeahead-loading="loading" class="form-control">
                     <span class="input-group-btn">
                       <button type=button class="btn btn-default" data-ng-click="addParticipant(prospect_id)">Add</button>
                     </span>

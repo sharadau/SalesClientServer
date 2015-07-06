@@ -15,6 +15,22 @@ var express = require('express'),
     https = require('https');
     var config = require('./config-dev');
 
+/*var GoogleContacts = require('google-contacts').GoogleContacts;
+var c = new GoogleContacts({
+    token: '688990567774-hpk2p1u3p1b9cen043bk55pd5mivq23a.apps.googleusercontent.com'
+});
+c.on('error', function (e) {
+    console.log('error', e);
+});
+c.on('contactsReceived', function (contacts) {
+    console.log('contacts: ' + contacts);
+});
+c.on('contactGroupsReceived', function (contactGroups) {
+    console.log('groups: ' + contactGroups);
+});
+c.getContacts('thin', 100);
+//c.getContactGroups('thin', 200);
+*/
 module.exports=function(){
 
     var app = express();
@@ -93,18 +109,18 @@ module.exports=function(){
         areaMapping[1][1] = 'Texas';
         areaMapping[2][1] = 'Texas';*/
 
-        var subject = mail.subject;
-        var from = mail.from;
-       // var date = mail.date.getDate()+"-"+mail.date.getMonth()+"-"+mail.date.getFullYear()+" "+mail.date.getHours()+":"+mail.date.getMinutes()+":"+mail.date.getSeconds();
-        var date = mail.date.toLocaleString();
-        var to = mail.to;
-        var message = mail.text;
-        var cc = '';
-        if(typeof mail.cc == "String")
-        {
-            cc = mail.cc;
-        }
-        console.log("GOT MAIL on: " +date);
+            var subject = mail.subject;
+            var from = mail.from;
+           // var date = mail.date.getDate()+"-"+mail.date.getMonth()+"-"+mail.date.getFullYear()+" "+mail.date.getHours()+":"+mail.date.getMinutes()+":"+mail.date.getSeconds();
+            var date = mail.date.toLocaleString();
+            var to = mail.to;
+            var message = mail.text;
+            var cc = '';
+            if(typeof mail.cc == "String")
+            {
+                cc = mail.cc;
+            }
+            console.log("GOT MAIL on: " +date);
         //console.log("GOT message: " +JSON.stringify(mail));
        //if email is not generated with sales dashboard
         if(typeof mail.message != "string")
@@ -259,6 +275,9 @@ module.exports=function(){
                                         updateProspectInitiatedBy(mail.from[0].name, prospectFound);
                                         console.log("set area");
                                         updateProspectArea(salesPersons[i].area,prospectFound);
+                                        console.log("add sales person as participant");
+                                        addSalesParticpant(mail.from[0].address, mail.from[0].name, req.body.prospect_id);
+
                                     }
                                     break;
                                 }
@@ -608,6 +627,47 @@ console.log("updateProspectArea"+area);
                 //console.log(body);
             }
         })
+
+    };
+    function addSalesParticpant(address, name, p_id )
+    {
+        var participants = require('../controllers/participants.controller');
+
+        //check if participant exists or not
+        request(base_url+'/api/participants/prospect/'+p_id, function(err, res, body) {
+            var emails = JSON.parse(body);
+            var existsFlag = 0;
+
+            emails.forEach(function(participant){
+                //console.log("existing email: "+participant.email + " add : " + address);
+                if(participant.email == address)
+                {
+                    //console.log("do not add email:"+address);
+                    existsFlag = 1;
+                }
+            });
+            if(existsFlag == 0)
+            {
+                //console.log("add email:"+address);
+                if(name == ''){
+                    name = address;
+                }
+                var body ={
+                    "name":name,
+                    "email":address,
+                    "prospect_id":p_id,
+                    "_id" : getUniqueTime(),
+                    "initiatedProspect" : '1'
+                };
+                var req = {
+                    "body":body
+                };
+                var res = {
+                    "flag":"1"
+                };
+                participants.create(req,res);
+            }
+        });
 
     };
     function addParticpant(address, name, p_id )

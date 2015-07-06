@@ -22,7 +22,6 @@ angular.module('dashboardApp')
                 success: function (callback) {successCallback = callback; return response;},
                 error: function (callback) {errorCallback = callback; return response;}
             };
-            console.log("cycleId: " + cycleId);
             $http.get(service_base_url+'/api/cycles/'+cycleId)
                 .success(function(item){
                     successCallback(item);
@@ -42,7 +41,6 @@ angular.module('dashboardApp')
                 success: function (callback) {successCallback = callback; return response;},
                 error: function (callback) {errorCallback = callback; return response;}
             };
-            console.log("getCycleForProspect prospectId: " + prospectId);
             $http.get(service_base_url+'/api/cycles/prospect/'+prospectId)
                 .success(function(item){
                     successCallback(item);
@@ -57,11 +55,9 @@ angular.module('dashboardApp')
             return response;
         };
             this.addCycle = function(newcycle, prospect_id) {
-            console.log(" newcycle: "+ JSON.stringify(newcycle));
             $http.post(service_base_url+'/api/cycles', newcycle)
                 .success(function (item) {
                     participants.push(item);
-                    console.log("Added cycle "+name);
                 })
                 .error(function (error) {
                     if (error) {
@@ -87,7 +83,6 @@ angular.module('dashboardApp')
         };*/
 
         this.updatecycle = function(newCycle) {
-            console.log("inputs:");
             console.log(newCycle);
 
             $http.put(service_base_url+'/api/cycles/' + newCycle._id, newCycle)
@@ -96,7 +91,6 @@ angular.module('dashboardApp')
                     if (idx !== -1) {
                         cycles[idx] = item;
                     }
-                    console.log("Cycle Completed");
                 })
                 .error(function (error) {
                     if (error) {

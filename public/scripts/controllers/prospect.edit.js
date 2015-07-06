@@ -8,7 +8,7 @@
  * Controller of the dashboardApp
  */
 angular.module('dashboardApp')
-  .controller('ProspectEditCtrl', function ($scope, $state, $stateParams, ProspectService, Emails, auth, CyclesService) {
+  .controller('ProspectEditCtrl', function ($scope, $state, $stateParams, ProspectService, Emails, auth, CyclesService, participant) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -53,6 +53,12 @@ angular.module('dashboardApp')
               newProspect.state_id = 1;
           }
         ProspectService.addProspect(newProspect);
+
+          if($scope.auth.profile.userType == 'sales_person') {
+              //add participant
+              console.log("adding salesperson as participant");
+              participant.addSalesParticipant($scope.auth.profile.name, newProspect._id);
+          }
 
           //create cycle
           //var newCycle = {};
@@ -99,4 +105,18 @@ angular.module('dashboardApp')
             window.history.back();
         }
 
+
+        // Same validator as AngularJS's, only with a different RegExp.
+       $scope.urlValidator = function(){
+            //var URL_REGEXP = /^(?:http|ftp)s?:\/\/(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|localhost|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::\d+)?(?:\/?|[\/?]\S+)$/gi;
+            var URL_REGEXP = "(^(?:(?:.*?)?//)?[^/?#;]*)";
+           var value = $scope.companyURL;
+           console.log("url:"+value);
+           alert("valid:"+URL_REGEXP.test(value));
+            if ( URL_REGEXP.test(value)) {
+               alert("valid"+URL_REGEXP.test(value));
+            } else {
+                alert("invalid");
+            }
+        };
   });

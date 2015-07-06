@@ -18,7 +18,6 @@ angular.module('dashboardApp')
         success: function (callback) {successCallback = callback; return response;},
         error: function (callback) {errorCallback = callback; return response;}
       };
-      console.log("participantId: " + participantId);
       $http.get(service_base_url+'/api/employees/'+participantId)
         .success(function(item){
           successCallback(item);
@@ -38,8 +37,6 @@ angular.module('dashboardApp')
         success: function (callback) {successCallback = callback; return response;},
         error: function (callback) {errorCallback = callback; return response;}
       };
-      console.log("getParticipantForProspect prospectId: " + participantId);
-     // $http.get('http://localhost:3000/api/employees/prospect/'+participantId)
         $http.get(service_base_url+'/api/participants/prospect/'+participantId)
         .success(function(item){
           successCallback(item);
@@ -58,8 +55,6 @@ angular.module('dashboardApp')
                 success: function (callback) {successCallback = callback; return response;},
                 error: function (callback) {errorCallback = callback; return response;}
             };
-            console.log("getProspectForParticipantTechnology prospectId: " + searchVal.name + " "+searchVal.technology);
-            // $http.get('http://localhost:3000/api/employees/prospect/'+participantId)
             $http.get(service_base_url+'/api/participants/name/'+searchVal.name)
                 .success(function(item){
                     successCallback(item);
@@ -73,13 +68,19 @@ angular.module('dashboardApp')
             return response;
         };
 
-    this.addParticipant = function(name, prospect_id) {
+    this.addSalesParticipant = function(name, prospect_id) {
+        var successCallback, errorCallback;
+        var response = {
+            success: function (callback) {successCallback = callback; return response;},
+            error: function (callback) {errorCallback = callback; return response;}
+        };
       var newParticipant={};
-      console.log("name: "+name+" prospect_id: "+prospect_id);
       newParticipant.prospect_id = prospect_id ;
       newParticipant.name = name ;
-      newParticipant.email = "sharada.umarane@gmail.com" ;
+      newParticipant.email = name ;
+      newParticipant.initiatedProspect = '1' ;
       newParticipant._id = getUniqueTime();
+
       $http.post(service_base_url+'/api/participants', newParticipant)
         .success(function (item) {
           participants.push(item);
@@ -93,6 +94,32 @@ angular.module('dashboardApp')
         });
       this.getParticipantForProspect(prospect_id);
     };
+
+        this.addParticipant = function(name, prospect_id) {
+            var successCallback, errorCallback;
+            var response = {
+                success: function (callback) {successCallback = callback; return response;},
+                error: function (callback) {errorCallback = callback; return response;}
+            };
+            var newParticipant={};
+            newParticipant.prospect_id = prospect_id ;
+            newParticipant.name = name ;
+            newParticipant.email = name ;
+            newParticipant._id = getUniqueTime();
+
+            $http.post(service_base_url+'/api/participants', newParticipant)
+                .success(function (item) {
+                    participants.push(item);
+                    console.log("Added participant "+name);
+                })
+                .error(function (error) {
+                    if (error) {
+                        console.log(error);
+                        errorCallback(error);
+                    }
+                });
+            this.getParticipantForProspect(prospect_id);
+        };
 
     this.deleteParticipant = function(pId) {
       $http.delete(service_base_url+'/api/participants/'+pId)
@@ -109,8 +136,6 @@ angular.module('dashboardApp')
     };
 
     this.updateParticipant = function(newParticipant) {
-      console.log("inputs:");
-      console.log(newParticipant);
 
       $http.put(service_base_url+'/api/projects/' + newParticipant._id, newParticipant)
         .success(function (item) {

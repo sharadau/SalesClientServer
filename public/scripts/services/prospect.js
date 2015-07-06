@@ -121,7 +121,7 @@ angular.module('dashboardApp')
         {
             newProspect1.company = '';
         }
-      //add prospect to nodejs server
+
 
 
       newProspect1.organization = newProspect1.company;
@@ -144,32 +144,6 @@ angular.module('dashboardApp')
      // newProspect1._id = newProspect1.id;
       console.log(newProspect1);
       $http.post(service_base_url+'/api/projects', newProspect1)
-     
-    	 //add prospect to java server
-       /* newProspect.name = newProspect1.name;
-        newProspect.companyURL = newProspect1.company;
-        newProspect.lookupvo = {'lookupId':9};
-        newProspect.description = newProspect1.description;
-        newProspect.createdDate = new Date().getTime();
-        newProspect.createdBy = 1;
-        newProspect.updatedDate = new Date().getTime();
-        newProspect.updatedBy = 1;    
-        newProspect.teamMixList = [{"lookupvo":{
-            "lookupId":1
-        },
-        "quantity":4}];        
-        	console.log(JSON.stringify(newProspect));
-     
-        $.ajax({
-            type: "POST",
-            dataType: 'json',
-            data:JSON.stringify(newProspect),
-            url: 'http://localhost:8080/SalesDashBoard/rest/prospect/create',
-            //crossDomain : true,
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          })*/
         .success(function (item) {
           prospects.push(item);
         })
@@ -178,7 +152,14 @@ angular.module('dashboardApp')
             errorCallback(error);
           }
         });
-      
+
+        //add prospect to nodejs server
+        //initiatedProspect add participant
+        if(newProspect1.initiatedBy != '')
+        {
+
+        }
+
     };
 
     this.deleteProspectById = function(projId) {

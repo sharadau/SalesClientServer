@@ -46,6 +46,25 @@ console.log("userById");
         }
     });
 };
+exports.getUserByEmailId=function(req,res,next,emailId){
+    console.log("getUserByEmailId:"+emailId);
+    Users.findOne({emailId:emailId},function(err,user){
+        if(err){
+            next(err);
+        }
+        if(user){
+            req.user=user;
+            next();
+        }
+        else{
+            var error={
+                error:"User not found"
+            };
+            res.status(404).send(error);
+        }
+    });
+};
+
 exports.getUserByType=function(req,res,next,user_type){
 console.log("getUserByType");
     Users.find({user_type:user_type},function(err,user){

@@ -19,10 +19,20 @@ angular.module('dashboardApp')
                 chrome: true,
                 standalone: true
             }, function(profile, token) {
+
+            //check if user id is synerzip id
+            if(auth.profile.name.search("synerzip.com") == -1)
+            {
+                console.log("non synerzip user");
+                profile.userType = "outsider";
+                profile.privilage = [];
+             //   $state.go('auth.loginError');
+            }else {
                 store.set('profile', profile);
                 store.set('token', token);
                 //$location.path("/");
                 $state.go('auth.dashboard');
+            }
             }, function(error) {
                 console.log("There was an error logging in", error);
             });

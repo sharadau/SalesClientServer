@@ -107,7 +107,24 @@ angular.module('dashboardApp')
           }
         });
     };
+this.getUserByEmailId = function(id) {
+    var successCallback, errorCallback;
+    var response = {
+        success: function (callback) {successCallback = callback; return response;},
+        error: function (callback) {errorCallback = callback; return response;}
+    };
+    $http.get(service_base_url+'/api/users/emailId/'+id)
+        .success(function(item){
+            successCallback(item);
+        })
+        .error(function(error){
+            if (error) {
+                errorCallback({msg: 'No user with: ' + id + ' id'});
+            }
+        });
 
+    return response;
+};
     var getParticipantIndex = function (users, prospectId) {
       var len = users.length;
       for (var idx = 0; idx < len; idx++) {

@@ -16,13 +16,13 @@
             <ul class="nav navbar-nav">
                 <li><p class="navbar-text"><img ng-src="{{auth.profile.picture}}" style="height: 20px;" ></p></li>
                 <li><p class="navbar-text">Signed In as {{auth.profile.name}}</p></li>
-                <li ><a ui-sref="auth.dashboard"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
+                <li ><a ng-if="auth.profile.privilage.indexOf('VIEW_DASHBOARD') != -1" ui-sref="auth.dashboard"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
               <li class="active"><a ui-sref="auth.home"><span class="glyphicon glyphicon-tasks"></span> Prospects</a></li>
 
-              <li><a ng-if="auth.profile.role == 'admin'" ui-sref="auth.prospect.edit"><span class="glyphicon glyphicon-certificate"></span> New</a></li>
+              <li><a ng-if=" auth.profile.privilage.length > 0 && auth.profile.privilage.indexOf('CREATE_NEW_PROSPECT') != -1" ui-sref="auth.prospect.edit"><span class="glyphicon glyphicon-certificate"></span> New</a></li>
 
-              <li><a ui-sref="auth.emails.ulist"><span class="glyphicon glyphicon-inbox"></span> Uncategorized </a></li>
-              <li ><a ng-if="auth.profile.role == 'admin'" ui-sref="auth.settings.view"><span class="glyphicon glyphicon-cog"></span> Settings </a></li>
+              <li><a ng-if="auth.profile.privilage.length > 0 && auth.profile.privilage.indexOf('MOVE_UNCATEGORIZED_EMAILS') != -1" ui-sref="auth.emails.ulist"><span class="glyphicon glyphicon-inbox"></span> Uncategorized </a></li>
+               <li ><a ng-if="auth.profile.privilage.length > 0 &&  auth.profile.privilage.indexOf('EDIT_SETTINGS') != -1" ui-sref="auth.settings.view"><span class="glyphicon glyphicon-cog"></span> Settings </a></li>
             </ul>
             <button ng-click="logout()" style="float: right;" class="btn btn-default navbar-btn">Logout</button>
         </div>

@@ -22,7 +22,4 @@ angular.module('dashboardApp')
             return yearlyStats1;
         };
 
-        //this.getProjectList = function () {
-
-        //};
     });
