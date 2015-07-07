@@ -42,7 +42,7 @@ console.log("prospect name in participant list controller: "+$scope.prospect_nam
       }).then(function(response){
           console.log(response.data);
         return response.data.map(function(item){
-         return item.name;
+         return item.emailId;
         });
       });
     };
