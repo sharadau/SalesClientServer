@@ -28,6 +28,10 @@ var ParticipantsSchema = new Schema({
     prospect:{
         type:String,
         required:false
+    },
+    initiatedProspect:{
+        type:String,
+        required:false
     }
 });
 mongoose.model('Participants',ParticipantsSchema);
