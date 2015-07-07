@@ -8,12 +8,12 @@
  * Controller of the dashboardApp
  */
 angular.module('dashboardApp')
-  .controller('ProspectViewCtrl', function ($scope, $stateParams, $state, $parse, $upload,$sce, ProspectService, Emails, auth, participant, CyclesService, PrivilegesService, UsersService) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+    .controller('ProspectViewCtrl', function ($scope, $stateParams, $state, $parse, $upload,$sce, ProspectService, Emails, auth, participant, CyclesService, PrivilegesService, UsersService) {
+        $scope.awesomeThings = [
+            'HTML5 Boilerplate',
+            'AngularJS',
+            'Karma'
+        ];
 
         $scope.textAreas1=[];
         $scope.textAreas2=[];
@@ -58,7 +58,7 @@ angular.module('dashboardApp')
         //get privilages for user type
         //check user privilages
         $scope.auth.profile.prospectPrivilage = [];
-       // $scope.auth.profile.privilage = [];
+        // $scope.auth.profile.privilage = [];
         UsersService.getUserByEmailId($scope.auth.profile.name)
             .success (function (data) {
             $scope.userDetails = data;
@@ -84,37 +84,37 @@ angular.module('dashboardApp')
             }
 
             //alert("user type:" + $scope.auth.profile.userType);
-        if($scope.auth.profile.userType != 'CEO_CTO' && $scope.auth.profile.userType != 'admin') {
+            if($scope.auth.profile.userType != 'CEO_CTO' && $scope.auth.profile.userType != 'admin') {
 
-            var isParticipant = false;
-            var isInitiated = false;
+                var isParticipant = false;
+                var isInitiated = false;
 
-            //check if user is involved in prospect
-            participant.getParticipantForProspect($stateParams.prospectId)
-                .success(function (data3) {
-                    for (var u = 0; u < data3.length; u++) {
-                        console.log("compare: "+data3[u].email+" "+$scope.auth.profile.name);
-                        if(data3[u].email == $scope.auth.profile.name )
-                        {
-                            console.log("user is participant with type "+$scope.auth.profile.userType);
-                           // alert("user is participant with type " + $scope.auth.profile.userType);
-                            isParticipant = true;
-                            if(data3[u].initiatedProspect == '1')
+                //check if user is involved in prospect
+                participant.getParticipantForProspect($stateParams.prospectId)
+                    .success(function (data3) {
+                        for (var u = 0; u < data3.length; u++) {
+                            console.log("compare: "+data3[u].email+" "+$scope.auth.profile.name);
+                            if(data3[u].email == $scope.auth.profile.name )
                             {
                                 console.log("user is participant with type "+$scope.auth.profile.userType);
-                              //  alert("user initiated this prospect with type " + $scope.auth.profile.userType);
-                                isInitiated = true;
+                                // alert("user is participant with type " + $scope.auth.profile.userType);
+                                isParticipant = true;
+                                if(data3[u].initiatedProspect == '1')
+                                {
+                                    console.log("user is participant with type "+$scope.auth.profile.userType);
+                                    //  alert("user initiated this prospect with type " + $scope.auth.profile.userType);
+                                    isInitiated = true;
+                                }
                             }
                         }
-                    }
                         $scope.auth.profile.prospectUserType = $scope.auth.profile.userType;
-                    if(isParticipant == true && isInitiated == false && $scope.auth.profile.userType != 'admin') {
-                        $scope.auth.profile.prospectUserType = 'participant';
-                    }else if(isParticipant == false && $scope.auth.profile.userType != 'admin') {
-                       // alert("user is not participant and type " + $scope.auth.profile.userType + " so he will be treated as others");
-                        console.log("user is not participant and type " + $scope.auth.profile.userType + " so he will be treated as others");
-                        $scope.auth.profile.prospectUserType = "others";
-                    }
+                        if(isParticipant == true && isInitiated == false && $scope.auth.profile.userType != 'admin') {
+                            $scope.auth.profile.prospectUserType = 'participant';
+                        }else if(isParticipant == false && $scope.auth.profile.userType != 'admin') {
+                            // alert("user is not participant and type " + $scope.auth.profile.userType + " so he will be treated as others");
+                            console.log("user is not participant and type " + $scope.auth.profile.userType + " so he will be treated as others");
+                            $scope.auth.profile.prospectUserType = "others";
+                        }
 
                         PrivilegesService.getPrivilegesForType($scope.auth.profile.prospectUserType)
                             .success(function (data2) {
@@ -130,15 +130,15 @@ angular.module('dashboardApp')
                             }).error(function (error) {
                                 console.log(error);
                             });
-                        }).error(function (error) {
-                            console.log(error);
-                        });
+                    }).error(function (error) {
+                        console.log(error);
+                    });
 
 
-        }else
-        {
-            $scope.auth.profile.prospectPrivilage = $scope.auth.profile.privilage;
-        }
+            }else
+            {
+                $scope.auth.profile.prospectPrivilage = $scope.auth.profile.privilage;
+            }
         }).error (function (error){
             console.log ("prospect user privilages error:"+JSON.stringify(error));
             console.log("prospect privilages:"+JSON.stringify( $scope.auth.profile.prospectPrivilage));
@@ -213,43 +213,62 @@ angular.module('dashboardApp')
 
             if(stage=='1') {
                 for (var i = 0; i < $scope.textAreas1.length; i++) {
-                    console.log($scope.textAreas1[i].textBox);
                     //notes[i] = $scope.textAreas1[i].textBox + "\n\r" + "-" + sender;
+                    if($scope.textAreas1[i].textBox == '')
+                    {
+                        alert("Notes can not be blank. Please add notes before save.");
+                        return false;
+                    }
                     notes[i] = $scope.textAreas1[i].textBox;
                 }
             }
             if(stage=='2') {
                 for (var i = 0; i < $scope.textAreas2.length; i++) {
-                    console.log($scope.textAreas2[i].textBox);
+                    if($scope.textAreas2[i].textBox == '')
+                    {
+                        alert("Notes can not be blank. Please add notes before save.");
+                        return false;
+                    }
                     notes[i] = $scope.textAreas2[i].textBox;
                 }
             }
             if(stage=='3') {
                 for (var i = 0; i < $scope.textAreas3.length; i++) {
-                    console.log($scope.textAreas3[i].textBox);
+                    if($scope.textAreas3[i].textBox == '')
+                    {
+                        alert("Notes can not be blank. Please add notes before save.");
+                        return false;
+                    }
                     notes[i] = $scope.textAreas3[i].textBox;
                 }
             }
             if(stage=='4') {
                 for (var i = 0; i < $scope.textAreas4.length; i++) {
-                    console.log($scope.textAreas4[i].textBox);
+                    if($scope.textAreas4[i].textBox == '')
+                    {
+                        alert("Notes can not be blank. Please add notes before save.");
+                        return false;
+                    }
                     notes[i] = $scope.textAreas4[i].textBox;
                 }
             }
             if(stage=='5') {
                 for (var i = 0; i < $scope.textAreas5.length; i++) {
-                    console.log($scope.textAreas5[i].textBox);
+                    if($scope.textAreas5[i].textBox == '')
+                    {
+                        alert("Notes can not be blank. Please add notes before save.");
+                        return false;
+                    }
                     notes[i] = $scope.textAreas5[i].textBox;
                 }
             }
-
             //update notes
             ProspectService.saveNotes(prospectId, notes, stage);
 
         }
         //$scope.newProspect = {};
         $scope.fileSelection = function($files){
-           // $files[0].name = $files[0].name + Date.now();
+            // $files[0].name = $files[0].name + Date.now();
             //console.log("file name updated:"+Date.now());
             $scope.uploadFiles = $files;
         };
@@ -297,24 +316,24 @@ angular.module('dashboardApp')
 
 
 
-    $scope.deleteProspect = function(prospectId, name) {
-    	
-    	if (confirm("Do you want to delete prospect "+name) == true) {
-            // todo code for deletion    
-		      ProspectService.deleteProspectById(prospectId);
-              $state.transitionTo('auth.home');
-            window.location.reload();
-    	}
-    }
-    
-    //retrieve emails for stage1
-    Emails.getEmailsForProspectStage($stateParams.prospectId, "1")
-    .success (function (data){
-    $scope.emailsForStage1 = data;
+        $scope.deleteProspect = function(prospectId, name) {
 
-  })
-    .error (function (error){
-    console.log (error.msg);});
+            if (confirm("Do you want to delete prospect "+name) == true) {
+                // todo code for deletion
+                ProspectService.deleteProspectById(prospectId);
+                $state.transitionTo('auth.home');
+                window.location.reload();
+            }
+        }
+
+        //retrieve emails for stage1
+        Emails.getEmailsForProspectStage($stateParams.prospectId, "1")
+            .success (function (data){
+            $scope.emailsForStage1 = data;
+
+        })
+            .error (function (error){
+            console.log (error.msg);});
 
         $scope.acceptProspect = function(newProspect, prospectId, stage, stage_id, cycle_id) {
 
@@ -325,7 +344,7 @@ angular.module('dashboardApp')
             {
                 fileN = $scope.uploadFiles[0].name;
             }
-           // ProspectService.updateStage(prospectId, stage, stage_id);
+            // ProspectService.updateStage(prospectId, stage, stage_id);
             ProspectService.ClosureDetails(prospectId, stage, stage_id, newProspect.closureNotes, fileN);
             $scope.prospect.state_id = stage_id;
             $scope.prospect.engagementLetter = fileN;
@@ -370,29 +389,29 @@ angular.module('dashboardApp')
             window.location.reload();
 
         };
-  $scope.markComplete = function(prospectId, stage, stage_id, cycle_id) {
+        $scope.markComplete = function(prospectId, stage, stage_id, cycle_id) {
 
-        var markFlag = true;
-        if(stage_id == 5 && $scope.emailsForStage3.length == 0)
-        {
-            if(confirm("Are u sure you want to complete this stage? Generally Internal Preparation completes after client call!") == false)
+            var markFlag = true;
+            if(stage_id == 5 && $scope.emailsForStage3.length == 0)
             {
-                markFlag = false;
+                if(confirm("Are u sure you want to complete this stage? Generally Internal Preparation completes after client call!") == false)
+                {
+                    markFlag = false;
+                }
             }
-        }
-      if(markFlag == true) {
-          ProspectService.updateStage(prospectId, stage, stage_id);
+            if(markFlag == true) {
+                ProspectService.updateStage(prospectId, stage, stage_id);
 
-          //update cycle stage
-          console.log("update cycle stage");
-          var newCycle = {};
-          newCycle.current_state = stage_id;
-          newCycle._id = cycle_id;
-          CyclesService.updatecycle(newCycle);
-          $scope.prospect.state_id = stage_id;
-          window.location.reload();
-      }
-	  };
+                //update cycle stage
+                console.log("update cycle stage");
+                var newCycle = {};
+                newCycle.current_state = stage_id;
+                newCycle._id = cycle_id;
+                CyclesService.updatecycle(newCycle);
+                $scope.prospect.state_id = stage_id;
+                window.location.reload();
+            }
+        };
         //retrieve cycles for stage1
         CyclesService.getCycleForProspect($stateParams.prospectId)
             .success (function (data){
@@ -441,41 +460,41 @@ angular.module('dashboardApp')
             alert("cycle " + cycle_no + " is completed!");
             window.location.reload();
         };
-  //stage2 email
-  Emails.getEmailsForProspectStage($stateParams.prospectId, "2")
-  .success (function (data){
-  $scope.emailsForStage2 = data;
+        //stage2 email
+        Emails.getEmailsForProspectStage($stateParams.prospectId, "2")
+            .success (function (data){
+            $scope.emailsForStage2 = data;
 
-})
-  .error (function (error){
-  console.log (error.msg);});
+        })
+            .error (function (error){
+            console.log (error.msg);});
 
 //stage3 email
-  Emails.getEmailsForProspectStage($stateParams.prospectId, "3")
-  .success (function (data){
-  $scope.emailsForStage3 = data;
+        Emails.getEmailsForProspectStage($stateParams.prospectId, "3")
+            .success (function (data){
+            $scope.emailsForStage3 = data;
 
-})
-  .error (function (error){
-  console.log (error.msg);});
+        })
+            .error (function (error){
+            console.log (error.msg);});
 
 //stage4 email
-  Emails.getEmailsForProspectStage($stateParams.prospectId, "4")
-  .success (function (data){
-  $scope.emailsForStage4 = data;
+        Emails.getEmailsForProspectStage($stateParams.prospectId, "4")
+            .success (function (data){
+            $scope.emailsForStage4 = data;
 
-})
-  .error (function (error){
-  console.log (error.msg);});
+        })
+            .error (function (error){
+            console.log (error.msg);});
 
 //stage5 email
-  Emails.getEmailsForProspectStage($stateParams.prospectId, "5")
-  .success (function (data){
-  $scope.emailsForStage5 = data;
+        Emails.getEmailsForProspectStage($stateParams.prospectId, "5")
+            .success (function (data){
+            $scope.emailsForStage5 = data;
 
-})
-  .error (function (error){
-  console.log (error.msg);});
+        })
+            .error (function (error){
+            console.log (error.msg);});
 
 
         //uncategorized emails
@@ -502,10 +521,10 @@ angular.module('dashboardApp')
             return (changed_html);
         };
 
-    $scope.oneAtATime = true;
+        $scope.oneAtATime = true;
 
-       $scope.status = {
-      isFirstOpen: true,
-      isFirstDisabled: false
-    };
-  });
+        $scope.status = {
+            isFirstOpen: true,
+            isFirstDisabled: false
+        };
+    });
