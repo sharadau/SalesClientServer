@@ -1,50 +1,53 @@
 <div class="container">
-  <form name="newProspectForm" ng-submit="updateProspect(newProspect)" >
-    <div class="panel-wrapper">
-      <label class="control-label">Name: </label>
-      <input type="text" class="form-control" data-ng-model="newProspect.name" required="true" />	
-    </div>
+    <form name="newProspectForm" ng-submit="updateProspect(newProspect)" >
+        <div class="panel-wrapper">
+            <label class="control-label">Name: </label>
+            <input type="text" class="form-control" data-ng-model="newProspect.name" required="true" />
+        </div>
 
-    <div class="panel-wrapper" >
-      <label class="control-label">Organization: </label>
-      <input type="text" class="form-control" data-ng-model="newProspect.company"/>
-    </div>
+        <div class="panel-wrapper" >
+            <label class="control-label">Organization: </label>
+            <input type="text" class="form-control" data-ng-model="newProspect.company"/>
+        </div>
 
-    <div class="panel-wrapper">
-      <label class="control-label">Company URL: </label>
-        <input type="url" ng-model="newProspect.companyURL" class="form-control" name="url"  />
-        <span style="color: red" ng-show="newProspectForm.url.$error.url">Please enter a valid url</span>
-    </div>
+        <div class="panel-wrapper">
+            <label class="control-label">Company URL: </label>
+            <input type="url" ng-model="newProspect.companyURL" class="form-control" name="url"  />
+            <span style="color: red" ng-show="newProspectForm.url.$error.url">Please enter a valid url</span>
+        </div>
 
-    <div class="panel-wrapper">
-      <label class="control-label">Description: </label>
-      <textarea rows="7" class="form-control" data-ng-model="newProspect.description" placeholder="Please add Prospect description and Team Mix here"></textarea>
-    </div>
-    <div class="panel-wrapper">
-      <label class="control-label">Other Comments: </label>
-      <textarea rows="5" class="form-control" data-ng-model="newProspect.othercomments" placeholder=""></textarea>
-    </div>
-      <div class="panel-wrapper">
-          <label class="control-label">Initiated By: </label>
-          <input type="text" class="form-control" data-ng-model="newProspect.initiatedBy" />
-      </div>
-      <div class="panel-wrapper">
-          <label class="control-label">Area: </label>
-          <input type="text" class="form-control" data-ng-model="newProspect.area" placeholder="Bay Area or Texas" />
-      </div>
+        <div class="panel-wrapper">
+            <label class="control-label">Description: </label>
+            <textarea rows="7" class="form-control" data-ng-model="newProspect.description" placeholder="Please add Prospect description and Team Mix here"></textarea>
+        </div>
+        <div class="panel-wrapper">
+            <label class="control-label">Other Comments: </label>
+            <textarea rows="5" class="form-control" data-ng-model="newProspect.othercomments" placeholder=""></textarea>
+        </div>
+        <div class="panel-wrapper">
+            <label class="control-label">Initiated By: </label>
+            <input type="text" class="form-control" data-ng-model="newProspect.initiatedBy" />
+        </div>
+        <div class="panel-wrapper">
+            <label class="control-label">Area: </label>
+            <select class="form-control" style="width: 200px" data-ng-model="newProspect.area">
+                <option value="Texas">Texas</option>
+                <option value="Bay Area">Bay Area</option>
+            </select>
+        </div>
 
-    <div class="panel-wrapper">
-      <label class="control-label">Send Initiation Email: </label>
-     <!-- <input type="checkbox" class="form-control" style="width:20px" ng-model="newProspect.sendEmail" ng-true-value="1" ng-false-value="0" ng-init="newProspect.sendEmail=true"/>-->
-      <input type="checkbox" class="form-control" style="width:20px" ng-model="newProspect.sendEmail" ng-true-value="1" ng-false-value="0"/>
-    </div>
+        <div class="panel-wrapper">
+            <label class="control-label">Send Initiation Email: </label>
+            <!-- <input type="checkbox" class="form-control" style="width:20px" ng-model="newProspect.sendEmail" ng-true-value="1" ng-false-value="0" ng-init="newProspect.sendEmail=true"/>-->
+            <input type="checkbox" class="form-control" style="width:20px" ng-model="newProspect.sendEmail" ng-true-value="1" ng-false-value="0"/>
+        </div>
 
-    <button class="btn btn-default" type="submit" ng-disabled="form.$invalid" >
-      <span class="glyphicon glyphicon-plus"></span> Save
-    </button>
+        <button class="btn btn-default" type="submit" ng-disabled="form.$invalid" >
+            <span class="glyphicon glyphicon-plus"></span> Save
+        </button>
 
-    <button class="btn btn-default" data-ng-click="cancelUpdate()">
-      <span class="glyphicon glyphicon-refresh"></span> Cancel
-    </button>
+        <button class="btn btn-default" data-ng-click="cancelUpdate()">
+            <span class="glyphicon glyphicon-refresh"></span> Cancel
+        </button>
     </form>
-  </div>
+</div>
