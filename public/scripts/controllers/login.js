@@ -31,7 +31,7 @@ angular.module('dashboardApp')
                 store.set('profile', profile);
                 store.set('token', token);
                 //$location.path("/");
-                $state.go('auth.dashboard');
+                $state.go('auth.home');
             }
             }, function(error) {
                 console.log("There was an error logging in", error);
