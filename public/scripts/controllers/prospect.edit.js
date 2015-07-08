@@ -81,7 +81,7 @@ angular.module('dashboardApp')
               var from_name = auth.profile.name;
               newEmail.send_date = d.toLocaleString();
       	      //newEmail.send_date = new Date().toDateString();
-      	      newEmail.to = presale_email_id;
+      	      newEmail.to = presale_alias_id;
       	      newEmail.cycle_no = 1;
       	      newEmail.cycle_id = newCycle._id;
               newEmail.contents = subject + " is initialized." + " \r\nProspect Description: "+newProspect.description + " \r\nComments: "+ newProspect.othercomments;

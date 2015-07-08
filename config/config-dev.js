@@ -6,6 +6,7 @@ module.exports = {
     //baseUrl:"http://localhost:3000",
    // baseUrl:"http://pure-crag-4108.herokuapp.com",
     presalesEmailId:"salestool1@synerzip.com",
+    presalesAliasId:"salestool@synerzip.com",//will be used for initiation email only
     presalesEmailPwd:"synerzip123",
    // base_url :'http://localhost:3000',
    // upload_url: '.'
