@@ -11,5 +11,5 @@ module.exports = {
    // base_url :'http://localhost:3000',
    // upload_url: '.'
     base_url : 'http://lit-wave-1072.herokuapp.com',
-    upload_url : './static'
+    upload_url : '.'
 };
