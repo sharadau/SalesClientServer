@@ -273,7 +273,8 @@ angular.module('dashboardApp')
           $http.put(service_base_url+'/api/projects/updateStage/' + newProspect._id, newProspect)
             .success(function (item) {
             	 console.log("success");
-            	 alert("Prospect stage completed");
+            	 alert("Prospect stage completed to "+stage);
+                  window.location.reload();
             })
             .error(function (error) {
               if (error) {

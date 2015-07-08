@@ -57,12 +57,33 @@ angular.module('dashboardApp')
             console.log("selected stage:"+$scope.stage);
             console.log("selected prospect:"+$scope.prospect);
             console.log("cycle:"+$scope.prospect_cycle_id);
+            var p_id = $scope.prospect;
+            var c_id = $scope.prospect_cycle_id;
             if(typeof $scope.stage == 'string' && typeof $scope.prospect == 'number') {
                 for (var i = 0; i < $scope.emailsSelected.length; i++) {
                     //update emails
                     Emails.updateEmail($scope.emailsSelected[i], $scope.prospect, $scope.stage,$scope.prospect_cycle_id, $scope.prospect_cycle_no)
                         .success(function (data) {
-                        console.log("Email is moved" + data);
+
+                            //update initiation stage if first email
+                            ProspectService.getProspect(p_id)
+                                .success(function (data1) {
+                                    if(data1.state_id == '1')
+                                    {
+                                        //update stage to int prep
+                                            ProspectService.updateStage(p_id, "Internal Preparation","3");
+                                        //update cycle stage
+                                            var newCycle = {};
+                                            newCycle.current_state = "3";
+                                            newCycle._id = c_id;
+                                            CyclesService.updatecycle(newCycle);
+                                    }
+                                }) .error(function (error) {
+                                    console.log(error.msg);
+                                }
+                            );
+                            console.log("Email is moved" + data);
+                            //window.location.reload();
                     })
                         .error(function (error) {
                             console.log(error.msg);
@@ -77,7 +98,7 @@ angular.module('dashboardApp')
             alert("Email moved");
             $scope.prospect = '';
             $scope.stage = '';
-            window.location.reload();
+            //window.location.reload();
 
             //$scope.emailsSelected = new Array();
         };
