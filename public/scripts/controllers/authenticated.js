@@ -19,7 +19,8 @@ angular.module('dashboardApp')
         UsersService.getUserByEmailId($scope.auth.profile.name)
             .success (function (data) {
             $scope.userDetails = data;
-
+                //alert("authenticated: email:"+$scope.auth.profile.name);
+                //alert("authenticated: type:"+data.user_type);
             if(data.user_type == 1)
             {
                 $scope.auth.profile.userType = 'sales_person';
@@ -59,12 +60,12 @@ angular.module('dashboardApp')
                         $scope.auth.profile.privilage[p] = data1[p].functionality;
                     }
                 }
-                console.log("privilages:"+JSON.stringify( $scope.auth.profile.privilage));
+                console.log("authenticated: privilages:"+JSON.stringify( $scope.auth.profile.privilage));
+                //alert("authenticated: privilages:"+JSON.stringify( $scope.auth.profile.privilage));
             }).error (function (error){
                 console.log (error);
             });
         };
-        console.log("privilages:"+JSON.stringify( $scope.auth.profile.privilage));
         /*UsersService.getUserForType(5)
             .success (function (data){
             $scope.adminUsers = data;
