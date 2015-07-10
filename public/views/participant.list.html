@@ -33,14 +33,14 @@
   </div>
 <!--<span ng-if="auth.profile.prospectPrivilage.length > 0 && auth.profile.prospectPrivilage.indexOf('ADD_PARTICIPANT') != -1">-->
 <div class="container">
-      <label class="navbar-brand subheader" style="color: #000066"><b>Add Participant</b></label>
+      <label class="navbar-brand subheader" style="color: #000066" ><b>Add Participant</b></label>
 </div>
 <form name="addParticipantForm" novalidate>
   <div class="input-group">
-    <span class="input-group-addon">Select</span>
-        <input type="email" ng-model="asyncSelected" name="uEmail" placeholder="Employees" typeahead="emailId for emailId in getEmployees($viewValue)" typeahead-loading="loading" class="form-control" required>
+    <span class="input-group-addon" >Select</span>
+        <input type="email" ng-disabled="auth.profile.prospectPrivilage.length < 0 || auth.profile.prospectPrivilage.indexOf('ADD_PARTICIPANT') =='-1'" ng-model="asyncSelected" name="uEmail" placeholder="Employees" typeahead="emailId for emailId in getEmployees($viewValue)" typeahead-loading="loading" class="form-control" required>
                     <span class="input-group-btn">
-                      <button type=button ng-disabled="!addParticipantForm.$valid" class="btn btn-default" data-ng-click="addParticipant(prospect_id)">Add</button>
+                      <button type=button ng-disabled="!addParticipantForm.$valid || auth.profile.prospectPrivilage.length < 0 || auth.profile.prospectPrivilage.indexOf('ADD_PARTICIPANT') =='-1'" class="btn btn-default" data-ng-click="addParticipant(prospect_id)">Add</button>
                     </span>
 
   </span>
