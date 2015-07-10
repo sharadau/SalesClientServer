@@ -159,7 +159,7 @@ module.exports=function(){
                 var prospectFound = '';
                 //add prospect id
                 for (i = 0; i < prospects.length; i++) {
-                    if (subject.toLowerCase().search(prospects[i].name.toLowerCase()) != -1) {
+                    if ((subject.toLowerCase() == prospects[i].name.toLowerCase()) || (subject.toLowerCase().search(prospects[i].name.toLowerCase()+" ") != -1) || (" "+subject.toLowerCase().search(prospects[i].name.toLowerCase()) != -1)) {
                         console.log("Found prospect in subject with id:" + prospects[i]._id + " name:" + prospects[i].name);
                         req.body.prospect_id = prospects[i]._id;
                         console.log("current stage:"+prospects[i].state_id);
@@ -169,7 +169,7 @@ module.exports=function(){
                         break;
                     } else if (typeof message == "string") {
 
-                        if (message.toLowerCase().search(prospects[i].name.toLowerCase()) != -1) {
+                        if ((message.toLowerCase() == prospects[i].name.toLowerCase()) || (message.toLowerCase().search(prospects[i].name.toLowerCase()+" ") != -1) || (" "+message.toLowerCase().search(prospects[i].name.toLowerCase()) != -1)) {
                             console.log("Found prospect in message with id:" + prospects[i]._id + " name:" + prospects[i].name);
                             req.body.prospect_id = prospects[i]._id;
                             req.body.stage = prospects[i].state_id;
@@ -445,22 +445,7 @@ module.exports=function(){
     function updateProspectStage(project, prospect_id, end_date, state, state_id)
     {
         var projects = require('../controllers/projects.controller');
-       /* var body ={
-           // "_id":prospect_id,
-            "end_date":end_date,
-            "state":state,
-            "state_id":state_id
-        };
-        var req = {
-            "body":body
-            //"project":JSON.parse(prj)
-        };
-        var res = {
-            "flag":"1"
-        };*/
-        //request.put('http://localhost:3000/api/projects/updateStage/'+prospect_id, {multipart:[{body:body}]}, function(err, res, body) {
-           // console.log("get project:" + body);
-        //});
+
         console.log("in updateCycleStage:"+prospect_id+" state:"+state);
         request({
             method: 'PUT',
@@ -632,7 +617,7 @@ console.log("updateProspectArea"+area);
     function addSalesParticpant(address, name, p_id )
     {
         var participants = require('../controllers/participants.controller');
-
+        console.log("addSalesParticpant");
         //check if participant exists or not
         request(base_url+'/api/participants/prospect/'+p_id, function(err, res, body) {
             var emails = JSON.parse(body);
@@ -673,7 +658,7 @@ console.log("updateProspectArea"+area);
     function addParticpant(address, name, p_id )
     {
         var participants = require('../controllers/participants.controller');
-
+            console.log("addParticpant");
         //check if participant exists or not
         request(base_url+'/api/participants/prospect/'+p_id, function(err, res, body) {
             var emails = JSON.parse(body);
