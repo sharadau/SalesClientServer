@@ -35,14 +35,18 @@
 <form name="addEmployeeForm" ng-submit="addEmployee()">
      <div class="panel-wrapper">
         <label class="control-label">Name: </label>
-        <input type="text" style="width:200px" class="form-control" data-ng-model="name" required />
+        <input type="text" style="width:200px" class="form-control" ng-change="checkEmailExists()" data-ng-model="name" required />
     </div>
     <div class="panel-wrapper">
         <label class="control-label">Email Id: </label>
-        <input type="text" style="width:200px" class="form-control" data-ng-model="emailId" required />
+        <input type="email" style="width:200px" class="form-control" ng-change="checkEmailExists()" data-ng-model="emailId" required />
+        <div id="invalidEmail">Employee with Email Id already exists</div>
+        <div ng-show="addEmployeeForm.emailId.$dirty && addEmployeeForm.emailId.$invalid">
+        <span style="color:red" ng-show="addEmployeeForm.emailId.$error.email"> This is not a valid email address.</span>
+            </div>
     </div>
     <div class="panel-wrapper">
-        <button ng-disabled="!addEmployeeForm.$valid" class="btn btn-default" type="submit" ng-disabled="form.$invalid">Add</button>
+        <button ng-disabled="!addEmployeeForm.$valid" class="btn btn-default" type="submit" >Add</button>
     </div>
 </form>
     </div>

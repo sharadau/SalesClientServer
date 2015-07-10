@@ -16,8 +16,11 @@ module.exports=function(app){
     app.route('/api/employees/name/:name')
         .get(employees.read);
         //.get(employees.employeeStartsWith);
+    app.route('/api/employees/mail/:mail')
+        .get(employees.read);
 
     app.param('empId',employees.employeeById);
     app.param('name',employees.employeeStartsWith);
+    app.param('mail',employees.employeeByEmailId);
 
 };

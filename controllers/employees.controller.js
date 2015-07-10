@@ -76,6 +76,24 @@ console.log("employeeById");
         }
     });
 };
+exports.employeeByEmailId=function(req,res,next,id){
+    console.log("employeeByEmailId");
+    Employees.findOne({emailId:id},function(err,employee){
+        if(err){
+            next(err);
+        }
+        if(employee){
+            req.employee=employee;
+            next();
+        }
+        else{
+            var error={
+                error:"Employee not found"
+            };
+            res.status(404).send(error);
+        }
+    });
+};
 exports.employeeByProspectId=function(req,res,next,id){
 console.log("employee111ByProspectId");
     Employees.findOne({prospect_id:id},function(err,employee){

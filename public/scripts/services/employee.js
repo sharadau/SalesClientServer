@@ -32,7 +32,24 @@ angular.module('dashboardApp')
             return response;
         };
 
+        this.checkUserEmailId = function (email) {
+            var successCallback, errorCallback;
+            var response = {
+                success: function (callback) {successCallback = callback; return response;},
+                error: function (callback) {errorCallback = callback; return response;}
+            };
+            $http.get(service_base_url+'/api/employees/mail/'+email)
+                .success(function(item){
+                    successCallback(item);
+                })
+                .error(function(error){
+                    if (error) {
+                        errorCallback({msg: 'No employee exists with emailid'});
+                    }
+                });
 
+            return response;
+        };
     this.addEmployee = function(name, email) {
       var newUser={};
       console.log("name: "+name+" email:"+email);

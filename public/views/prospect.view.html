@@ -63,15 +63,14 @@
     </div>
   </div>
 </div>-->
-
 <accordion close-others="oneAtATime">
   <accordion-group is-open="status.isFirstOpen">
     <accordion-heading>
       <b>Prospect Information</b> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
     </accordion-heading>
     <table border="0">
-      <tr><td></td><td></td><td></td><td align="right" colspan="2"><a ng-if="auth.profile.prospectPrivilage.length> 0 &&  auth.profile.prospectPrivilage.indexOf('EDIT_PROSPECT') != -1" ui-sref="auth.prospect.edit({prospectId:prospect._id,stage:1})"><span class="glyphicon glyphicon-edit"></span> Edit </a></b> &nbsp;&nbsp;
-      <a ng-if="auth.profile.prospectPrivilage.length> 0 && auth.profile.prospectPrivilage.indexOf('DELETE_PROSPECT') != -1" data-ng-click="deleteProspect(prospect._id,prospect.name)"  ui-sref="home"><span class="glyphicon glyphicon-remove"></span> Delete </a></td></tr>
+      <tr><td></td><td></td><td></td><td align="right" colspan="2"><a ng-if="auth.profile.prospectPrivilage.length> 0 &&  auth.profile.prospectPrivilage.indexOf('EDIT_PROSPECT') != -1 && prospect.cycle_no == cycle.cycle_no" ui-sref="auth.prospect.edit({prospectId:prospect._id,stage:1})"><span class="glyphicon glyphicon-edit"></span> Edit </a></b> &nbsp;&nbsp;
+      <a ng-if="auth.profile.prospectPrivilage.length> 0 && auth.profile.prospectPrivilage.indexOf('DELETE_PROSPECT') != -1 && prospect.cycle_no == cycle.cycle_no" data-ng-click="deleteProspect(prospect._id,prospect.name)"  ui-sref="home"><span class="glyphicon glyphicon-remove"></span> Delete </a></td></tr>
       <tr><td width="20%"><b>Name : </b></td><td width="30%"> {{prospect.name}}</td><td width="20%"><b>Company URL: </b></td><td width="30%"> {{prospect.companyURL}}</td></tr>
       <tr><td><b>Start Date: </b></td><td> {{prospect.start_date}}</td><td><b>Initiated By: </b></td><td> {{prospect.initiatedBy}}</td></tr>
         <tr><td><b>Description : </b></td><td> {{prospect.description}}</td></tr>
@@ -85,13 +84,13 @@
     </accordion-heading>
     <table>
       <tr><td width="70%"></td>
-      <td><a ng-if="cycle.current_state < '3' && auth.profile.prospectPrivilage.length > 0 &&  auth.profile.prospectPrivilage.indexOf('COMPLETE_STAGE') != -1" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Internal Preparation',3,cycle._id)" title="Move in Next state"> Mark Complete </a></td>
-      <td><a ng-if="cycle.current_state < '3' && auth.profile.prospectPrivilage.length > 0 && auth.profile.prospectPrivilage.indexOf('INITIATE_EMAIL') != -1" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:1,cycle_id:cycle._id,cycle_no:cycle.cycle_no})"> Email</a> </td></tr>
+      <td><a ng-if="cycle.current_state < '3' && auth.profile.prospectPrivilage.length > 0 &&  auth.profile.prospectPrivilage.indexOf('COMPLETE_STAGE') != -1 && prospect.cycle_no == cycle.cycle_no" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Internal Preparation',3,cycle._id)" title="Move in Next state"> Mark Complete </a></td>
+      <td><a ng-if="cycle.current_state < '3' && auth.profile.prospectPrivilage.length > 0 && auth.profile.prospectPrivilage.indexOf('INITIATE_EMAIL') != -1 && prospect.cycle_no == cycle.cycle_no" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:1,cycle_id:cycle._id,cycle_no:cycle.cycle_no})"> Email</a> </td></tr>
       </table>
       <table>
           <tr><td><b>Notes: </b>
-               <button ng-if="auth.profile.prospectPrivilage.length > 0 &&  auth.profile.prospectPrivilage.indexOf('ADD_NOTES') != -1" class="btn btn-default" ng-click="addMore(1)"><span class="glyphicon glyphicon-plus"></span></button>
-               <button ng-if="auth.profile.prospectPrivilage.length > 0 &&  auth.profile.prospectPrivilage.indexOf('ADD_NOTES') != -1" class="btn btn-default" ng-click="SaveNotes(prospect._id,'1')"><span class="glyphicon glyphicon-floppy-save"></span> Save Notes</button></td>
+               <button ng-if="auth.profile.prospectPrivilage.length > 0 &&  auth.profile.prospectPrivilage.indexOf('ADD_NOTES') != -1 && prospect.cycle_no == cycle.cycle_no" class="btn btn-default" ng-click="addMore(1)"><span class="glyphicon glyphicon-plus"></span></button>
+               <button ng-if="auth.profile.prospectPrivilage.length > 0 &&  auth.profile.prospectPrivilage.indexOf('ADD_NOTES') != -1 && prospect.cycle_no == cycle.cycle_no" class="btn btn-default" ng-click="SaveNotes(prospect._id,'1')"><span class="glyphicon glyphicon-floppy-save"></span> Save Notes</button></td>
           </tr>
           <tr>
               <td colspan="5"><div ng-repeat="textArea1 in textAreas1">
@@ -99,7 +98,7 @@
                       <tr><td>
                       <textarea id="maxlength_textarea" style="background: lightgoldenrodyellow" class="form-control" maxlength="225" rows="2" cols="70" data-ng-model="textArea1.textBox" placeholder="Enter Note here"></textarea>
                       </td><td>
-                          <button ng-if="auth.profile.prospectPrivilage.length > 0 &&  auth.profile.prospectPrivilage.indexOf('EMAIL_NOTES') != -1" ng-show="participants.length > 0 && textArea1.textBox != ''" class="btn btn-default" data-ng-model="textArea1.button" ng-click="sendNotesEmail(textArea1,prospect.name,prospect._id,'1','Initiation')"><span class="glyphicon glyphicon-envelope"></span></button>
+                          <button ng-if="auth.profile.prospectPrivilage.length > 0 &&  auth.profile.prospectPrivilage.indexOf('EMAIL_NOTES') != -1 && prospect.cycle_no == cycle.cycle_no" ng-show="participants.length > 0 && textArea1.textBox != ''" class="btn btn-default" data-ng-model="textArea1.button" ng-click="sendNotesEmail(textArea1,prospect.name,prospect._id,'1','Initiation')"><span class="glyphicon glyphicon-envelope"></span></button>
                      </td>
                       </tr>
                </table>
@@ -210,14 +209,14 @@
     </accordion-heading>
     <table>
     <tr><td width="50%"></td>
-        <td><a ng-if="cycle.current_state < '5'" class="glyphicon glyphicon-calendar" data-ng-click="scheduleCall(prospect._id)" title="Schedule Call"> Schedule Call </a></td>
-    <td><a ng-if="cycle.current_state < '5'  && auth.profile.prospectPrivilage.length > 0 &&  auth.profile.prospectPrivilage.indexOf('COMPLETE_STAGE') != -1" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Engagement Start',5,cycle._id)" title="Move in Next state"> Mark Complete </a></td>
-    <td><a ng-if="cycle.current_state < '5'  && auth.profile.prospectPrivilage.length > 0 && auth.profile.prospectPrivilage.indexOf('SEND_EMAIL_IF_INVOLVED') != -1" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:3,cycle_id:cycle._id,cycle_no:cycle.cycle_no})"> Email</a> </td></tr>
+        <td><a ng-if="cycle.current_state < '5' && prospect.cycle_no == cycle.cycle_no" class="glyphicon glyphicon-calendar" data-ng-click="scheduleCall(prospect._id)" title="Schedule Call"> Schedule Call </a></td>
+    <td><a ng-if="cycle.current_state < '5'  && auth.profile.prospectPrivilage.length > 0 &&  auth.profile.prospectPrivilage.indexOf('COMPLETE_STAGE') != -1 && prospect.cycle_no == cycle.cycle_no" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Engagement Start',5,cycle._id)" title="Move in Next state"> Mark Complete </a></td>
+    <td><a ng-if="cycle.current_state < '5'  && auth.profile.prospectPrivilage.length > 0 && auth.profile.prospectPrivilage.indexOf('SEND_EMAIL_IF_INVOLVED') != -1 && prospect.cycle_no == cycle.cycle_no" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:3,cycle_id:cycle._id,cycle_no:cycle.cycle_no})"> Email</a> </td></tr>
     </table>
       <table>
           <tr><td><b>Notes:</b>
-               <button class="btn btn-default" ng-click="addMore(3)"><span class="glyphicon glyphicon-plus"></span></button>
-               <button class="btn btn-default" ng-click="SaveNotes(prospect._id,'3')"><span class="glyphicon glyphicon-floppy-save"></span> Save Notes</button></td>
+               <button ng-if="prospect.cycle_no == cycle.cycle_no" class="btn btn-default" ng-click="addMore(3)"><span class="glyphicon glyphicon-plus"></span></button>
+               <button ng-if="prospect.cycle_no == cycle.cycle_no" class="btn btn-default" ng-click="SaveNotes(prospect._id,'3')"><span class="glyphicon glyphicon-floppy-save"></span> Save Notes</button></td>
           </tr>
           <tr>
               <td> <div ng-repeat="textArea3 in textAreas3">
@@ -231,19 +230,19 @@
       </table><br/>
       <form name="questionsForm" enctype='multipart/form-data' ng-submit="addQuestions(newProspect,prospect._id,'Converted','6')" >
           <table width="100%">
-              <tr><td  width="15%">
+              <tr><td  width="15%" ng-if="prospect.cycle_no == cycle.cycle_no">
                   <label class="control-label">Questions: </label>
               </td><td width="20%"></td>
-                  <td>
+                  <td ng-if="prospect.cycle_no == cycle.cycle_no">
                       <textarea rows="5" class="form-control" data-ng-model="newProspect.questions" placeholder="Please add questions here"></textarea>
                   </td>
               </tr>
               <tr>
-                  <div class="panel-wrapper" ng-if="prospect.questionsDoc == ''"  >
-                      <td width="20%" colspan="2">
+                  <div class="panel-wrapper" ng-if="prospect.questionsDoc == '' && prospect.cycle_no == cycle.cycle_no"  >
+                      <td width="20%" colspan="2" ng-if="prospect.cycle_no == cycle.cycle_no">
                           <label ng-if="prospect.questionsDoc == '' || prospect.questionsDoc == 'undefined'" class="control-label">Upload Document: </label>
                       </td>
-                      <td> <input ng-if="prospect.questionsDoc == '' || prospect.questionsDoc == 'undefined'" type="file" ng-file-select="fileSelection($files)" class="form-control" file-model="questionsDoc"/>
+                      <td  ng-if="prospect.cycle_no == cycle.cycle_no"> <input ng-if="prospect.questionsDoc == '' || prospect.questionsDoc == 'undefined'" type="file" ng-file-select="fileSelection($files)" class="form-control" file-model="questionsDoc"/>
                           <label ng-if="prospect.questionsDoc == '' || prospect.questionsDoc == 'undefined'" class="control-label" data-ng-model="newProspect.uploadStatus"></label>
                       </td>
                   </div>
@@ -251,7 +250,7 @@
               <tr>
                   <div class="panel-wrapper" ng-if="prospect.questionsDoc != ''">
                       <td colspan="2">
-                          <label class="control-label">Upload Document: </label>
+                          <label class="control-label" ng-if="prospect.cycle_no == cycle.cycle_no">Uploaded Document: </label>
                       </td>
                       <td>
                           <a href='../uploads/{{prospect.questionsDoc}}' > {{prospect.questionsDoc}}</a>
@@ -260,7 +259,7 @@
                   </td>
               </tr>
               <tr>
-                  <td colspan="2">
+                  <td colspan="2" ng-if="prospect.cycle_no == cycle.cycle_no">
                       <button  class="btn btn-default" type="submit" ng-disabled="form.$invalid" >
                           <span class="glyphicon glyphicon-thumbs-up"></span> Save
                       </button>
@@ -310,13 +309,13 @@
         <td><a ng-if="prospect.state_id < '6'" class="glyphicon glyphicon-thumbs-down" data-ng-click="rejectProspect(prospect._id)" title="Reject Prospect"> Reject Prospect </a></td>
         <td><a ng-if="prospect.state_id < '6'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="closePropspect(prospect._id, 'Converted',6)" title="Accept or Reject Prospect"> Close prospect </a></td>-->
         <!--<td><a ng-if="prospect.state_id < '6'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Converted',6)" title="Move in Next state"> Mark Complete </a></td>-->
-        <td><a ng-if="cycle.current_state < '6'  && auth.profile.prospectPrivilage.length > 0 && auth.profile.prospectPrivilage.indexOf('SEND_EMAIL_IF_INVOLVED') != -1" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,to:prospect.participants,stage:5,cycle_id:cycle._id,cycle_no:cycle.cycle_no})"> Email</a> </td>
+        <td><a ng-if="cycle.current_state < '6'  && auth.profile.prospectPrivilage.length > 0 && auth.profile.prospectPrivilage.indexOf('SEND_EMAIL_IF_INVOLVED') != -1 && prospect.cycle_no == cycle.cycle_no" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,to:prospect.participants,stage:5,cycle_id:cycle._id,cycle_no:cycle.cycle_no})"> Email</a> </td>
     </tr>
    </table><br/>
       <table>
           <tr><td><b>Notes:</b>
-                <button class="btn btn-default" ng-click="addMore(5)"><span class="glyphicon glyphicon-plus"></span></button>
-               <button class="btn btn-default" ng-click="SaveNotes(prospect._id,'5')"><span class="glyphicon glyphicon-floppy-save"></span> Save Notes</button></td>
+                <button ng-if="prospect.cycle_no == cycle.cycle_no" class="btn btn-default" ng-click="addMore(5)"><span class="glyphicon glyphicon-plus"></span></button>
+               <button ng-if="prospect.cycle_no == cycle.cycle_no" class="btn btn-default" ng-click="SaveNotes(prospect._id,'5')"><span class="glyphicon glyphicon-floppy-save"></span> Save Notes</button></td>
           </tr>
           <tr>
               <td> <div ng-repeat="textArea5 in textAreas5">
@@ -338,7 +337,7 @@
       <hr>
       <table width="100%">
           <tr><td> &nbsp; </td></tr>
-       <tr><td width ="90%">
+       <tr><td width ="90%" ng-if="prospect.cycle_no == cycle.cycle_no">
        <form name="newProspectForm" enctype='multipart/form-data' ng-submit="acceptProspect(newProspect,prospect._id,'Converted','6',cycle._id)" >
            <div class="panel-wrapper">
                <label class="control-label">Closure Details: </label>
@@ -367,7 +366,7 @@
     </table>
   </accordion-group>
     </accordion>
-    </div>
+
    <!-- <accordion-group>
         <accordion-heading>
             <b>Uncategorized Emails</b><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
