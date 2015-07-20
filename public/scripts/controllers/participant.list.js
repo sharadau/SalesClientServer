@@ -17,33 +17,42 @@ angular.module('dashboardApp')
 
   $scope.prospect_id = $stateParams.prospectId;
   $scope.prospect_name = $stateParams.prospectName;
-console.log("prospect id in participant list controller: "+$scope.prospect_id);
-console.log("prospect name in participant list controller: "+$scope.prospect_name);
   $scope.fetchList = function(){
     participant.getParticipantForProspect($stateParams.prospectId)
       .success (function (data){
       $scope.participants = data;
-      //console.log("Participants: "+$scope.participants)
+        $scope.participantsEmails = new Array();
+        for(var k=0;k<data.length;k++)
+        {
+            $scope.participantsEmails[k] = data[k].email;
+        }
     })
       .error (function (error){
       console.log (error);
     });
   }
     $scope.fetchList();
-    /*$scope.participants = [
-      {name: "Subu Sankara",_id:"1"},
-      {name: "Rohit Ghatol",_id:"2"},
-      {name: "Ashish Shanker",_id:"3"},
-      {name: "Ashutosh Kumar",_id:"4"}
-    ];*/
+
     // Any function returning a promise object can be used to load values asynchronously
     $scope.getEmployees = function(val) {
+        var participantsEmailIds = $scope.participantsEmails;
       return $http.get(service_base_url+'/api/employees/name/'+val, {
       }).then(function(response){
-          console.log(response.data);
-        return response.data.map(function(item){
-         return item.emailId;
-        });
+          var newOne = new Array();
+
+          var q=0;
+          for(var d=0;d<response.data.length;d++) {
+              if (participantsEmailIds.indexOf(response.data[d].emailId) == -1) {
+                  newOne[q] =  response.data[d];
+                  q++;
+              }
+          }
+          response.data = new Array();
+          response.data = newOne;
+          return response.data.map(function(item){
+                  return item.emailId;
+          });
+
       });
     };
     $scope.addParticipant = function(prospect_id){
