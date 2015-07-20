@@ -67,7 +67,8 @@ angular.module('dashboardApp')
             if (confirm("Do you want to delete participant "+name) == true) {
                 // todo code for deletion
                 participant.deleteParticipant(participantId);
-                $state.transitionTo('auth.prospect.view', {prospectId: prospectId});
+                // $state.transitionTo('auth.prospect.view', {prospectId: prospectId});
+                window.location.reload();
             }
         }
   });
