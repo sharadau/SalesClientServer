@@ -90,7 +90,7 @@
       <table>
           <tr><td><b>Notes: </b>
                <button ng-if="auth.profile.prospectPrivilage.length > 0 &&  auth.profile.prospectPrivilage.indexOf('ADD_NOTES') != -1 && prospect.cycle_no == cycle.cycle_no" class="btn btn-default" ng-click="addMore(1)"><span class="glyphicon glyphicon-plus"></span></button>
-               <button ng-if="auth.profile.prospectPrivilage.length > 0 &&  auth.profile.prospectPrivilage.indexOf('ADD_NOTES') != -1 && prospect.cycle_no == cycle.cycle_no" class="btn btn-default" ng-click="SaveNotes(prospect._id,'1')"><span class="glyphicon glyphicon-floppy-save"></span> Save Notes</button></td>
+               <button ng-if="auth.profile.prospectPrivilage.length > 0 &&  auth.profile.prospectPrivilage.indexOf('ADD_NOTES') != -1 && prospect.cycle_no == cycle.cycle_no && textAreas1.length > 0" class="btn btn-default" ng-click="SaveNotes(prospect._id,'1')"><span class="glyphicon glyphicon-floppy-save"></span> Save Notes</button></td>
           </tr>
           <tr>
               <td colspan="5"><div ng-repeat="textArea1 in textAreas1">
@@ -216,7 +216,7 @@
       <table>
           <tr><td><b>Notes:</b>
                <button ng-if="prospect.cycle_no == cycle.cycle_no" class="btn btn-default" ng-click="addMore(3)"><span class="glyphicon glyphicon-plus"></span></button>
-               <button ng-if="prospect.cycle_no == cycle.cycle_no" class="btn btn-default" ng-click="SaveNotes(prospect._id,'3')"><span class="glyphicon glyphicon-floppy-save"></span> Save Notes</button></td>
+               <button ng-if="prospect.cycle_no == cycle.cycle_no && textAreas3.length > 0" class="btn btn-default" ng-click="SaveNotes(prospect._id,'3')"><span class="glyphicon glyphicon-floppy-save"></span> Save Notes</button></td>
           </tr>
           <tr>
               <td> <div ng-repeat="textArea3 in textAreas3">
@@ -315,7 +315,7 @@
       <table>
           <tr><td><b>Notes:</b>
                 <button ng-if="prospect.cycle_no == cycle.cycle_no" class="btn btn-default" ng-click="addMore(5)"><span class="glyphicon glyphicon-plus"></span></button>
-               <button ng-if="prospect.cycle_no == cycle.cycle_no" class="btn btn-default" ng-click="SaveNotes(prospect._id,'5')"><span class="glyphicon glyphicon-floppy-save"></span> Save Notes</button></td>
+               <button ng-if="prospect.cycle_no == cycle.cycle_no && textAreas5.length > 0" class="btn btn-default" ng-click="SaveNotes(prospect._id,'5')"><span class="glyphicon glyphicon-floppy-save"></span> Save Notes</button></td>
           </tr>
           <tr>
               <td> <div ng-repeat="textArea5 in textAreas5">
