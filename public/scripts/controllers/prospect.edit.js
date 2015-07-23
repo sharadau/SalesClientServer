@@ -22,9 +22,12 @@ angular.module('dashboardApp')
       $scope.prospect = data;
       console.log(data);
       $scope.newProspect = JSON.parse(JSON.stringify($scope.prospect));
+            $scope.action = "edit";
     })
       .error (function (error){
       console.log (error.msg);});
+    }else{
+        $scope.action = "add";
     }
     
     $scope.updateProspect = function (newProspect) {

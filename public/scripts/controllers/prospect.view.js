@@ -55,6 +55,15 @@ angular.module('dashboardApp')
             .error (function (error){
             console.log (error.msg);});
 
+        //retrieve cycles for stage1
+        CyclesService.getCycleForProspect($stateParams.prospectId)
+            .success (function (data){
+            $scope.cycles = data;
+            console.log("Cycles:"+JSON.stringify(data));
+
+        })
+            .error (function (error){
+            console.log (error.msg);});
         //get privilages for user type
         //check user privilages
         $scope.auth.profile.prospectPrivilage = [];
@@ -246,10 +255,11 @@ angular.module('dashboardApp')
         $scope.SaveNotes=function(prospectId,stage){
             var notes = new Array();
             var sender = auth.profile.name;
-
             if(stage=='1') {
+
                 for (var i = 0; i < $scope.textAreas1.length; i++) {
                     //notes[i] = $scope.textAreas1[i].textBox + "\n\r" + "-" + sender;
+
                     if($scope.textAreas1[i].textBox == '')
                     {
                         alert("Notes can not be blank. Please add notes before save.");
@@ -363,9 +373,31 @@ angular.module('dashboardApp')
     }
     
     //retrieve emails for stage1
+        var cyclesData = $scope.cycles;
     Emails.getEmailsForProspectStage($stateParams.prospectId, "1")
     .success (function (data){
     $scope.emailsForStage1 = data;
+        //console.log("email 1:"+JSON.stringify(data));
+        $scope.emailsForCycle = new Array();
+
+        //retrieve cycles for stage1
+        CyclesService.getCycleForProspect($stateParams.prospectId)
+            .success (function (data1){
+            $scope.cycles = data1;
+            for(var e=0;e<$scope.emailsForStage1.length;e++)
+            {
+                for(var c=0;c<$scope.cycles.length;c++)
+                {
+                    if($scope.emailsForStage1[e].cycle_no == $scope.cycles[c].cycle_no && $scope.emailsForStage1[e].stage == '1'){
+                        $scope.emailsForCycle[$scope.cycles[c].cycle_no] = true;
+                    }
+                }
+            }
+
+        })
+            .error (function (error){
+            console.log (error.msg);});
+
 
   })
     .error (function (error){
@@ -448,15 +480,7 @@ angular.module('dashboardApp')
           window.location.reload();
       }
 	  };
-        //retrieve cycles for stage1
-        CyclesService.getCycleForProspect($stateParams.prospectId)
-            .success (function (data){
-            $scope.cycles = data;
-            console.log("Cycles:"+JSON.stringify(data));
 
-        })
-            .error (function (error){
-            console.log (error.msg);});
 
         $scope.completeCycle = function(cycle_no, cycle_id, prospectId, name) {
             console.log("update cycle");

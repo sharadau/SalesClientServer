@@ -36,8 +36,7 @@
               <option value="Bay Area">Bay Area</option>
           </select>
       </div>
-
-    <div class="panel-wrapper">
+    <div class="panel-wrapper" ng-if="action == 'add'">
       <label class="control-label">Send Initiation Email: </label>
      <!-- <input type="checkbox" class="form-control" style="width:20px" ng-model="newProspect.sendEmail" ng-true-value="1" ng-false-value="0" ng-init="newProspect.sendEmail=true"/>-->
       <input type="checkbox" class="form-control" style="width:20px" ng-model="newProspect.sendEmail" ng-true-value="1" ng-false-value="0"/>

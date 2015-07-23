@@ -49,20 +49,7 @@
         </div>
     </div>
 </div>
-<!--<div id="parent">
-  <div class="panel">
-    <div data-toggle="collapse" data-parent="#parent" data-target="#child">test</div>
-    <div id="child" class="collapse in">
-      This is the content
-    </div>
-  </div>
-  <div class="panel">
-    <div data-toggle="collapse" data-parent="#parent" data-target="#child2">test</div>
-    <div id="child2" class="collapse">
-      This is the content
-    </div>
-  </div>
-</div>-->
+
 <accordion close-others="oneAtATime">
   <accordion-group is-open="status.isFirstOpen">
     <accordion-heading>
@@ -78,16 +65,16 @@
         <tr></tr>
     </table>
   </accordion-group>
-  <accordion-group>
+  <accordion-group >
     <accordion-heading>
       <b>Initiation</b> <i ng-if="cycle.current_state > '1'" class="glyphicon glyphicon-ok-sign" title="Completed"> </i> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
     </accordion-heading>
-    <table>
+    <table width="100%" >
       <tr><td width="70%"></td>
-      <td><a ng-if="cycle.current_state < '3' && auth.profile.prospectPrivilage.length > 0 &&  auth.profile.prospectPrivilage.indexOf('COMPLETE_STAGE') != -1 && prospect.cycle_no == cycle.cycle_no" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Internal Preparation',3,cycle._id)" title="Move in Next state"> Mark Complete </a></td>
-      <td><a ng-if="cycle.current_state < '3' && auth.profile.prospectPrivilage.length > 0 && auth.profile.prospectPrivilage.indexOf('INITIATE_EMAIL') != -1 && prospect.cycle_no == cycle.cycle_no" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:1,cycle_id:cycle._id,cycle_no:cycle.cycle_no})"> Email</a> </td></tr>
+      <!--<td><a ng-if="cycle.current_state < '3' && auth.profile.prospectPrivilage.length > 0 &&  auth.profile.prospectPrivilage.indexOf('COMPLETE_STAGE') != -1 && prospect.cycle_no == cycle.cycle_no" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Internal Preparation',3,cycle._id)" title="Move in Next state"> Mark Complete </a></td>-->
+      <td><a ng-if="cycle.current_state < '3' && auth.profile.prospectPrivilage.length > 0 && auth.profile.prospectPrivilage.indexOf('INITIATE_EMAIL') != -1 && prospect.cycle_no == cycle.cycle_no" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:1,cycle_id:cycle._id,cycle_no:cycle.cycle_no})"> Send Initiation Email</a> </td></tr>
       </table>
-      <table>
+      <table ng-if="emailsForCycle[cycle.cycle_no] == true">
           <tr><td><b>Notes: </b>
                <button ng-if="auth.profile.prospectPrivilage.length > 0 &&  auth.profile.prospectPrivilage.indexOf('ADD_NOTES') != -1 && prospect.cycle_no == cycle.cycle_no" class="btn btn-default" ng-click="addMore(1)"><span class="glyphicon glyphicon-plus"></span></button>
                <button ng-if="auth.profile.prospectPrivilage.length > 0 &&  auth.profile.prospectPrivilage.indexOf('ADD_NOTES') != -1 && prospect.cycle_no == cycle.cycle_no && textAreas1.length > 0" class="btn btn-default" ng-click="SaveNotes(prospect._id,'1')"><span class="glyphicon glyphicon-floppy-save"></span> Save Notes</button></td>
@@ -105,11 +92,11 @@
               </div></td>
           </tr>
       </table>
-       <table ><br/>
-      <!--<tr><td width="50%">Prospect is initiated on {{prospect.updatedDate}}</td><td></td></tr>-->
-      <tr ><td width="50%"><b>Initiation Email Sent on: </b></td><td ng-if="prospect._id == emailsForStage1[0].prospect_id && email1.stage == 1">{{emailsForStage1[0].send_date}}</td></tr>
-      <tr><td width="50%"><b>Email Subject: </b></td><td ng-if="prospect._id == emailsForStage1[0].prospect_id && email1.stage == 1">{{emailsForStage1[0].subject}}</td></tr>
-      <tr><td width="50%"><b>Message: </b></td><td></td></tr>
+      <table ><br/>
+          <!-- <tr><td width="50%">Prospect is initiated on {{emailsForStage1[0].send_date}}</td><td></td></tr>
+           <tr ><td width="50%"><b>Initiation Email Sent on: </b></td><td ng-if="prospect._id == emailsForStage1[0].prospect_id && email1.stage == 1">{{emailsForStage1[0].send_date}}</td></tr>
+           <tr><td width="50%"><b>Email Subject: </b></td><td ng-if="prospect._id == emailsForStage1[0].prospect_id && email1.stage == 1">{{emailsForStage1[0].subject}}</td></tr>
+           <tr><td width="50%"><b>Message: </b></td><td></td></tr>-->
      </table><br/>
      <!-- <span ng-if="auth.profile.prospectPrivilage.length > 0 && auth.profile.prospectPrivilage.indexOf('VIEW_INITIATION_EMAIL_IF_NOT_INVOLVED') != -1">-->
      <table  data-ng-repeat="email1 in emailsForStage1">
@@ -117,99 +104,16 @@
       <tr ng-if="prospect._id == email1.prospect_id && email1.stage == 1 && cycle.cycle_no == email1.cycle_no"><td width="50%">Subject: {{email1.subject}}</td><td></td></tr>
       <tr ng-if="prospect._id == email1.prospect_id && email1.stage == 1 && cycle.cycle_no == email1.cycle_no"><td width="50%"><textarea rows="3" cols="78" readonly="readonly">{{email1.contents}}</textarea></td><td></td></tr>
     </table>
-   <!-- <accordion-group heading="{{email1.subject}}" ng-repeat="email1 in emailsForStage1">
-      {{email1.contents}}
-    </accordion-group>
-    
-  <div id="parent">
-  <div class="panel">
-    <div id="parentDiv" data-toggle="collapse" data-parent="#parent" data-target="#child" ><b>test</b><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i></div>
-    <div id="child" class="collapse in">
-      This is the content
-    </div>
-  </div>
-  <div  data-ng-repeat="email1 in emailsForStage1">
-  <div class="panel">
-    <div id="parentDiv" data-toggle="collapse" data-parent="#parent" data-target="#child1" >
-    <b>Sent from {{email1.from}} on {{email1.send_date}}:</b><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i></div>
-    <div id="child" class="collapse">
-      {{email1.contents}}
-    </div>
-  </div>
-</div>
-</div>-->
+
   </accordion-group>
-  <!--<accordion-group>
-    <accordion-heading>
-      <b>Clarification</b> <i ng-if="prospect.state_id > '2'" class="glyphicon glyphicon-ok-sign" title="Completed"> </i><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-    </accordion-heading>
-    <table>
-    <tr><td width="70%"></td>
-    <td><a ng-if="prospect.state_id < '3'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Internal Preparation',3)"  title="Move in Next state"> Mark Complete </a></td>
-    <td><a ng-if="prospect.state_id < '3'" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:2})"> Email</a> </td></tr>
-    </table>
-      <table>
-          <tr><td><b>Notes:</b></td></tr>
-          <tr>
-              <td> <div ng-repeat="textArea2 in textAreas2">
-                  <textarea id="maxlength_textarea" class="form-control" maxlength="225" rows="2" cols="200" data-ng-model="textArea2.textBox" placeholder="textbox"></textarea>
-              </div></td>
-              <td>  <button class="btn btn-default" ng-click="addMore(2)">Add Notes</button></td>
-              <td> <button class="btn btn-default" ng-click="SaveNotes(prospect._id,'2')">Save Notes</button></td>
-          </tr>
-      </table>
-      <form name="questionsForm" enctype='multipart/form-data' ng-submit="addQuestions(newProspect,prospect._id,'Converted','6')" >
-      <table width="100%">
-          <tr><td  width="15%">
-              <label class="control-label">Questions: </label>
-          </td><td width="20%"></td>
-              <td>
-                  <textarea rows="5" class="form-control" data-ng-model="newProspect.questions" placeholder="Please add questions here"></textarea>
-              </td>
-          </tr>
-          <tr>
-              <div class="panel-wrapper" ng-if="prospect.questionsDoc == ''"  >
-              <td width="20%" colspan="2">
-                  <label ng-if="prospect.questionsDoc == '' || prospect.questionsDoc == 'undefined'" class="control-label">Upload Questions Document: </label>
-              </td>
-                 <td> <input ng-if="prospect.questionsDoc == '' || prospect.questionsDoc == 'undefined'" type="file" ng-file-select="fileSelection($files)" class="form-control" file-model="questionsDoc"/>
-                  <label ng-if="prospect.questionsDoc == '' || prospect.questionsDoc == 'undefined'" class="control-label" data-ng-model="newProspect.uploadStatus"></label>
-              </td>
-              </div>
-              </tr>
-          <tr>
-               <div class="panel-wrapper" ng-if="prospect.questionsDoc != ''">
-                 <td colspan="2">
-                  <label class="control-label">Questions Document: </label>
-                 </td>
-                 <td>
-                  <a href='../uploads/{{prospect.questionsDoc}}' > {{prospect.questionsDoc}}</a>
-                 </td>
-              </div>
-              </td>
-          </tr>
-          <tr>
-              <td colspan="2">
-                  <button  class="btn btn-default" type="submit" ng-disabled="form.$invalid" >
-                      <span class="glyphicon glyphicon-thumbs-up"></span> Save Questions
-                  </button>
-                  </td>
-          </tr>
-      </table>
-          </form>
-    <table data-ng-repeat="email2 in emailsForStage2">
-      <tr ng-if="prospect._id == email2.prospect_id && email2.stage == 2"><td width="50%" colspan="2"><b>Sent from {{email2.from}} on {{email2.send_date}}:</b></td></tr>
-        <tr ng-if="prospect._id == email2.prospect_id && email2.stage == 2"><td width="50%">Subject: {{email2.subject}}</td><td></td></tr>
-        <tr ng-if="prospect._id == email2.prospect_id && email2.stage == 2"><td width="50%"><textarea rows="3" cols="93" readonly="readonly">{{email2.contents}}</textarea></td><td></td></tr>
-    </table>
-  </accordion-group>-->
-  <accordion-group ng-if="auth.profile.prospectPrivilage.length > 0 &&  auth.profile.prospectPrivilage.indexOf('VIEW_2_3_STAGE_IF_NOT_INVOLVED') != -1">
+
+  <accordion-group ng-if="emailsForCycle[cycle.cycle_no] == true && auth.profile.prospectPrivilage.length > 0 &&  auth.profile.prospectPrivilage.indexOf('VIEW_2_3_STAGE_IF_NOT_INVOLVED') != -1">
     <accordion-heading>
       <b>Internal Preparation</b> <i ng-if="cycle.current_state > '3'" class="glyphicon glyphicon-ok-sign" title="Completed"> </i> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
     </accordion-heading>
     <table>
-    <tr><td width="50%"></td>
-        <td><a ng-if="cycle.current_state < '5' && prospect.cycle_no == cycle.cycle_no" class="glyphicon glyphicon-calendar" data-ng-click="scheduleCall(prospect._id)" title="Schedule Call"> Schedule Call </a></td>
+    <tr><td width="70%"></td>
+       <!-- <td><a ng-if="cycle.current_state < '5' && prospect.cycle_no == cycle.cycle_no" class="glyphicon glyphicon-calendar" data-ng-click="scheduleCall(prospect._id)" title="Schedule Call"> Schedule Call </a></td>-->
     <td><a ng-if="cycle.current_state < '5'  && auth.profile.prospectPrivilage.length > 0 &&  auth.profile.prospectPrivilage.indexOf('COMPLETE_STAGE') != -1 && prospect.cycle_no == cycle.cycle_no" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Engagement Start',5,cycle._id)" title="Move in Next state"> Mark Complete </a></td>
     <td><a ng-if="cycle.current_state < '5'  && auth.profile.prospectPrivilage.length > 0 && auth.profile.prospectPrivilage.indexOf('SEND_EMAIL_IF_INVOLVED') != -1 && prospect.cycle_no == cycle.cycle_no" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:3,cycle_id:cycle._id,cycle_no:cycle.cycle_no})"> Email</a> </td></tr>
     </table>
@@ -273,33 +177,8 @@
       <tr ng-if="prospect._id == email3.prospect_id && email3.stage == 3 && cycle.cycle_no == email3.cycle_no"><td width="50%"><textarea rows="3" cols="78" readonly="readonly">{{email3.contents}}</textarea></td><td></td></tr>
     </table>
   </accordion-group>
-  <!--<accordion-group>
-    <accordion-heading>
-     <b>Client Call</b> <i ng-if="prospect.state_id > '4'" class="glyphicon glyphicon-ok-sign" title="Completed"> </i><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-    </accordion-heading>
-    <table>
-    <tr><td width="50%"></td>
-    <td><a ng-if="prospect.state_id < '5'" class="glyphicon glyphicon-calendar" data-ng-click="scheduleCall(prospect._id)" title="Schedule Call"> Schedule Call </a></td>
-    <td><a ng-if="prospect.state_id < '5'" class="glyphicon glyphicon-circle-arrow-right" data-ng-click="markComplete(prospect._id, 'Engagement start',5)" title="Move in Next state"> Mark Complete </a></td>
-    <td><a ng-if="prospect.state_id < '5'" class="glyphicon glyphicon-envelope"  ui-sref="auth.emails.edit({prospectId: prospect._id,prospectName:prospect.name,from:'(Sharada Umarane)sharada.umarane@synerzip.com',to:prospect.participants,stage:4})"> Email</a> </td></tr>
-    </table><br/>
-      <table>
-          <tr><td><b>Notes:</b></td></tr>
-          <tr>
-              <td> <div ng-repeat="textArea4 in textAreas4">
-                  <textarea id="maxlength_textarea" class="form-control" maxlength="225" rows="2" cols="200" data-ng-model="textArea4.textBox" placeholder="textbox"></textarea>
-              </div></td>
-              <td>  <button class="btn btn-default" ng-click="addMore(4)">Add Notes</button></td>
-              <td> <button class="btn btn-default" ng-click="SaveNotes(prospect._id,'4')">Save Notes</button></td>
-          </tr>
-      </table>
-    <table data-ng-repeat="email4 in emailsForStage4">
-      <tr ng-if="prospect._id == email4.prospect_id && email4.stage == 4"><td width="50%" colspan="2"><b>Sent from {{email4.from}} on {{email4.send_date}}:</b></td></tr>
-        <tr ng-if="prospect._id == email4.prospect_id && email4.stage == 4"><td width="50%">Subject: {{email4.subject}}</td><td></td></tr>
-      <tr ng-if="prospect._id == email4.prospect_id && email4.stage == 4"><td width="50%"><textarea rows="3" cols="93" readonly="readonly">{{email4.contents}}</textarea></td><td></td></tr>
-    </table>
-     </accordion-group>-->
-  <accordion-group ng-if="auth.profile.prospectPrivilage.length > 0 &&  auth.profile.prospectPrivilage.indexOf('VIEW_2_3_STAGE_IF_NOT_INVOLVED') != -1">
+
+  <accordion-group ng-if="emailsForCycle[cycle.cycle_no] == true && auth.profile.prospectPrivilage.length > 0 &&  auth.profile.prospectPrivilage.indexOf('VIEW_2_3_STAGE_IF_NOT_INVOLVED') != -1">
     <accordion-heading>
       <b>Engagement Start</b><i ng-if="cycle.current_state > '5'" class="glyphicon glyphicon-ok-sign" title="Completed"> </i> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
     </accordion-heading>
@@ -367,13 +246,3 @@
   </accordion-group>
     </accordion>
 
-   <!-- <accordion-group>
-        <accordion-heading>
-            <b>Uncategorized Emails</b><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-        </accordion-heading>
-        <table data-ng-repeat="uemail in uncategorizedEmails">
-            <tr ng-if="prospect._id == uemail.prospect_id && uemail.stage == 0"><td width="50%" colspan="2"><b>Sent from {{uemail.from}} on {{uemail.send_date}}:</b></td></tr>
-            <tr ng-if="prospect._id == uemail.prospect_id && uemail.stage == 0"><td width="50%">Subject: {{uemail.subject}}</td><td></td></tr>
-            <tr ng-if="prospect._id == uemail.prospect_id && uemail.stage == 0"><td width="50%"><textarea rows="8" cols="93" readonly="readonly">{{uemail.contents}}</textarea></td><td></td></tr>
-        </table>
-    </accordion-group>-->
