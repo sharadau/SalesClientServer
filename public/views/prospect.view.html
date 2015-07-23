@@ -104,7 +104,9 @@
       <tr ng-if="prospect._id == email1.prospect_id && email1.stage == 1 && cycle.cycle_no == email1.cycle_no"><td width="50%">Subject: {{email1.subject}}</td><td></td></tr>
       <tr ng-if="prospect._id == email1.prospect_id && email1.stage == 1 && cycle.cycle_no == email1.cycle_no"><td width="50%"><textarea rows="3" cols="78" readonly="readonly">{{email1.contents}}</textarea></td><td></td></tr>
     </table>
-
+    <table ng-if="emailsForCycle[cycle.cycle_no] != true">
+        <tr><td>Prospect not initiated yet!!!</td></tr>
+    </table>
   </accordion-group>
 
   <accordion-group ng-if="emailsForCycle[cycle.cycle_no] == true && auth.profile.prospectPrivilage.length > 0 &&  auth.profile.prospectPrivilage.indexOf('VIEW_2_3_STAGE_IF_NOT_INVOLVED') != -1">
