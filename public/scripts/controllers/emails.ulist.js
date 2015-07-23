@@ -57,6 +57,11 @@ angular.module('dashboardApp')
             console.log("selected stage:"+$scope.stage);
             console.log("selected prospect:"+$scope.prospect);
             console.log("cycle:"+$scope.prospect_cycle_id);
+            console.log("selected email:"+(  $scope.emailsSelected.length));
+            if($scope.emailsSelected.length < 1) {
+                alert("Please select email!");
+                return;
+            }
             var p_id = $scope.prospect;
             var c_id = $scope.prospect_cycle_id;
             if(typeof $scope.stage == 'string' && typeof $scope.prospect == 'number') {

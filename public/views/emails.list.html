@@ -43,16 +43,6 @@
 <table class="table table-hover table-responsive table-condensed tab-content" data-ng-repeat="email in emails | filter:searchText">
   <td width="50%">
       <a ng-click="open(email.subject, email.contents,email.from)">{{email.subject}}</a>
-
-    <!--<a ui-sref="email.view({emailId: email._id})" popover-placement="right" popover="{{email.contents}}" popover-title="{{email.subject}}">{{email.subject}}</a>-->
-    <!--<a popover-placement="right" popover-template="myPopoverTemplate.html" popover-title="{{email.subject}}">{{email.subject}}</a>
-      <script type="text/ng-template" id="myPopoverTemplate.html">
-          <div>{{email.contents}}</div>
-          <div class="form-group">
-              <label>Popup Title:</label>
-              <input type="text" ng-model="email.subject" class="form-control">
-          </div>
-      </script>-->
   </td>
   <td>
     {{email.send_date}}

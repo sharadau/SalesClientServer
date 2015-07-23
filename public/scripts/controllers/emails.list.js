@@ -45,6 +45,7 @@ angular.module('dashboardApp')
             console.log("selected stage:"+(typeof $scope.stage));
             console.log("selected stage:"+$scope.stage);
 
+
             //if(typeof $scope.stage == 'number' && typeof $scope.emailsSelected == 'object') {
             if(typeof $scope.stage == 'string') {
             for(var i=0;i<$scope.emailsSelected.length;i++)
