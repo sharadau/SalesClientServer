@@ -94,17 +94,14 @@ angular.module('dashboardApp')
       $state.transitionTo('auth.prospect.view', {prospectId: newProspect._id});
     };
 
-    $scope.cancelUpdate = function() {
-      $scope.newProspect = JSON.parse(JSON.stringify($scope.prospect));
-
-    };
     $scope.addUniqueItem = function (collection, item) {
       collection = collection || [];
       if (-1 === collection.indexOf(item)) {
         collection.push(item);
       }
     };
-        $scope.cancelUpdate = function(){
+        $scope.cancelUpdate = function($event){
+            $event.preventDefault();
             window.history.back();
         }
 
