@@ -56,14 +56,26 @@ angular.module('dashboardApp')
         };
 
         $scope.addUser = function(){
-            console.log("addSalesPerson in cntrlr: "+$scope.area);
-            UsersService.addUser($scope.asyncSelected, $scope.area, $scope.emailId,$scope.userType);
-            $scope.asyncSelected = null;
-            $scope.emailId = null;
-            //$scope.area = null;
-            $scope.fetchList();
-            alert("Added User");
-            window.location.reload();
+            var details =  UsersService.getUserByEmailId($scope.emailId) .success (function (data){
+                $scope.UserDetails = data;
+                 console.log("UserDetails: "+$scope.UserDetails)
+                if($scope.UserDetails.user_type != $scope.userType) {
+                    UsersService.addUser($scope.asyncSelected, $scope.area, $scope.emailId, $scope.userType);
+                    $scope.asyncSelected = null;
+                    $scope.emailId = null;
+                    $scope.fetchList();
+                    alert("Added User");
+                    window.location.reload();
+                }else
+                {
+                    alert("Duplicate User!!!")
+                }
+            })
+                .error (function (error){
+                console.log (error);
+            });
+
+
         };
 
         $scope.deleteSalesPerson = function(id, name) {
