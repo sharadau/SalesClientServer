@@ -85,7 +85,7 @@ exports.projectByName=function(req,res,next,name){
                 error:"project not found with name "+name
             };
             //res.status(404).send(error);
-            res.send(-1);
+            res.send("");
         }
     });
 };
