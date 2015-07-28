@@ -2,8 +2,8 @@
   <form name="newProspectForm" ng-submit="updateProspect(newProspect)" >
     <div class="panel-wrapper">
       <label class="control-label">Name: </label> <label style="color: red">*</label>
-      <input type="text" class="form-control" data-ng-model="newProspect.name" required="true" />
-
+      <input type="text" class="form-control"  ng-change="checkNameAvailable(newProspect.name)" data-ng-model="newProspect.name" required="true" />
+        <div id="invalidEmail"></div>
     </div>
 
     <div class="panel-wrapper" >

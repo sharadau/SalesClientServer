@@ -14,7 +14,7 @@ angular.module('dashboardApp')
       'AngularJS',
       'Karma'
     ];
-
+        $scope.nameAvailable = 0;
     if($stateParams.prospectId)
     {
     	ProspectService.getProspect($stateParams.prospectId)    
@@ -31,6 +31,15 @@ angular.module('dashboardApp')
     }
     
     $scope.updateProspect = function (newProspect) {
+        if($scope.nameAvailable == 0)
+        {
+            alert("Please check Prospect name availability");
+            return;
+
+        }else if($scope.nameAvailable == 1){
+            alert("Prospect name not available");
+            return;
+        }
       newProspect = newProspect || {};
 
       $scope.newProspect = {};
@@ -104,8 +113,36 @@ angular.module('dashboardApp')
             $event.preventDefault();
             window.history.back();
         }
+        document.getElementById("invalidEmail").style.display = "none";
 
+        $scope.checkNameAvailable = function(name){
+            if(name == '' || typeof name != 'string')
+            {
+                document.getElementById("invalidEmail").style.display = "none";
+            }else {
+                ProspectService.getProspectByProspectName(name)
+                    .success(function (data) {
+                    console.log("prospect found:" + data);
 
+                    if (typeof data == 'object') {
+                        document.getElementById("invalidEmail").innerHTML = "<label style='color:red'>Prospect name already exists</label>";
+                        document.getElementById("invalidEmail").style.display = "block";
+                        $scope.nameAvailable = 1;
+                        $scope.newProspectForm.$valid = false;
+                    } else {
+                        document.getElementById("invalidEmail").innerHTML = "Prospect Name Available";
+                        document.getElementById("invalidEmail").style.display = "block";
+                        $scope.newProspectForm.$valid = true;
+                        $scope.nameAvailable = 2;
+                    }
+                })
+                    .error(function (error) {
+                        console.log(error);
+                    }
+                );
+            }
+
+        }
         // Same validator as AngularJS's, only with a different RegExp.
        $scope.urlValidator = function(){
             //var URL_REGEXP = /^(?:http|ftp)s?:\/\/(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|localhost|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::\d+)?(?:\/?|[\/?]\S+)$/gi;

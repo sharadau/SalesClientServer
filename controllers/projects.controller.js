@@ -70,7 +70,25 @@ exports.create=function(req,res){
         }
     })
 };
-
+exports.projectByName=function(req,res,next,name){
+    console.log("projectByName:"+name);
+    Projects.findOne({name:name},function(err,project){
+        if(err){
+            next(err);
+        }
+        if(project){
+            req.project=project;
+            next();
+        }
+        else{
+            var error={
+                error:"project not found with name "+name
+            };
+            //res.status(404).send(error);
+            res.send(-1);
+        }
+    });
+};
 exports.projectById=function(req,res,next,id){
     Projects.findOne({_id:id},function(err,project){
         if(err){
