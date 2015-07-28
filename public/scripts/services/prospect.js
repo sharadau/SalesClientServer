@@ -84,6 +84,25 @@ angular.module('dashboardApp')
 
       return response;
     };
+        this.getProspectByProspectName = function (name) {
+            var successCallback, errorCallback;
+            var response = {
+                success: function (callback) {successCallback = callback; return response;},
+                error: function (callback) {errorCallback = callback; return response;}
+            };
+
+            $http.get(service_base_url+'/api/projects/pname/'+name)
+                .success(function(item){
+                    successCallback(item);
+                })
+                .error(function(error){
+                    if (error) {
+                        errorCallback({msg: 'No prospect with: ' + name + ' name'});
+                    }
+                });
+
+            return response;
+        };
         this.getProspectsInitiatedInMonth = function (month, year) {
             var successCallback, errorCallback;
             var response = {
