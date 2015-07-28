@@ -71,7 +71,7 @@ exports.create=function(req,res){
     })
 };
 exports.projectByName=function(req,res,next,name){
-    console.log("projectByName:"+name);
+   // console.log("projectByName:"+name);
     Projects.findOne({name:name},function(err,project){
         if(err){
             next(err);
