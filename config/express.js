@@ -185,6 +185,7 @@ module.exports=function(){
                 //add participants
                 var tos = '';
                 var ccs = '';
+                var nonSynerzipId = false;
                 //to
                 mail.to.forEach(function (toUser) {
                     tos += toUser.address + ";";
@@ -203,14 +204,15 @@ module.exports=function(){
                     }
                 });
                 if (prospectFlag == "1") {
-                    var nonSynerzipId = false;
+
 
                     console.log("stage:"+prospects[i].state_id);
                     console.log("prospectFound:"+prospectFound);
                     req.body.cycle_id = prospects[i].cycle_id;
                     req.body.cycle_no = prospects[i].cycle_no;
-
-
+console.log("mail.attachments[0].fileName:"+mail.attachments[0].fileName);
+console.log(" prospects[i].state_id < 6:"+ (prospects[i].state_id < 6));
+console.log(" nonSynerzipId:"+ nonSynerzipId);
                     if (typeof mail.attachments == "object") {
 
                         console.log("attachment:"+JSON.stringify(mail.attachments[0].fileName));
@@ -228,11 +230,11 @@ module.exports=function(){
                             require("fs").writeFile('./uploads/'+mail.attachments[0].fileName, mail.attachments[0].content, 'base64', function(err) {
                                 console.log(err);
                             });
-                        }else if(mail.attachments[0].fileName == 'invite.ics' && prospects[i].state_id < 5 && nonSynerzipId == true){
+                        }else if(mail.attachments[0].fileName == 'invite.ics' && prospects[i].state_id < 6 && nonSynerzipId == true){
                             console.log("found calendar invite");
-                            updateProspectStage(prospects[i], prospects[i]._id, date, "Engagement Start", "5");
+                            updateProspectStage(prospects[i], prospects[i]._id, date, "Converted", "6");
                             //update cycle state
-                            updateCycleStage(prospects[i].cycle_id,5);
+                            updateCycleStage(prospects[i].cycle_id,6);
                         }
                     }else if(prospects[i].state_id < 3)
                     {
