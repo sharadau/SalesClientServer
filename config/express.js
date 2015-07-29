@@ -98,17 +98,6 @@ module.exports=function(){
         console.log("Mail notifier started!!!");
 
 
-       /* areaMapping[0] = new Array();
-        areaMapping[1] = new Array();
-        areaMapping[2] = new Array();
-
-        areaMapping[0][0] = 'sharada.umarane@gmail.com';
-        areaMapping[1][0] = 'Salesp2@synerzip.com';
-        areaMapping[2][0] = 'Salesp3@synerzip.com';
-        areaMapping[0][1] = 'Bay Area';
-        areaMapping[1][1] = 'Texas';
-        areaMapping[2][1] = 'Texas';*/
-
             var subject = mail.subject;
             var from = mail.from;
            // var date = mail.date.getDate()+"-"+mail.date.getMonth()+"-"+mail.date.getFullYear()+" "+mail.date.getHours()+":"+mail.date.getMinutes()+":"+mail.date.getSeconds();
@@ -121,7 +110,6 @@ module.exports=function(){
                 cc = mail.cc;
             }
             console.log("GOT MAIL on: " +date);
-        //console.log("GOT message: " +JSON.stringify(mail));
        //if email is not generated with sales dashboard
         if(typeof mail.message != "string")
         {
@@ -158,18 +146,32 @@ module.exports=function(){
                 var prospectFlag = 0;
                 var prospectFound = '';
                 //add prospect id
-                for (i = 0; i < prospects.length; i++) {
-                    if ((subject.toLowerCase() == prospects[i].name.toLowerCase()) || (subject.toLowerCase().search(prospects[i].name.toLowerCase()+" ") != -1) || (" "+subject.toLowerCase().search(prospects[i].name.toLowerCase()) != -1)) {
-                        console.log("Found prospect in subject with id:" + prospects[i]._id + " name:" + prospects[i].name);
-                        req.body.prospect_id = prospects[i]._id;
-                        console.log("current stage:"+prospects[i].state_id);
-                        req.body.stage = prospects[i].state_id;
-                        prospectFlag = 1;
-                        prospectFound = prospects[i]._id;
-                        break;
-                    } else if (typeof message == "string") {
-
-                        if ((message.toLowerCase() == prospects[i].name.toLowerCase()) || (message.toLowerCase().search(prospects[i].name.toLowerCase()+" ") != -1) || (" "+message.toLowerCase().search(prospects[i].name.toLowerCase()) != -1)) {
+                for (i = 0; i < prospects.length; i++)
+                {
+                    if(typeof subject == 'string')
+                    {
+                        console.log("prospect:"+prospects[i].name+" subject:"+subject);
+                        console.log("subject.length - (prospects[i].name.length+2:"+(subject.length - (prospects[i].name.length+1)));
+                        console.log("subject.index+prospects[i].name:"+(subject.indexOf(" "+prospects[i].name)));
+                        if ((subject.toLowerCase().indexOf(prospects[i].name.toLowerCase() +" ") == 0) || (subject.indexOf(" "+prospects[i].name)!= -1 && (subject.indexOf(" "+prospects[i].name) == (subject.length - (prospects[i].name.length+1)))) || (subject.length == prospects[i].name.length && subject.toLowerCase() == prospects[i].name.toLowerCase()) || (subject.toLowerCase().search(" "+prospects[i].name.toLowerCase()+" ") != -1) )
+                        {
+                            console.log("Found prospect in subject with id:" + prospects[i]._id + " name:" + prospects[i].name);
+                            req.body.prospect_id = prospects[i]._id;
+                            console.log("current stage:"+prospects[i].state_id);
+                            req.body.stage = prospects[i].state_id;
+                            prospectFlag = 1;
+                            prospectFound = prospects[i]._id;
+                            break;
+                        }
+                    }
+                    if (typeof message == "string")
+                    {
+                        console.log("prospect:"+prospects[i].name+" message:"+message);
+                        console.log("message.length - (prospects[i].name.length+2:"+(message.length - (prospects[i].name.length+2)));
+                        console.log("message.index+prospects[i].name:"+(message.indexOf(" "+prospects[i].name)));
+                        //console.log("message.toLowerCase().indexOf(prospects[i].name.toLowerCase():"+(message.toLowerCase().indexOf(prospects[i].name.toLowerCase())));
+                        if ((message.toLowerCase().indexOf(prospects[i].name.toLowerCase() +" ") == 0) || (message.indexOf(" "+prospects[i].name)!= -1 && (message.indexOf(" "+prospects[i].name) == (message.length - (prospects[i].name.length+2)))) || (message.length == prospects[i].name.length && message.toLowerCase() == prospects[i].name.toLowerCase()) || (message.toLowerCase().search(" "+prospects[i].name.toLowerCase()+" ") != -1))
+                        {
                             console.log("Found prospect in message with id:" + prospects[i]._id + " name:" + prospects[i].name);
                             req.body.prospect_id = prospects[i]._id;
                             req.body.stage = prospects[i].state_id;
