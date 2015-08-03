@@ -159,7 +159,7 @@
                           <label class="control-label" ng-if="prospect.cycle_no == cycle.cycle_no">Uploaded Document: </label>
                       </td>
                       <td>
-                          <a href='../uploads/{{prospect.questionsDoc}}' > {{prospect.questionsDoc}}</a>
+                          <a href='./uploads/{{prospect.questionsDoc}}' > {{prospect.questionsDoc}}</a>
                       </td>
                   </div>
                   </td>
@@ -233,7 +233,7 @@
            </div>
            <div class="panel-wrapper" ng-if="cycle.current_state > 5 && auth.profile.prospectPrivilage.length > 0 &&  auth.profile.prospectPrivilage.indexOf('UPLOAD_ENGAGEMENT_LETTER') != -1">
                <label class="control-label">Engagement Letter: </label>
-               <a href='../uploads/{{prospect.engagementLetter}}' > {{prospect.engagementLetter}}</a>
+               <a href='./uploads/{{prospect.engagementLetter}}' > {{prospect.engagementLetter}}</a>
                </div>
            <button ng-if="cycle.current_state < 6 && auth.profile.prospectPrivilage.length > 0 &&  auth.profile.prospectPrivilage.indexOf('COMPLETE_STAGE') != -1" class="btn btn-default" type="submit" ng-disabled="form.$invalid" >
                <span class="glyphicon glyphicon-thumbs-up"></span> Accept Prospect

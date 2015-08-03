@@ -52,7 +52,8 @@ module.exports=function(){
 
     /*Configure the multer.*/
 
-    app.use(multer({ dest: upload_url+'/uploads/',
+    //app.use(multer({ dest: upload_url+'/uploads/',
+    app.use(multer({ dest: 'https://lit-wave-1072.herokuapp.com/static/uploads/',
         rename: function (fieldname, filename) {
             return filename;
         },
