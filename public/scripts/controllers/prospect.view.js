@@ -87,7 +87,41 @@ angular.module('dashboardApp')
         };
 
         UsersService.getUserByEmailId($scope.auth.profile.name)
-            .success (function (data) {
+            .success (function (datajj) {
+            var data = {};
+            console.log("User data ::"+JSON.stringify(datajj));
+            for(var jj=0;jj<datajj.length;jj++)
+            {
+                if(datajj[jj].user_type == 6)
+                {
+                    datajj[jj].user_prev = 6;
+                }else if(datajj[jj].user_type == 5)
+                {
+                    data = datajj[jj];
+                    datajj[jj].user_prev = 5;
+                }else if(datajj[jj].user_type == 1)
+                {
+                    datajj[jj].user_prev = 4;
+                }else if(datajj[jj].user_type == 2)
+                {
+                    datajj[jj].user_prev = 3;
+                }else if(datajj[jj].user_type == 3)
+                {
+                    datajj[jj].user_prev = 2;
+                }else if(datajj[jj].user_type == 4)
+                {
+                    datajj[jj].user_prev = 1;
+                }
+            }
+
+            datajj.sort(function(a,b) {
+                if ( a.user_prev < b.user_prev )
+                    return -1;
+                if ( a.user_prev > b.user_prev )
+                    return 1;
+                return 0;
+            } );
+            data = datajj[datajj.length-1];
             $scope.userDetails = data;
 
             if(data.user_type == 1)
@@ -167,21 +201,6 @@ angular.module('dashboardApp')
         }else
         {
             $scope.getPrivilagesForUserTypev($scope.auth.profile.userType);
-            //get privilages for user type
-            /*PrivilegesService.getPrivilegesForType($scope.auth.profile.userType)
-                .success (function (data1) {
-                $scope.auth.profile.prospectPrivilage= [];
-                if(typeof data1 == 'object') {
-                    for (var p = 0; p < data1.length; p++) {
-                        $scope.auth.profile.prospectPrivilage[p] = data1[p].functionality;
-                    }
-                }
-                console.log("pview: privilages:"+JSON.stringify( $scope.auth.profile.prospectPrivilage));
-                alert("pview: privilages:"+JSON.stringify( $scope.auth.profile.prospectPrivilage));
-            }).error (function (error){
-                console.log (error);
-            });*/
-            //$scope.auth.profile.prospectPrivilage = $scope.auth.profile.privilage;
 
         }
         }).error (function (error){

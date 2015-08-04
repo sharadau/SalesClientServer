@@ -7,30 +7,30 @@ var express = require('express'),
     cookieParser = require('cookie-parser'),
     cors = require('cors'),
     multer  = require('multer'),
-   // maillistener2  = require('mail-listener2'),
+// maillistener2  = require('mail-listener2'),
     nodemailer = require('nodemailer'),
     querystring = require('querystring'),
     request = require('request'),
     response = require('response'),
     https = require('https');
-    var config = require('./config-dev');
+var config = require('./config-dev');
 
 /*var GoogleContacts = require('google-contacts').GoogleContacts;
-var c = new GoogleContacts({
-    token: '688990567774-hpk2p1u3p1b9cen043bk55pd5mivq23a.apps.googleusercontent.com'
-});
-c.on('error', function (e) {
-    console.log('error', e);
-});
-c.on('contactsReceived', function (contacts) {
-    console.log('contacts: ' + contacts);
-});
-c.on('contactGroupsReceived', function (contactGroups) {
-    console.log('groups: ' + contactGroups);
-});
-c.getContacts('thin', 100);
-//c.getContactGroups('thin', 200);
-*/
+ var c = new GoogleContacts({
+ token: '688990567774-hpk2p1u3p1b9cen043bk55pd5mivq23a.apps.googleusercontent.com'
+ });
+ c.on('error', function (e) {
+ console.log('error', e);
+ });
+ c.on('contactsReceived', function (contacts) {
+ console.log('contacts: ' + contacts);
+ });
+ c.on('contactGroupsReceived', function (contactGroups) {
+ console.log('groups: ' + contactGroups);
+ });
+ c.getContacts('thin', 100);
+ //c.getContactGroups('thin', 200);
+ */
 module.exports=function(){
 
     var app = express();
@@ -82,16 +82,16 @@ module.exports=function(){
         port: 993,
         tls: true,
         markSeen: true,
-       // searchFilter: ["UNSEEN","SEEN", "FLAGGED"], // the search filter being used after an IDLE notification has been retrieved
+        // searchFilter: ["UNSEEN","SEEN", "FLAGGED"], // the search filter being used after an IDLE notification has been retrieved
         tlsOptions: { rejectUnauthorized: false }
     };
     notifier(imap).on('attachment',function(mail) {
-    console.log(" on attachemnt:"+attachment.path);
+        console.log(" on attachemnt:"+attachment.path);
     });
     /*var emailArray = new Array();
-    var emailNameArray = new Array();
-    var uemailNameArray = [];
-    var uemailArray = [];*/
+     var emailNameArray = new Array();
+     var uemailNameArray = [];
+     var uemailArray = [];*/
 
 
     notifier(imap).on('mail',function(mail){
@@ -99,19 +99,19 @@ module.exports=function(){
         console.log("Mail notifier started!!!");
 
 
-            var subject = mail.subject;
-            var from = mail.from;
-           // var date = mail.date.getDate()+"-"+mail.date.getMonth()+"-"+mail.date.getFullYear()+" "+mail.date.getHours()+":"+mail.date.getMinutes()+":"+mail.date.getSeconds();
-            var date = mail.date.toLocaleString();
-            var to = mail.to;
-            var message = mail.text;
-            var cc = '';
-            if(typeof mail.cc == "String")
-            {
-                cc = mail.cc;
-            }
-            console.log("GOT MAIL on: " +date);
-       //if email is not generated with sales dashboard
+        var subject = mail.subject;
+        var from = mail.from;
+        // var date = mail.date.getDate()+"-"+mail.date.getMonth()+"-"+mail.date.getFullYear()+" "+mail.date.getHours()+":"+mail.date.getMinutes()+":"+mail.date.getSeconds();
+        var date = mail.date.toLocaleString();
+        var to = mail.to;
+        var message = mail.text;
+        var cc = '';
+        if(typeof mail.cc == "String")
+        {
+            cc = mail.cc;
+        }
+        console.log("GOT MAIL on: " +date);
+        //if email is not generated with sales dashboard
         if(typeof mail.message != "string")
         {
             mail.message = '';
@@ -211,9 +211,9 @@ module.exports=function(){
                     console.log("prospectFound:"+prospectFound);
                     req.body.cycle_id = prospects[i].cycle_id;
                     req.body.cycle_no = prospects[i].cycle_no;
-console.log("mail.attachments[0].fileName:"+mail.attachments[0].fileName);
-console.log(" prospects[i].state_id < 6:"+ (prospects[i].state_id < 6));
-console.log(" nonSynerzipId:"+ nonSynerzipId);
+                    console.log("mail.attachments[0].fileName:"+mail.attachments[0].fileName);
+                    console.log(" prospects[i].state_id < 6:"+ (prospects[i].state_id < 6));
+                    console.log(" nonSynerzipId:"+ nonSynerzipId);
                     if (typeof mail.attachments == "object") {
 
                         console.log("attachment:"+JSON.stringify(mail.attachments[0].fileName));
@@ -291,20 +291,20 @@ console.log(" nonSynerzipId:"+ nonSynerzipId);
 
                     }
                     //add area depend on sales person
-                   /* if (typeof prospects[i].area != 'string' || prospects[i].area == '') {
-                        prospects[i].area = '';
-                        console.log("set area");
-                        for (j = 0; j < areaMapping.length; j++) {
-                            if (mail.from[0].address == areaMapping[j][0]) {
-                                prospects[i].area = areaMapping[j][1];
-                                //update prospect for area
-                                updateProspectArea(prospects[i].area, prospects[i]._id);
-                                break;
-                            }
-                        }
+                    /* if (typeof prospects[i].area != 'string' || prospects[i].area == '') {
+                     prospects[i].area = '';
+                     console.log("set area");
+                     for (j = 0; j < areaMapping.length; j++) {
+                     if (mail.from[0].address == areaMapping[j][0]) {
+                     prospects[i].area = areaMapping[j][1];
+                     //update prospect for area
+                     updateProspectArea(prospects[i].area, prospects[i]._id);
+                     break;
+                     }
+                     }
 
 
-                    }*/
+                     }*/
                     //find client URL
                     var calendarInvite = 0;
                     if (typeof mail.attachments == "object" && mail.attachments[0].fileName != 'invite.ics'){
@@ -355,23 +355,23 @@ console.log(" nonSynerzipId:"+ nonSynerzipId);
 
                 }
                 //to
-               /* mail.to.forEach(function (toUser) {
-                    tos += toUser.address + ";";
+                /* mail.to.forEach(function (toUser) {
+                 tos += toUser.address + ";";
 
-                    if (toUser.address != emailAccount && toUser.address != config.presalesEmailId && toUser.address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
-                        //console.log("add to:" + toUser.address + " to prospect:" + req.body.prospect_id);
-                        addParticpant(toUser.address, toUser.name, req.body.prospect_id);
-                        // emailNameArray[emailNameArray.length] = toUser.name;
-                        //emailArray[emailArray.length] = toUser.address;
-                    }
-                });*/
+                 if (toUser.address != emailAccount && toUser.address != config.presalesEmailId && toUser.address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
+                 //console.log("add to:" + toUser.address + " to prospect:" + req.body.prospect_id);
+                 addParticpant(toUser.address, toUser.name, req.body.prospect_id);
+                 // emailNameArray[emailNameArray.length] = toUser.name;
+                 //emailArray[emailArray.length] = toUser.address;
+                 }
+                 });*/
                 //cc
                 if (typeof mail.cc == "object") {
                     mail.cc.forEach(function (ccUser) {
                         ccs += ccUser.address + ";";
 
                         if (ccUser.address != config.presalesEmailId && ccUser.address != emailAccount &&  ccUser.address != 'presales@synerzip.com' && typeof req.body.prospect_id == "number") {
-                          //  console.log("add cc:" + ccUser.address + " to prospect:" + req.body.prospect_id);
+                            //  console.log("add cc:" + ccUser.address + " to prospect:" + req.body.prospect_id);
                             addParticpant(ccUser.address, ccUser.name, req.body.prospect_id);
                             // emailNameArray[emailNameArray.length] = ccUser.name;
                             //emailArray[emailArray.length] = ccUser.address;
@@ -456,26 +456,26 @@ console.log(" nonSynerzipId:"+ nonSynerzipId);
             method: 'PUT',
             uri: base_url+'/api/projects/updateStage/' + prospect_id,
             form:
-                {
-                        state: state,
-                        state_id: state_id
-                }
+            {
+                state: state,
+                state_id: state_id
+            }
         }, function (error, response, body) {
             if(response.statusCode == 201){
-             console.log("prospect stage updated:"+prospect_id+" st:"+state);
-              //  console.log('document saved as: http://mikeal.iriscouch.com/testjs/'+ rand);
+                console.log("prospect stage updated:"+prospect_id+" st:"+state);
+                //  console.log('document saved as: http://mikeal.iriscouch.com/testjs/'+ rand);
             } else {
                 console.log('error: '+ response.statusCode + " "+error);
                 //console.log(body);
             }
         })
-          //  console.log("asdsd"+typeof  JSON.parse(project));
+        //  console.log("asdsd"+typeof  JSON.parse(project));
         //projects.updateStage(req, res);
 
     };
     function updateProspectStartDate(project, prospect_id)
     {
-console.log("set start date:"+project.start_date);
+        console.log("set start date:"+project.start_date);
 
         var projects = require('../controllers/projects.controller');
 
@@ -493,7 +493,7 @@ console.log("set start date:"+project.start_date);
                 //  console.log('document saved as: http://mikeal.iriscouch.com/testjs/'+ rand);
             } else {
                 console.log('error: '+ response.statusCode + " "+error);
-               // console.log(body);
+                // console.log(body);
             }
         })
         //  console.log("asdsd"+typeof  JSON.parse(project));
@@ -503,7 +503,7 @@ console.log("set start date:"+project.start_date);
 
     function updateProspectEngagementLetter(project, prospect_id)
     {
-         console.log("updateProspectEngagementLetter:"+project.engagementLetter);
+        console.log("updateProspectEngagementLetter:"+project.engagementLetter);
 
         var projects = require('../controllers/projects.controller');
 
@@ -525,7 +525,7 @@ console.log("set start date:"+project.start_date);
     };
     function updateProspectEndDate(project, prospect_id)
     {
-       // console.log("set end date:"+project.start_date);
+        // console.log("set end date:"+project.start_date);
 
         var projects = require('../controllers/projects.controller');
 
@@ -552,7 +552,7 @@ console.log("set start date:"+project.start_date);
     };
     function updateProspectArea(area, prospect_id)
     {
-console.log("updateProspectArea"+area);
+        console.log("updateProspectArea"+area);
         var projects = require('../controllers/projects.controller');
         request({
             method: 'PUT',
@@ -592,7 +592,7 @@ console.log("updateProspectArea"+area);
                 console.log("prospect initated By updated");
             } else {
                 console.log('error: '+ response.statusCode + " "+error);
-               // console.log(body);
+                // console.log(body);
             }
         })
 
@@ -663,7 +663,7 @@ console.log("updateProspectArea"+area);
     function addParticpant(address, name, p_id )
     {
         var participants = require('../controllers/participants.controller');
-            console.log("addParticpant");
+        console.log("addParticpant");
         //check if participant exists or not
         request(base_url+'/api/participants/prospect/'+p_id, function(err, res, body) {
             var emails = JSON.parse(body);
@@ -705,49 +705,49 @@ console.log("updateProspectArea"+area);
         while (time == new Date().getTime());
         return new Date().getTime();
     };
-  /*  function performRequest(endpoint, method, data, success) {
-        var dataString = JSON.stringify(data);
-        var headers = {};
+    /*  function performRequest(endpoint, method, data, success) {
+     var dataString = JSON.stringify(data);
+     var headers = {};
 
-        if (method == 'GET') {
-            endpoint += '?' + querystring.stringify(data);
-        }
-        else {
-            headers = {
-                'Content-Type': 'application/json'
-               // 'Content-Length': dataString.length
-            };
-        }
-        var options = {
-            host: "desolate-crag-3719.herokuapp.com",
-            path: endpoint,
-            method: method,
-            headers: headers
-        };
+     if (method == 'GET') {
+     endpoint += '?' + querystring.stringify(data);
+     }
+     else {
+     headers = {
+     'Content-Type': 'application/json'
+     // 'Content-Length': dataString.length
+     };
+     }
+     var options = {
+     host: "desolate-crag-3719.herokuapp.com",
+     path: endpoint,
+     method: method,
+     headers: headers
+     };
 
-        var req = https.request(options, function(res) {
-            res.setEncoding('utf-8');
+     var req = https.request(options, function(res) {
+     res.setEncoding('utf-8');
 
-            var responseString = '';
+     var responseString = '';
 
-            res.on('data', function(data) {
-                responseString += data;
-            });
+     res.on('data', function(data) {
+     responseString += data;
+     });
 
-            res.on('end', function() {
-                //console.log(responseString);
-                var responseObject = JSON.parse(responseString);
-                success(responseObject);
-            });
-        });
-//console.log("datastring"+dataString);
-  //      req.write(dataString);
-        req.end();
-    }*/
+     res.on('end', function() {
+     //console.log(responseString);
+     var responseObject = JSON.parse(responseString);
+     success(responseObject);
+     });
+     });
+     //console.log("datastring"+dataString);
+     //      req.write(dataString);
+     req.end();
+     }*/
 
-   /* notifier(imap).on("attachment", function(attachment) {
-        console.log(attachment.path);
-    }).start();*/
+    /* notifier(imap).on("attachment", function(attachment) {
+     console.log(attachment.path);
+     }).start();*/
     /*end mail notifier*/
 
 

@@ -64,6 +64,24 @@ exports.getUserByEmailId=function(req,res,next,emailId){
         }
     });
 };
+exports.getUserByEmail=function(req,res,next,emailId){
+    console.log("getUserByEmailId:"+emailId);
+    Users.find({emailId:emailId},function(err,user){
+        if(err){
+            next(err);
+        }
+        if(user){
+            req.user=user;
+            next();
+        }
+        else{
+            var error={
+                error:"User not found"
+            };
+            res.send("0");
+        }
+    });
+};
 
 exports.getUserByType=function(req,res,next,user_type){
 console.log("getUserByType");

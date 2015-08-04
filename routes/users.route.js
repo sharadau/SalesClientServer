@@ -20,6 +20,6 @@ module.exports=function(app){
 
     app.param('uId',users.userById);
     app.param('user_type',users.getUserByType);
-    app.param('emailId',users.getUserByEmailId);
+    app.param('emailId',users.getUserByEmail);
 
 };

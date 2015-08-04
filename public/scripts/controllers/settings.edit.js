@@ -58,8 +58,17 @@ angular.module('dashboardApp')
         $scope.addUser = function(){
             var details =  UsersService.getUserByEmailId($scope.emailId) .success (function (data){
                 $scope.UserDetails = data;
-                 console.log("UserDetails: "+$scope.UserDetails)
-                if($scope.UserDetails.user_type != $scope.userType) {
+                 console.log("UserDetails: "+$scope.UserDetails);
+                var foundMatch = false;
+                for(var kk=0;kk<$scope.UserDetails.length;kk++)
+                {
+                    if($scope.UserDetails[kk].user_type == $scope.userType)
+                    {
+                        foundMatch = true;
+                        break;
+                    }
+                }
+                if(!foundMatch) {
                     UsersService.addUser($scope.asyncSelected, $scope.area, $scope.emailId, $scope.userType);
                     $scope.asyncSelected = null;
                     $scope.emailId = null;
@@ -73,6 +82,16 @@ angular.module('dashboardApp')
             })
                 .error (function (error){
                 console.log (error);
+                if(error == '0')
+                {
+                   //no user found
+                    UsersService.addUser($scope.asyncSelected, $scope.area, $scope.emailId, $scope.userType);
+                    $scope.asyncSelected = null;
+                    $scope.emailId = null;
+                    $scope.fetchList();
+                    alert("Added User");
+                    window.location.reload();
+                }
             });
 
 
