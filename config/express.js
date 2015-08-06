@@ -228,7 +228,7 @@ module.exports=function(){
                             //add engagement letter - engagementLetter
                             prospects[i].engagementLetter = mail.attachments[0].fileName;
                             updateProspectEngagementLetter(prospects[i], prospects[i]._id);
-                            require("fs").writeFile('./uploads/'+mail.attachments[0].fileName, mail.attachments[0].content, 'base64', function(err) {
+                            require("fs").writeFile('https://lit-wave-1072.herokuapp.com/static/uploads/'+mail.attachments[0].fileName, mail.attachments[0].content, 'base64', function(err) {
                                 console.log(err);
                             });
                         }else if(mail.attachments[0].fileName == 'invite.ics' && prospects[i].state_id < 6 && nonSynerzipId == true){
