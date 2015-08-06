@@ -23,7 +23,8 @@ angular
         'angularFileUpload',
         'auth0',
         'angular-storage',
-        'angular-jwt'
+        'angular-jwt',
+        'multer'
   ]).config(function($stateProvider, $urlRouterProvider,authProvider, jwtInterceptorProvider,$httpProvider) {
     //
     // For any unmatched url, redirect to /state1

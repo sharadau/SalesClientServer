@@ -42,14 +42,14 @@ angular.module('dashboardApp')
                  users[k] = data[k].name;
              }
              $scope.SalesPersons = users;
-             console.log("Sales persons:"+$scope.SalesPersons);
+             //console.log("Sales persons:"+$scope.SalesPersons);
              $scope.createCharts();
         })
             .error (function (error){
             console.log (error);
         });
         $scope.createCharts = function() {
-console.log("in createCharts");
+//console.log("in createCharts");
 
             $scope.chartData = {
                 "labels": $scope.months,
@@ -86,7 +86,7 @@ console.log("in createCharts");
                 $scope.initiatedBy3 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
                 $scope.projects.forEach(function (project) {
-                    console.log("project::" + project.name);
+                   // console.log("project::" + project.name);
 
                     $scope.chartData.data = [];
 
@@ -125,7 +125,7 @@ console.log("in createCharts");
                         //for Initiated by
                         if ((typeof project.start_date) == "string") {
                             var date3 = new Date(project.start_date);
-                            console.log("salesp 1:  " + $scope.SalesPersons[0]);
+                            //console.log("salesp 1:  " + $scope.SalesPersons[0]);
                             if (date3.getMonth() == m) {
                                 if (project.initiatedBy == $scope.SalesPersons[0]) {
                                     $scope.initiatedBy1[m] = $scope.initiatedBy1[m] + 1;
@@ -152,22 +152,13 @@ console.log("in createCharts");
                 $scope.chartData.data2.push([$scope.bayareaInitiated, $scope.eastcoastInitiated]);
                 $scope.chartData.data3.push([$scope.initiated, $scope.converted]);
                 $scope.chartData.data4.push([$scope.initiatedBy1, $scope.initiatedBy2, $scope.initiatedBy3]);
-                console.log("data4" + $scope.chartData.data4[0]);
+                //console.log("data4" + $scope.chartData.data4[0]);
 
             })
                 .error(function (error) {
                     console.log(error);
                 }
             );
-
-            //$scope.labels = ["Jan", "Feb", "Mar", "Apr", "May", "June","Jul","Aug","Sep","Oct","Nov","Dec"];
-            //$scope.series = ['Active', 'Converted'];
-            //$scope.data = dashboardService.getYearlyStats();
-
-            /*$scope.data = [
-             [65, 59, 84, 81, 56, 55, 90,23,45,45,77,66],
-             [28, 48, 40, 19, 35, 27,78,44,34,56,65,44]
-             ];*/
 
             $scope.colours = [
                 { // yellow
