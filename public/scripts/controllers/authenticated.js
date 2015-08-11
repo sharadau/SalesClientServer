@@ -18,7 +18,6 @@ angular.module('dashboardApp')
         var login_session_start = store.get('login_session');
         var current_time = new Date().getTime();
         var time_diff = (current_time - login_session_start)/(1000*60);
-        alert((current_time - login_session_start)/(1000*60));
         if(time_diff>15)
         {
             auth.signout();
