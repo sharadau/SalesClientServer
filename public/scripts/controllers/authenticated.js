@@ -15,6 +15,20 @@ angular.module('dashboardApp')
         $scope.auth = auth;
         //check user privilages
 
+        var login_session_start = store.get('login_session');
+        var current_time = new Date().getTime();
+        var time_diff = (current_time - login_session_start)/(1000*60);
+        alert((current_time - login_session_start)/(1000*60));
+        if(time_diff>15)
+        {
+            alert('login');
+            auth.signout();
+            ///auth.renewIdToken();
+            store.remove('profile');
+            store.remove('token');
+            //store.logout()
+            $state.go("login");
+        }
         $scope.auth.profile.privilage = [];
         UsersService.getUserByEmailId($scope.auth.profile.name)
             .success (function (datajj) {

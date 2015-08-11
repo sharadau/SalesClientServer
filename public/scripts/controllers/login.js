@@ -2,7 +2,7 @@
  * Created by sujatah on 3/24/2015.
  */
 angular.module('dashboardApp')
-    .controller('LoginCtrl', ['$scope', '$state','auth','$location','store', function ($scope,$state,auth,$location,store) {
+        .controller('LoginCtrl', ['$scope', '$state','auth','$location','store', function ($scope,$state,auth,$location,store) {
         /*auth.signin({
             popup: true,
             chrome: true,
@@ -17,7 +17,8 @@ angular.module('dashboardApp')
         auth.signin({
                 popup: true,
                 chrome: true,
-                standalone: true
+                standalone: true,
+            rememberLastLogin:false
             }, function(profile, token) {
 
             //check if user id is synerzip id
@@ -30,6 +31,8 @@ angular.module('dashboardApp')
             }else {
                 store.set('profile', profile);
                 store.set('token', token);
+                store.set('login_session', new Date().getTime());
+                //$cookies('login_session',new Date());
                 //$location.path("/");
                 $state.go('auth.home');
             }
