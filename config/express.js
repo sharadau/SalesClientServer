@@ -211,9 +211,6 @@ module.exports=function(){
                     console.log("prospectFound:"+prospectFound);
                     req.body.cycle_id = prospects[i].cycle_id;
                     req.body.cycle_no = prospects[i].cycle_no;
-                    console.log("mail.attachments[0].fileName:"+mail.attachments[0].fileName);
-                    console.log(" prospects[i].state_id < 6:"+ (prospects[i].state_id < 6));
-                    console.log(" nonSynerzipId:"+ nonSynerzipId);
                     if (typeof mail.attachments == "object") {
 
                         console.log("attachment:"+JSON.stringify(mail.attachments[0].fileName));
