@@ -2,7 +2,7 @@
 module.exports = {
   //db: 'mongodb://localhost/dashboard',
    //mongodb://<dbuser>:<dbpassword>@ds053251.mlab.com:53251/dashboard
-    db: 'mongodb://sharadau:sharada_1210@ds053251.mlab.com:53251/dashboard', //for testing
+    db: 'mongodb://sharada:sharada@ds053251.mlab.com:53251/dashboard', //for testing
   // db: 'mongodb://sharadaumarane:sharadaumarane@ds031962.mongolab.com:31962/dashboard', //for dev
     //baseUrl:"http://localhost:3000",
    // baseUrl:"http://pure-crag-4108.herokuapp.com",
