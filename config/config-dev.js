@@ -11,6 +11,6 @@ module.exports = {
     presalesEmailPwd:"synerzip123",
    // base_url :'http://localhost:3000',
    // upload_url: '.'
-    base_url : 'https://still-spire-47256.herokuapp.com/',
+    base_url : 'https://radiant-island-60760.herokuapp.com/',
     upload_url : '.'
 };
